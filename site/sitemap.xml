@@ -4,6 +4,7 @@
   <url><loc>https://zoneary.com/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://zoneary.com/pulsegrid/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://zoneary.com/sentinel/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://zoneary.com/about/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://zoneary.com/early-access.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://zoneary.com/support.html</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
   <url><loc>https://zoneary.com/security.html</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
