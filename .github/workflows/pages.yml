@@ -1,0 +1,50 @@
+name: Deploy site/ to GitHub Pages
+
+# Publishes ONLY the contents of /site to GitHub Pages (project site at
+# https://zsaielli.github.io/Zoneary/). The repository root and internal
+# development-reference material under /assets are never deployed.
+#
+# Hostinger (zoneary.com) remains the production host; this is a review env.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Least-privilege permissions required by the official Pages actions.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment; don't cancel an in-progress publish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          # Auto-enable Pages (build type: GitHub Actions) on first run.
+          enablement: true
+
+      - name: Upload artifact (contents of /site only)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Uploading the /site directory makes site/index.html the
+          # top-level entry file at the artifact root.
+          path: site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
