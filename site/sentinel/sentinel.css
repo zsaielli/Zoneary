@@ -180,6 +180,7 @@
   color:#04160c;font-family:var(--disp);font-size:11px;font-weight:700;letter-spacing:.06em;padding:5px 15px;border-radius:100px}
 .sn-tier-label{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--faint);text-transform:uppercase;margin-bottom:16px}
 .sn-tier-name{font-family:var(--disp);font-weight:600;font-size:21px;letter-spacing:-.01em;margin-bottom:6px}
+.sn-tier-plabel{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:2px}
 .sn-tier-price{font-family:var(--disp);font-weight:600;font-size:30px;color:var(--sn);margin-bottom:4px}
 .sn-tier-sub{font-size:13px;color:var(--muted);margin-bottom:26px}
 .sn-tier ul{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:30px;flex:1}

@@ -1,6 +1,6 @@
 /* ============================================================
    ZONEARY — PulseGrid product page
-   The second flagship: infrastructure health monitoring for
+   The infrastructure-health companion product: monitoring for
    physical security. Reuses the homepage design system from
    ../css/styles.css (tokens, nav, buttons, eyebrow, reveal,
    footer, app-window, atmosphere, .grad, .st, .lede).
@@ -109,6 +109,16 @@
 .pg-tags span{font-family:var(--mono);font-size:11px;letter-spacing:.02em;color:var(--pg-soft);
   background:rgba(123,97,255,.08);border:1px solid rgba(123,97,255,.18);border-radius:100px;padding:4px 10px}
 .pg-feat.wide{grid-column:span 1}
+
+/* current-vs-planned: a small "planned" sub-line under a feature's current tags */
+.pg-plan{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-top:12px;
+  font-family:var(--mono);font-size:11px;line-height:1.5;color:var(--faint);letter-spacing:.01em}
+.pg-plan .lab{flex:none;font-size:9px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--pg-soft);border:1px dashed rgba(123,97,255,.4);border-radius:5px;padding:2px 7px}
+
+/* subtle caption clarifying the health-score vs critical-findings screenshot */
+.pg-cap{margin-top:14px;font-family:var(--mono);font-size:11px;line-height:1.55;
+  letter-spacing:.02em;color:var(--faint);max-width:520px}
 
 /* ============ HEALTH ENGINE ============ */
 .pg-health{display:grid;grid-template-columns:.92fr 1.08fr;gap:clamp(36px,5vw,64px);align-items:center;max-width:1160px;margin:0 auto}

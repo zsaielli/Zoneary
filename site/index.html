@@ -13,6 +13,7 @@
 <meta name="description" content="Zoneary develops local-first physical security software, including Watchtower video management, PulseGrid infrastructure monitoring, and Sentinel home security control." />
 <link rel="canonical" href="https://zoneary.com/" />
 <link rel="icon" type="image/png" href="assets/brand/z_icon_square.png" />
+<link rel="apple-touch-icon" href="assets/brand/z_icon_square.png" />
 
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
@@ -31,6 +32,30 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/styles.css" />
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Zoneary",
+  "url": "https://zoneary.com/",
+  "logo": "https://zoneary.com/assets/brand/zoneary_wordmark_key.png",
+  "email": "hello@zoneary.com",
+  "description": "Zoneary develops local-first physical security software: Watchtower video management, PulseGrid infrastructure health monitoring, and Sentinel home security control."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Watchtower",
+  "applicationCategory": "SecurityApplication",
+  "operatingSystem": "Linux, Windows",
+  "url": "https://zoneary.com/#watchtower",
+  "description": "Watchtower is Zoneary's local-first video management system for live monitoring, recording, playback, investigations and system health, running on your own hardware.",
+  "publisher": { "@type": "Organization", "name": "Zoneary", "url": "https://zoneary.com/" }
+}
+</script>
 </head>
 <body>
 <div class="atmos"><div class="top-glow"></div><div class="grid"></div></div>
@@ -63,11 +88,10 @@
       </div>
     </div>
     <a href="#about">About</a>
-    <a href="#">Support</a>
-    <a href="#">Contact</a>
+    <a href="support.html">Support</a>
+    <a href="mailto:hello@zoneary.com">Contact</a>
   </nav>
   <div class="nav-right">
-    <a class="nav-ghost" href="#">Sign in</a>
     <a class="nav-cta" href="#watchtower">Explore Watchtower</a>
   </div>
   <button class="mobile-btn" id="mobileBtn" aria-label="Menu">
@@ -183,7 +207,7 @@
       <div class="cell feature c-wide reveal rd2">
         <span class="ci"><svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
         <h3>Local-first &amp; owned, not rented</h3>
-        <p>Runs entirely on your hardware with modern licensing — buy it once, own it forever. No per-camera tax, no cloud holding your footage hostage. The internet can go down; your security doesn't.</p>
+        <p>Runs entirely on your hardware with modern licensing: buy the version once and keep using it forever, with optional update coverage to stay current. No per-camera fees, no cloud dependency controlling access to your footage. The internet can go down; your security doesn't.</p>
         <span class="kpi">On-prem · one-time license · no cloud round-trips</span>
       </div>
     </div>
@@ -209,9 +233,7 @@
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 4h16v6H4zM4 14h10v6H4z"/></svg>Real-time state across every site, no guesswork</li>
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Live activity &amp; alert feed with jump-to-playback</li>
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg>Server &amp; recording health, surfaced not buried</li>
-        </ul>
-        <a class="link-arrow" href="#">Tour Operations <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      </div>
+        </ul>      </div>
       <div class="sc-media">
         <div class="beam-accent"></div>
         <figure class="app-window">
@@ -231,9 +253,7 @@
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Precise scrubbing with motion markers</li>
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 4h16v14H4z"/><path d="M8 21h8"/></svg>Export vault &amp; clip tools for investigations</li>
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg>Skip gaps and jump straight to activity</li>
-        </ul>
-        <a class="link-arrow" href="#">Tour Playback <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      </div>
+        </ul>      </div>
       <div class="sc-media">
         <div class="beam-accent"></div>
         <figure class="app-window">
@@ -253,9 +273,7 @@
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 7c0-2 4-3 8-3s8 1 8 3-4 3-8 3-8-1-8-3z"/><path d="M4 7v10c0 2 4 3 8 3s8-1 8-3V7"/></svg>Predictive retention — days left, not just "disk full"</li>
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 4h16v6H4zM4 14h16v6H4z"/></svg>Real health, not just a green ping</li>
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg>Retention protection that never stops recording</li>
-        </ul>
-        <a class="link-arrow" href="#">Tour Health <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      </div>
+        </ul>      </div>
       <div class="sc-media">
         <div class="beam-accent"></div>
         <figure class="app-window">
@@ -336,7 +354,7 @@
     <div class="eco-rel reveal rd2">
       <div class="r"><b class="wt">Watchtower</b><span>manages the video.</span></div>
       <div class="r"><b class="pg">PulseGrid</b><span>monitors the infrastructure.</span></div>
-      <div class="r"><b class="sn">Sentinel</b><span>secures the home.</span></div>
+      <div class="r"><b class="sn">Sentinel</b><span>modernizes and controls the home security system.</span></div>
       <div class="eco-rel-sum">Together, they form the Zoneary ecosystem — one local-first vision for physical security.</div>
     </div>
   </div>
@@ -346,8 +364,8 @@
 <section class="pad" id="pulsegrid">
   <div class="wrap">
     <div class="sec-head reveal" style="margin-bottom:30px">
-      <span class="eyebrow"><i></i>Supporting products</span>
-      <h2 class="st">Everything Watchtower leans on.</h2>
+      <span class="eyebrow"><i></i>Beyond the VMS</span>
+      <h2 class="st">See the rest of the Zoneary ecosystem in action.</h2>
     </div>
 
     <div class="tabs-head reveal rd1" role="tablist">
@@ -432,7 +450,7 @@
       <div class="principle reveal rd2">
         <span class="pn">ii</span>
         <h4>Owned, not rented</h4>
-        <p>Pay for value, not dependency. No per-camera tollbooth, no monthly ransom just to keep using the cameras you paid for.</p>
+        <p>Pay for value, not dependency. No per-camera fees, no mandatory monthly fee just to keep using the cameras you paid for.</p>
       </div>
       <div class="principle reveal rd3">
         <span class="pn">iii</span>
@@ -454,11 +472,11 @@
     <div class="cta-band reveal">
       <div class="ct">
         <h2>Put Watchtower to work.</h2>
-        <p>Start with the flagship, or bring the full Zoneary ecosystem home. Local, owned, and honest — the way it should have been all along.</p>
+        <p>Start with the flagship, or build out the full Zoneary ecosystem. Local, owned, and honest — the way it should have been all along.</p>
       </div>
       <div class="actions">
         <a class="btn btn-primary btn-lg" href="#watchtower">Explore Watchtower <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <a class="btn btn-ghost btn-lg" href="#">Contact sales</a>
+        <a class="btn btn-ghost btn-lg" href="mailto:hello@zoneary.com?subject=Zoneary%20sales%20enquiry">Contact sales</a>
       </div>
     </div>
   </div>
@@ -474,8 +492,8 @@
         <div class="foot-tag"><b>See it. Understand it. Protect it.</b></div>
       </div>
       <div class="fcol"><h5>Products</h5><a href="#watchtower">Watchtower</a><a href="pulsegrid/index.html">PulseGrid</a><a href="sentinel/index.html">Sentinel</a></div>
-      <div class="fcol"><h5>Company</h5><a href="#about">About</a><a href="#">Support</a><a href="#">Contact</a></div>
-      <div class="fcol"><h5>Legal</h5><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Security</a></div>
+      <div class="fcol"><h5>Company</h5><a href="#about">About</a><a href="support.html">Support</a><a href="mailto:hello@zoneary.com">Contact</a></div>
+      <div class="fcol"><h5>Legal</h5><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="security.html">Security</a></div>
     </div>
     <div class="foot-bottom">
       <span>© 2026 Zoneary. All rights reserved.</span>
