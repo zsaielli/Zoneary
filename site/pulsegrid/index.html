@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>
+  try { history.scrollRestoration = 'manual'; } catch (e) {}
+  if (!location.hash) { window.scrollTo(0, 0); }
+</script>
+<title>PulseGrid — The heartbeat of your security infrastructure | Zoneary</title>
+<meta name="description" content="PulseGrid continuously monitors the health of your physical security infrastructure — cameras, recording servers, storage, switches, UPS and environmental conditions — surfacing developing issues before they become outages. Local-first, part of the Zoneary ecosystem." />
+<link rel="canonical" href="https://zoneary.com/pulsegrid/" />
+<link rel="icon" type="image/png" href="../assets/brand/pulsegrid_icon.png" />
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Zoneary" />
+<meta property="og:url" content="https://zoneary.com/pulsegrid/" />
+<meta property="og:title" content="PulseGrid | Physical Security Infrastructure Monitoring by Zoneary" />
+<meta property="og:description" content="PulseGrid monitors the health of the infrastructure behind your video — cameras, servers, storage, networks, power and environment — before small problems become outages. Local-first, part of the Zoneary ecosystem." />
+<meta property="og:image" content="https://zoneary.com/pulsegrid/img/all-devices.png" />
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="PulseGrid | Physical Security Infrastructure Monitoring by Zoneary" />
+<meta name="twitter:description" content="Monitor the health of your physical security infrastructure before small problems become outages. Local-first, part of the Zoneary ecosystem." />
+<meta name="twitter:image" content="https://zoneary.com/pulsegrid/img/all-devices.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/styles.css" />
+<link rel="stylesheet" href="pulsegrid.css" />
+</head>
+<body>
+<div class="atmos"><div class="top-glow"></div><div class="grid"></div></div>
+<div class="stars"></div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <a class="nav-logo" href="../index.html" aria-label="Zoneary home">
+    <img src="../assets/brand/zoneary_wordmark_key.png" alt="Zoneary" />
+  </a>
+  <nav class="nav-links" aria-label="PulseGrid">
+    <a href="#what">What it is</a>
+    <a href="#features">Features</a>
+    <a href="#health">Health engine</a>
+    <a href="#ecosystem">Ecosystem</a>
+  </nav>
+  <div class="nav-right">
+    <a class="nav-ghost" href="../index.html#ecosystem">← The Zoneary ecosystem</a>
+    <a class="nav-cta" href="#access" style="background:linear-gradient(180deg,#9a83ff,#6a4ef0);color:#0b0720">Request early access</a>
+  </div>
+  <button class="mobile-btn" id="mobileBtn" aria-label="Menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+  </button>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="pg-hero" id="top">
+  <div class="pg-hero-fx" aria-hidden="true"><div class="g"></div><div class="beam"></div><div class="sweep"></div></div>
+  <div class="wrap">
+    <div class="pg-hero-grid">
+      <div class="pg-hero-content">
+        <div class="pg-hero-brand"><img src="../assets/brand/pulsegrid_lockup_key.png" alt="PulseGrid" /></div>
+        <h1>The heartbeat of your <span class="pg-warm">security infrastructure.</span></h1>
+        <p class="pg-hero-body">PulseGrid continuously monitors the health of your physical security ecosystem — from cameras and recording servers to storage, switches, UPS systems and environmental conditions — giving you real-time visibility before small issues become major outages.</p>
+        <div class="pg-hero-actions">
+          <span class="btn btn-soon btn-lg"><span class="dot"></span>Coming soon</span>
+          <a class="btn btn-pg btn-lg" href="#access">Request early access <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="pg-status">
+          <span class="on"><i></i>Online</span>
+          <span class="wn"><i></i>Warning</span>
+          <span class="of"><i></i>Offline</span>
+          <span>· cameras · servers · storage · network · environment</span>
+        </div>
+      </div>
+      <div class="pg-hero-visual">
+        <figure class="app-window pg-shot">
+          <div class="aw-bar">
+            <span class="aw-dots"><i></i><i></i><i></i></span>
+            <span class="aw-title"><img src="../assets/brand/pulsegrid_icon.png" alt="" /> pulsegrid · all devices</span>
+            <span class="aw-live"><i></i>LIVE</span>
+          </div>
+          <div class="aw-media"><img src="img/all-devices.png" alt="PulseGrid All Devices — cameras, servers, switches and alarm panels with live health status" width="1913" height="923" /></div>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHAT IS PULSEGRID ============ -->
+<section class="pad pg-band" id="what">
+  <div class="wrap">
+    <div class="pg-what">
+      <div>
+        <span class="eyebrow pg-eb"><i></i>What is PulseGrid</span>
+        <h2 style="margin-top:20px">Security systems rarely fail all at once. <span class="pg-vt">They degrade.</span></h2>
+        <p>Storage fills. SSD health declines. Temperatures climb. UPS batteries age. Switches run out of PoE budget. Recording servers quietly run short on resources. None of it trips an alarm — until the night you need footage and it isn't there.</p>
+        <p>PulseGrid watches all of it, continuously. Watchtower watches the video; <b style="color:var(--ink)">PulseGrid watches everything behind the video</b> — the hardware, storage, network and environment your security depends on.</p>
+      </div>
+      <ul class="pg-decay">
+        <li><svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Storage fills <span>capacity</span></li>
+        <li><svg viewBox="0 0 24 24" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9v6M12 8v8M17 11v4"/></svg>SSD health declines <span>SMART / wear</span></li>
+        <li><svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M12 3v10M12 13a4 4 0 100 8 4 4 0 000-8z"/></svg>Temperatures rise <span>thermal</span></li>
+        <li><svg viewBox="0 0 24 24" stroke-width="1.6"><rect x="3" y="8" width="14" height="8" rx="1"/><path d="M20 11v2M17 10v4"/></svg>UPS batteries age <span>power</span></li>
+        <li><svg viewBox="0 0 24 24" stroke-width="1.6"><rect x="3" y="9" width="18" height="6" rx="1"/><path d="M7 12h.01M11 12h.01"/></svg>Switches lose PoE budget <span>network</span></li>
+        <li><svg viewBox="0 0 24 24" stroke-width="1.6"><rect x="3" y="4" width="18" height="6" rx="1"/><rect x="3" y="14" width="18" height="6" rx="1"/></svg>Servers run short <span>compute</span></li>
+      </ul>
+    </div>
+    <p class="pg-punch">Instead of watching video, PulseGrid watches <b>everything the video depends on</b> — so you catch trouble before darkness, not after.</p>
+  </div>
+</section>
+
+<!-- ============ FEATURE GRID ============ -->
+<section class="pad" id="features">
+  <div class="wrap">
+    <div class="pg-head">
+      <span class="eyebrow pg-eb"><i></i>Purpose-built for physical security</span>
+      <h2>Everything that keeps the cameras rolling.</h2>
+      <p>Not generic IT monitoring — PulseGrid understands the devices a security operation actually runs on, and watches each one for the failures that matter.</p>
+    </div>
+    <div class="pg-features">
+      <div class="pg-feat reveal">
+        <div class="pg-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="3.2"/></svg></div>
+        <h3>Cameras</h3>
+        <p>Camera health, connectivity and operational status across the whole fleet — surfaced the moment a stream degrades.</p>
+        <div class="pg-tags"><span>Connectivity</span><span>Firmware</span><span>Temperature</span><span>Storage</span><span>Status</span></div>
+      </div>
+      <div class="pg-feat reveal reveal-delay-1">
+        <div class="pg-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5h.01M7 16.5h.01"/></svg></div>
+        <h3>Recording servers</h3>
+        <p>The machines Watchtower runs on, watched end to end — from load to recording pipeline health.</p>
+        <div class="pg-tags"><span>CPU</span><span>Memory</span><span>Storage</span><span>Services</span><span>Recording health</span><span>Telemetry</span></div>
+      </div>
+      <div class="pg-feat reveal reveal-delay-2">
+        <div class="pg-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div>
+        <h3>Storage health</h3>
+        <p>Drive-level truth for the vault your footage lives in — before a disk takes the retention with it.</p>
+        <div class="pg-tags"><span>SMART</span><span>SSD wear</span><span>NVMe</span><span>RAID</span><span>Capacity</span><span>Performance</span><span>Temps</span></div>
+      </div>
+      <div class="pg-feat reveal">
+        <div class="pg-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><rect x="3" y="9" width="18" height="7" rx="1.5"/><path d="M7 12.5h.01M11 12.5h.01M6 9V6M18 9V6"/></svg></div>
+        <h3>Network</h3>
+        <p>The switches and links every device depends on — with the PoE budget and telemetry that keep cameras powered.</p>
+        <div class="pg-tags"><span>Switches</span><span>Routers</span><span>PoE</span><span>Bandwidth</span><span>SNMP</span></div>
+      </div>
+      <div class="pg-feat reveal reveal-delay-1">
+        <div class="pg-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M12 3v9M12 12a4 4 0 100 8 4 4 0 000-8z"/><path d="M18 6a6 6 0 010 6"/></svg></div>
+        <h3>Environment</h3>
+        <p>The room itself — because heat, humidity and power loss take down hardware that every other check calls healthy.</p>
+        <div class="pg-tags"><span>Temperature</span><span>Humidity</span><span>Power</span><span>UPS</span><span>Sensors</span></div>
+      </div>
+      <div class="pg-feat reveal reveal-delay-2">
+        <div class="pg-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><circle cx="12" cy="10" r="7"/><path d="M12 3a12 12 0 000 14M5 10h14"/></svg></div>
+        <h3>Multi-site</h3>
+        <p>Monitor one location — or hundreds — through a single unified interface, with every site's health at a glance.</p>
+        <div class="pg-tags"><span>Unified view</span><span>Per-site health</span><span>One console</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HEALTH ENGINE ============ -->
+<section class="pad pg-band" id="health">
+  <div class="wrap">
+    <div class="pg-head">
+      <span class="eyebrow pg-eb"><i></i>The Health Engine</span>
+      <h2>Predictive, not reactive.</h2>
+      <p>Hardware rarely fails without warning. PulseGrid continuously analyzes telemetry to identify developing issues — a wearing SSD, a climbing drive temperature, a service starting to slip — while there's still time to act.</p>
+    </div>
+    <div class="pg-health">
+      <div>
+        <div class="pg-checklist">
+          <div class="pg-check"><svg viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="7" stroke="#a08cff" stroke-width="1.3"/><path d="M5.5 8.5l2 2 4-4" stroke="#a08cff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>SSD wear</div>
+          <div class="pg-check"><svg viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="7" stroke="#a08cff" stroke-width="1.3"/><path d="M5.5 8.5l2 2 4-4" stroke="#a08cff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>SMART status</div>
+          <div class="pg-check"><svg viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="7" stroke="#a08cff" stroke-width="1.3"/><path d="M5.5 8.5l2 2 4-4" stroke="#a08cff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Drive temperature</div>
+          <div class="pg-check"><svg viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="7" stroke="#a08cff" stroke-width="1.3"/><path d="M5.5 8.5l2 2 4-4" stroke="#a08cff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Storage capacity</div>
+          <div class="pg-check"><svg viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="7" stroke="#a08cff" stroke-width="1.3"/><path d="M5.5 8.5l2 2 4-4" stroke="#a08cff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>CPU utilization</div>
+          <div class="pg-check"><svg viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="7" stroke="#a08cff" stroke-width="1.3"/><path d="M5.5 8.5l2 2 4-4" stroke="#a08cff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Memory pressure</div>
+          <div class="pg-check"><svg viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="7" stroke="#a08cff" stroke-width="1.3"/><path d="M5.5 8.5l2 2 4-4" stroke="#a08cff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Network latency</div>
+          <div class="pg-check"><svg viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="7" stroke="#a08cff" stroke-width="1.3"/><path d="M5.5 8.5l2 2 4-4" stroke="#a08cff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Offline devices</div>
+          <div class="pg-check"><svg viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="7" stroke="#a08cff" stroke-width="1.3"/><path d="M5.5 8.5l2 2 4-4" stroke="#a08cff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Service failures</div>
+          <div class="pg-check"><svg viewBox="0 0 17 17" fill="none"><circle cx="8.5" cy="8.5" r="7" stroke="#a08cff" stroke-width="1.3"/><path d="M5.5 8.5l2 2 4-4" stroke="#a08cff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>Environmental alerts</div>
+        </div>
+        <span class="pg-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l2-7 4 14 2-7h6"/></svg>A single health score per device</span>
+      </div>
+      <div class="pg-shot">
+        <figure class="app-window">
+          <div class="aw-bar"><span class="aw-dots"><i></i><i></i><i></i></span><span class="aw-title"><img src="../assets/brand/pulsegrid_icon.png" alt="" /> pulsegrid · device health</span><span class="aw-live"><i></i>LIVE</span></div>
+          <div class="aw-media" style="background:#0a0d15"><img src="img/health.png" alt="PulseGrid device health panel — 94 health score with active checks and a SMART/NVMe early warning" width="1910" height="938" loading="lazy" /></div>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INCIDENT MANAGEMENT ============ -->
+<section class="pad" id="incidents">
+  <div class="wrap">
+    <div class="pg-head">
+      <span class="eyebrow pg-eb"><i></i>Incident management</span>
+      <h2>Problems, organized into action.</h2>
+      <p>PulseGrid doesn't just display statistics. It groups related signals into actionable incidents — acknowledge, suppress, resolve — so an operator always knows what actually needs attention.</p>
+    </div>
+    <div class="pg-incidents">
+      <div class="pg-inc-list">
+        <div class="pg-inc crit"><span class="sev">Critical</span><span><b>Critical hardware failure</b><small>Drive fault on a recording server — retention at risk</small></span></div>
+        <div class="pg-inc warn"><span class="sev">Warning</span><span><b>Storage degradation</b><small>SSD wear climbing past threshold, predicted before failure</small></span></div>
+        <div class="pg-inc crit"><span class="sev">Offline</span><span><b>Offline devices</b><small>Camera unreachable — grouped, not a wall of duplicate alerts</small></span></div>
+        <div class="pg-inc warn"><span class="sev">Environment</span><span><b>Environmental alert</b><small>Rack temperature rising — flagged before hardware reacts</small></span></div>
+        <div class="pg-inc info"><span class="sev">Capacity</span><span><b>Capacity warning</b><small>Vault approaching full — days of runway, not a surprise</small></span></div>
+        <div class="pg-inc info"><span class="sev">Service</span><span><b>Service interruption</b><small>Recording service slipped — caught the moment it degraded</small></span></div>
+      </div>
+      <div class="pg-shot">
+        <figure class="app-window">
+          <div class="aw-bar"><span class="aw-dots"><i></i><i></i><i></i></span><span class="aw-title"><img src="../assets/brand/pulsegrid_icon.png" alt="" /> pulsegrid · incidents</span><span class="aw-live"><i></i>LIVE</span></div>
+          <div class="aw-media" style="background:#0a0d15"><img src="img/incidents.png" alt="PulseGrid incidents workspace — active, acknowledged and suppressed incidents with severity and actions" width="1901" height="928" loading="lazy" /></div>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INTERACTIVE MAPS ============ -->
+<section class="pad pg-band" id="maps">
+  <div class="wrap">
+    <div class="pg-head">
+      <span class="eyebrow pg-eb"><i></i>Interactive maps</span>
+      <h2>Every site, at a glance.</h2>
+      <p>See your whole footprint on one live map — sites pulsing with their real health, devices reachable directly from the point they sit on.</p>
+    </div>
+    <div class="pg-map-wrap reveal">
+      <div class="pg-shot">
+        <figure class="app-window">
+          <div class="aw-bar"><span class="aw-dots"><i></i><i></i><i></i></span><span class="aw-title"><img src="../assets/brand/pulsegrid_icon.png" alt="" /> pulsegrid · map view</span><span class="aw-live"><i></i>LIVE</span></div>
+          <div class="aw-media" style="background:#0a0d15"><img src="img/map.png" alt="PulseGrid map view — sites across a dark map with a per-site health popover" width="1895" height="927" loading="lazy" /></div>
+        </figure>
+      </div>
+      <div class="pg-map-points">
+        <div class="pg-mp"><div class="pg-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div><b>Site health</b><p>Each site carries its own status, uptime and open alerts.</p></div>
+        <div class="pg-mp"><div class="pg-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8" opacity=".5"/></svg></div><b>Pulse animations</b><p>Markers pulse with live state — calm when healthy, urgent when not.</p></div>
+        <div class="pg-mp"><div class="pg-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M6 12h4M14 12h4M12 6v4M12 14v4"/><circle cx="12" cy="12" r="9"/></svg></div><b>Device status</b><p>Online, warning and offline, rolled up per location.</p></div>
+        <div class="pg-mp"><div class="pg-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M4 4l7 16 2-7 7-2z"/></svg></div><b>Click into infrastructure</b><p>Jump straight from the map into any device.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LOCAL FIRST ============ -->
+<section class="pad pg-local" id="local">
+  <div class="pg-cta-orb" style="width:760px;height:760px;background:rgba(123,97,255,.06);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+  <div class="wrap">
+    <span class="eyebrow pg-eb" style="margin-bottom:26px"><i></i>Local-first by conviction</span>
+    <h2><span class="a">Your infrastructure.</span><span class="b">Your data.</span><span class="c">Your network.</span></h2>
+    <p>PulseGrid runs entirely on your own network. No cloud dependency, no mandatory subscription, no operational data leaving the building. The telemetry that describes your security posture stays exactly where it belongs — with you.</p>
+  </div>
+</section>
+
+<!-- ============ FUTURE CAPABILITIES ============ -->
+<section class="pad" id="roadmap">
+  <div class="wrap">
+    <div class="pg-head">
+      <span class="eyebrow pg-eb"><i></i>On the roadmap</span>
+      <h2>Where PulseGrid is heading.</h2>
+      <p>A look at what's planned. These are directions we're building toward — not features shipping today.</p>
+    </div>
+    <div class="pg-roadmap">
+      <div class="pg-road reveal"><span class="tag">Planned</span><h3>Camera health telemetry</h3><p>Deeper per-camera signals — firmware, sensor temperature and on-board storage.</p></div>
+      <div class="pg-road reveal reveal-delay-1"><span class="tag">Planned</span><h3>Advanced SNMP</h3><p>Richer switch, router and UPS telemetry through expanded SNMP support.</p></div>
+      <div class="pg-road reveal reveal-delay-2"><span class="tag">Planned</span><h3>Environmental sensors</h3><p>Direct integration with temperature, humidity and power sensors in the rack.</p></div>
+      <div class="pg-road reveal"><span class="tag">Planned</span><h3>Predictive analytics</h3><p>Trend-based forecasting to estimate time-to-failure from developing signals.</p></div>
+      <div class="pg-road reveal reveal-delay-1"><span class="tag">Planned</span><h3>Enterprise reporting</h3><p>Scheduled health and uptime reporting for stakeholders and compliance.</p></div>
+      <div class="pg-road reveal reveal-delay-2"><span class="tag">Planned</span><h3>Expanded multi-site</h3><p>Larger fleets and richer cross-site rollups through one console.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ZONEARY ECOSYSTEM ============ -->
+<section class="pad pg-band" id="ecosystem">
+  <div class="wrap">
+    <div class="pg-head">
+      <span class="eyebrow pg-eb"><i></i>The Zoneary ecosystem</span>
+      <h2>Three products. One local-first platform.</h2>
+      <p>PulseGrid doesn't compete with Watchtower — it completes it. Each product owns one layer of the same security operation.</p>
+    </div>
+    <div class="pg-eco">
+      <a class="pg-eco-row wt" href="../index.html#watchtower">
+        <span class="pg-eco-ico wt"><img src="../assets/watchtower/watchtower_logo.png" alt="" /></span>
+        <span class="pg-eco-txt"><b>Watchtower</b><span class="role">Video management</span><p>Live monitoring, recording, playback and investigations — the flagship VMS.</p></span>
+        <span class="lbl">See it →</span>
+      </a>
+      <a class="pg-eco-row pg" href="#top">
+        <span class="pg-eco-ico pg"><img src="../assets/brand/pulsegrid_icon.png" alt="" /></span>
+        <span class="pg-eco-txt"><b>PulseGrid</b><span class="role">Infrastructure monitoring</span><p>The health of the hardware, storage, network and environment behind the video.</p></span>
+        <span class="lbl">You are here</span>
+      </a>
+      <a class="pg-eco-row sn" href="../sentinel/index.html">
+        <span class="pg-eco-ico sn"><img src="../assets/brand/sentinel_shield.png" alt="" /></span>
+        <span class="pg-eco-txt"><b>Sentinel</b><span class="role">Alarm intelligence</span><p>Modern, local alarm awareness on the wiring and sensors you already own.</p></span>
+        <span class="lbl">Protect it →</span>
+      </a>
+    </div>
+    <p class="pg-eco-note">Watchtower manages the video. PulseGrid monitors the infrastructure. Sentinel provides intelligent alarm awareness. Together they form a complete, local-first security platform — owned, not rented.</p>
+  </div>
+</section>
+
+<!-- ============ CTA / EARLY ACCESS ============ -->
+<section class="pad pg-cta" id="access">
+  <div class="pg-cta-orb" style="width:820px;height:820px;background:rgba(123,97,255,.06);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+  <div class="pg-cta-orb" style="width:360px;height:360px;background:rgba(0,150,255,.05);top:6%;right:10%"></div>
+  <div class="wrap">
+    <div class="pg-cta-inner reveal">
+      <span class="eyebrow pg-eb" style="justify-content:center"><i></i>PulseGrid · coming soon</span>
+      <h2>Be first to watch <span class="pg-warm">everything behind the video.</span></h2>
+      <p>PulseGrid is in active development. Request early access and we'll bring you in as it rolls out to the Zoneary ecosystem.</p>
+      <div class="pg-cta-actions">
+        <a class="btn btn-pg btn-lg" href="mailto:hello@zoneary.com?subject=PulseGrid%20early%20access">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          Request early access
+        </a>
+        <a class="btn btn-ghost btn-lg" href="../index.html#ecosystem">Explore the ecosystem</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="../assets/brand/zoneary_wordmark_key.png" alt="Zoneary" />
+        <p>Serious, local-first security software for the rest of us.</p>
+        <div class="foot-tag"><b>See it. Understand it. Protect it.</b></div>
+      </div>
+      <div class="fcol"><h5>Products</h5><a href="../index.html#watchtower">Watchtower</a><a href="index.html">PulseGrid</a><a href="../sentinel/index.html">Sentinel</a></div>
+      <div class="fcol"><h5>PulseGrid</h5><a href="#what">What it is</a><a href="#features">Features</a><a href="#health">Health engine</a><a href="#access">Early access</a></div>
+      <div class="fcol"><h5>Company</h5><a href="../index.html#about">About</a><a href="#access">Contact</a><a href="#">Support</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Zoneary. All rights reserved. PulseGrid — a green ping isn't health.</span>
+      <span class="mono" title="Sola — Original Motion QA Engineer">Tested against real hardware, real storage, and one very independent chicken.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+</body>
+</html>

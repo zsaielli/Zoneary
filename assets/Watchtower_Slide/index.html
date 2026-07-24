@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Watchtower — Product Showcase</title>
+    <meta
+      name="description"
+      content="A calm, cinematic loop of the Watchtower video operations platform — Operations, Live View, Playback, Sites, Health, Recording."
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Preload only the first scene; the rest lazy-load as the loop reaches them. -->
+    <link rel="preload" as="image" href="scenes/operations.webp" />
+  </head>
+  <body>
+    <main class="showcase" aria-label="Watchtower product showcase">
+      <!-- Scene layers are created by script.js inside the stage. -->
+      <div class="showcase__stage" id="stage"></div>
+      <!-- Atmospheric demo beacons (Sites scene only). Not real sites. -->
+      <div class="showcase__beacons" id="beacons" aria-hidden="true">
+        <span class="showcase__beacon" style="left: 65%; top: 47%"></span>
+        <span class="showcase__beacon" style="left: 82%; top: 51%"></span>
+      </div>
+      <div class="showcase__vignette" aria-hidden="true"></div>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,2399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SENTINEL — Home Security Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@200;300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          orbitron: ['Orbitron', 'monospace'],
+          exo: ['"Exo 2"', 'sans-serif'],
+          mono: ['"Share Tech Mono"', 'monospace'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #060A12;
+    --surf:      #0B1220;
+    --surf-hi:   #111B2E;
+    --accent:    #00C5F5;
+    --secure:    #00E676;
+    --alert:     #FF3333;
+    --motion:    #FFD000;
+    --text:      #D4EAF5;
+    --text-dim:  rgba(180,215,235,0.4);
+    --border:    rgba(0,180,230,0.1);
+  }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Exo 2', sans-serif;
+  }
+
+  /* ══ BACKGROUND ATMOSPHERE ══════════════════════════════════ */
+  #bg {
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 90% 70% at 10% 90%, rgba(0,50,110,0.4) 0%, transparent 55%),
+      radial-gradient(ellipse 60% 50% at 90% 5%,  rgba(0,100,160,0.25) 0%, transparent 50%),
+      radial-gradient(ellipse 50% 60% at 50% 50%, rgba(0,20,60,0.5) 0%, transparent 80%),
+      var(--bg);
+  }
+  #grain {
+    position: fixed; inset: -300%; z-index: 1;
+    width: 700%; height: 700%;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    animation: grain 0.4s steps(1) infinite;
+  }
+  @keyframes grain {
+    0%   { transform: translate(0%,   0%  ); }
+    12%  { transform: translate(-1%,  -2% ); }
+    25%  { transform: translate(2%,   1%  ); }
+    37%  { transform: translate(-2%,  2%  ); }
+    50%  { transform: translate(1%,   -1% ); }
+    62%  { transform: translate(-1%,  1%  ); }
+    75%  { transform: translate(2%,   -2% ); }
+    87%  { transform: translate(-2%,  0%  ); }
+    100% { transform: translate(1%,   2%  ); }
+  }
+  #scanlines {
+    position: fixed; inset: 0; z-index: 2; pointer-events: none;
+    background: repeating-linear-gradient(
+      180deg, transparent, transparent 2px,
+      rgba(0,0,0,0.025) 2px, rgba(0,0,0,0.025) 4px
+    );
+  }
+
+  /* ══ LAYOUT SHELL ════════════════════════════════════════════ */
+  #shell {
+    position: relative; z-index: 10;
+    height: 100vh;
+    display: flex; flex-direction: column;
+  }
+
+  /* ══ HEADER ══════════════════════════════════════════════════ */
+  #header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    padding: 0.9rem 1.75rem;
+    border-bottom: 1px solid rgba(0,180,230,0.08);
+    flex-shrink: 0;
+    background: linear-gradient(180deg, rgba(0,10,30,0.6) 0%, transparent 100%);
+  }
+
+  /* System logo/name */
+  .sys-name {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.4rem; font-weight: 900;
+    letter-spacing: 0.2em;
+    color: var(--text);
+    text-shadow: 0 0 30px rgba(0,197,245,0.4), 0 0 60px rgba(0,197,245,0.12);
+  }
+  .sys-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.28em;
+    color: rgba(0,197,245,0.5);
+    margin-top: 0.22rem; text-transform: uppercase;
+  }
+
+  /* Clock */
+  #clock-wrap { text-align: center; }
+  #clock {
+    font-family: 'Orbitron', monospace;
+    font-size: 3.4rem; font-weight: 700;
+    letter-spacing: 0.06em; line-height: 1;
+    color: var(--text);
+    text-shadow: 0 0 25px rgba(0,197,245,0.5), 0 0 70px rgba(0,197,245,0.15);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  #ch, #cm, #cs {
+    display: inline-block;
+    min-width: 2.1ch;
+    text-align: center;
+  }
+  .c-sep {
+    color: rgba(0,197,245,0.8);
+    animation: sep-blink 1s ease-in-out infinite;
+    display: inline-block;
+  }
+  @keyframes sep-blink { 0%,100%{opacity:1} 50%{opacity:0.08} }
+  #clock-date {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.78rem; letter-spacing: 0.25em;
+    color: rgba(0,197,245,0.6);
+    margin-top: 0.35rem; text-transform: uppercase;
+  }
+
+  /* Weather */
+  #weather { text-align: right; }
+  .wx-temp {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.1rem; font-weight: 700; line-height: 1;
+    color: var(--text);
+  }
+  .wx-unit { font-size: 1.1rem; font-weight: 400; color: rgba(180,215,235,0.55); }
+  .wx-cond {
+    font-size: 0.82rem; color: rgba(180,215,235,0.65);
+    letter-spacing: 0.04em; margin-top: 0.22rem;
+  }
+  .wx-meta {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.1em;
+    color: rgba(0,197,245,0.42); margin-top: 0.18rem;
+  }
+
+  /* ══ STATUS BANNER ═══════════════════════════════════════════ */
+  #status-bar {
+    display: flex; align-items: center; justify-content: center;
+    gap: 0.65rem;
+    padding: 0.38rem 1.75rem;
+    border-bottom: 1px solid rgba(0,230,118,0.15);
+    background: linear-gradient(90deg,
+      rgba(0,230,118,0.06) 0%, rgba(0,230,118,0.03) 50%, rgba(0,230,118,0.06) 100%
+    );
+    flex-shrink: 0;
+    position: relative; overflow: hidden;
+    transition: background 0.6s ease, border-color 0.6s ease;
+  }
+  #status-bar::after {
+    content: '';
+    position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0,230,118,0.08), transparent);
+    animation: bar-sweep 4s ease-in-out infinite;
+  }
+  @keyframes bar-sweep { 0%{left:-60%} 100%{left:160%} }
+
+  .sys-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--secure);
+    box-shadow: 0 0 8px rgba(0,230,118,0.8), 0 0 18px rgba(0,230,118,0.35);
+    animation: dot-beat 2s ease-in-out infinite;
+    flex-shrink: 0;
+    transition: background 0.4s ease, box-shadow 0.4s ease;
+  }
+  @keyframes dot-beat {
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.35); box-shadow:0 0 12px rgba(0,230,118,1),0 0 25px rgba(0,230,118,0.5)}
+  }
+  .sys-label {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.63rem; font-weight: 700; letter-spacing: 0.22em;
+    color: var(--secure);
+    transition: color 0.4s ease;
+  }
+  .sys-divider {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.58rem; color: rgba(0,230,118,0.3);
+    letter-spacing: 0.1em;
+  }
+  .sys-info {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.58rem; color: rgba(0,230,118,0.38);
+    letter-spacing: 0.12em;
+  }
+
+  /* ══ ALERT RIBBON ════════════════════════════════════════════ */
+  #alert-ribbon {
+    display: none; align-items: center; justify-content: center;
+    gap: 0.6rem;
+    padding: 0.32rem 1.75rem;
+    border-bottom: 1px solid rgba(255,51,51,0.3);
+    background: linear-gradient(90deg,
+      rgba(255,51,51,0.08) 0%, rgba(255,51,51,0.04) 50%, rgba(255,51,51,0.08) 100%
+    );
+    animation: ribbon-pulse 1.2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  #alert-ribbon.show { display: flex; }
+  @keyframes ribbon-pulse {
+    0%,100%{ background: linear-gradient(90deg,rgba(255,51,51,0.08),rgba(255,51,51,0.04),rgba(255,51,51,0.08)); }
+    50%{     background: linear-gradient(90deg,rgba(255,51,51,0.16),rgba(255,51,51,0.09),rgba(255,51,51,0.16)); }
+  }
+  #alert-text {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.58rem; font-weight: 700; letter-spacing: 0.22em;
+    color: var(--alert);
+  }
+
+  /* ══ MAIN GRID ═══════════════════════════════════════════════ */
+  #main {
+    flex: 1; overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.25rem;
+    padding: 1rem 1.75rem 0.75rem;
+  }
+
+  /* ══ SECTION COLUMN ══════════════════════════════════════════ */
+  .col { display: flex; flex-direction: column; min-height: 0; }
+  .col-head {
+    display: flex; align-items: center; gap: 0.6rem;
+    margin-bottom: 0.7rem; flex-shrink: 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0,197,245,0.1);
+  }
+  .col-label {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(0,197,245,0.75);
+    white-space: nowrap;
+    text-shadow: 0 0 12px rgba(0,197,245,0.3);
+  }
+  .col-line {
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, rgba(0,197,245,0.2), transparent);
+  }
+  .col-count {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.1em;
+    color: rgba(0,197,245,0.42);
+    white-space: nowrap;
+  }
+  .tile-list {
+    display: flex; flex-direction: column; gap: 0.45rem;
+    overflow-y: auto; flex: 1;
+    padding-right: 2px;
+  }
+  .tile-list::-webkit-scrollbar { width: 3px; }
+  .tile-list::-webkit-scrollbar-track { background: transparent; }
+  .tile-list::-webkit-scrollbar-thumb { background: rgba(0,197,245,0.2); border-radius: 2px; }
+
+  /* ══ SENSOR TILE ═════════════════════════════════════════════ */
+  .tile {
+    position: relative;
+    display: flex; align-items: center; gap: 0.8rem;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: rgba(11,18,32,0.8);
+    backdrop-filter: blur(6px);
+    cursor: pointer;
+    overflow: hidden;
+    transition:
+      transform 0.22s cubic-bezier(0.34,1.56,0.64,1),
+      box-shadow 0.3s ease;
+  }
+  .tile:hover { transform: translateY(-1px) scale(1.012); }
+
+  /* Corner accent */
+  .tile::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 28px; height: 28px;
+    background: linear-gradient(225deg, rgba(0,197,245,0.07) 0%, transparent 55%);
+    border-radius: 0 5px 0 0;
+    pointer-events: none;
+  }
+
+  /* SECURE */
+  .tile.secure {
+    border-color: rgba(0,180,230,0.12);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.025), 0 2px 10px rgba(0,0,0,0.35);
+  }
+  .tile.secure .t-dot {
+    background: var(--secure);
+    box-shadow: 0 0 7px rgba(0,230,118,0.65);
+    animation: secure-glow 2.8s ease-in-out infinite;
+  }
+  @keyframes secure-glow {
+    0%,100%{ box-shadow: 0 0 7px rgba(0,230,118,0.65); }
+    50%{     box-shadow: 0 0 12px rgba(0,230,118,1), 0 0 22px rgba(0,230,118,0.3); }
+  }
+
+  /* ALERT (door/window open) */
+  .tile.alert {
+    border-left: 2px solid rgba(255,51,51,0.85);
+    border-color: rgba(255,51,51,0.5);
+    box-shadow:
+      0 0 0 1px rgba(255,51,51,0.18),
+      0 0 22px rgba(255,51,51,0.1),
+      inset 0 0 18px rgba(255,51,51,0.045);
+    animation: alert-pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes alert-pulse {
+    0%,100%{ border-color:rgba(255,51,51,0.5); box-shadow:0 0 0 1px rgba(255,51,51,0.18),0 0 22px rgba(255,51,51,0.1),inset 0 0 18px rgba(255,51,51,0.045); }
+    50%{     border-color:rgba(255,51,51,0.95); box-shadow:0 0 0 2px rgba(255,51,51,0.38),0 0 38px rgba(255,51,51,0.22),inset 0 0 28px rgba(255,51,51,0.08); }
+  }
+  .tile.alert::after {
+    content: '';
+    position: absolute; inset: -1px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,51,51,0.25);
+    animation: ring-expand 1.4s ease-out infinite;
+    pointer-events: none;
+  }
+  @keyframes ring-expand {
+    0%  { transform:scale(1);   opacity:0.7; }
+    100%{ transform:scale(1.05); opacity:0; }
+  }
+  .tile.alert .t-dot {
+    background: var(--alert);
+    animation: alert-dot 0.75s ease-in-out infinite;
+  }
+  @keyframes alert-dot {
+    0%,100%{ transform:scale(1);   box-shadow:0 0 8px rgba(255,51,51,0.9); }
+    50%{     transform:scale(1.5); box-shadow:0 0 18px rgba(255,51,51,1),0 0 30px rgba(255,51,51,0.5); }
+  }
+  .tile.alert::before {
+    background: linear-gradient(225deg, rgba(255,51,51,0.07) 0%, transparent 55%);
+  }
+
+  /* MOTION ACTIVE */
+  .tile.motion-on {
+    border-left: 2px solid rgba(255,208,0,0.8);
+    border-color: rgba(255,208,0,0.4);
+    box-shadow: 0 0 18px rgba(255,208,0,0.08), inset 0 0 16px rgba(255,208,0,0.04);
+    animation: motion-pulse 0.9s ease-in-out infinite;
+  }
+  @keyframes motion-pulse {
+    0%,100%{ border-color:rgba(255,208,0,0.4); box-shadow:0 0 18px rgba(255,208,0,0.08),inset 0 0 16px rgba(255,208,0,0.04); }
+    50%{     border-color:rgba(255,208,0,0.85); box-shadow:0 0 30px rgba(255,208,0,0.18),inset 0 0 24px rgba(255,208,0,0.08); }
+  }
+  .tile.motion-on .t-dot {
+    background: var(--motion);
+    animation: motion-dot 0.6s ease-in-out infinite;
+  }
+  @keyframes motion-dot {
+    0%,100%{ transform:scale(1);   box-shadow:0 0 8px rgba(255,208,0,0.9); }
+    50%{     transform:scale(1.6); box-shadow:0 0 20px rgba(255,208,0,1),0 0 35px rgba(255,208,0,0.45); }
+  }
+  .tile.motion-on::before {
+    background: linear-gradient(225deg, rgba(255,208,0,0.07) 0%, transparent 55%);
+  }
+
+  /* CLEAR (motion zones with no activity) */
+  .tile.clear { border-color: rgba(0,180,230,0.08); }
+  .tile.clear .t-dot {
+    background: rgba(0,230,118,0.35);
+    box-shadow: 0 0 5px rgba(0,230,118,0.3);
+  }
+
+  /* ══ TILE INTERNALS ══════════════════════════════════════════ */
+  .t-icon {
+    width: 40px; height: 40px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 6px;
+    background: rgba(0,197,245,0.05);
+    border: 1px solid rgba(0,197,245,0.12);
+    flex-shrink: 0;
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+  .tile.alert .t-icon   { background:rgba(255,51,51,0.07);  border-color:rgba(255,51,51,0.2); }
+  .tile.motion-on .t-icon { background:rgba(255,208,0,0.07); border-color:rgba(255,208,0,0.2); }
+
+  .t-body { flex: 1; min-width: 0; }
+  .t-zone {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.55rem; letter-spacing: 0.18em;
+    color: rgba(0,197,245,0.4);
+    text-transform: uppercase; margin-bottom: 0.12rem;
+  }
+  .t-name {
+    font-size: 0.88rem; font-weight: 600;
+    color: var(--text); letter-spacing: 0.02em;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .t-event {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.58rem; color: rgba(180,215,235,0.32);
+    margin-top: 0.14rem; letter-spacing: 0.06em;
+  }
+
+  .t-right {
+    display: flex; flex-direction: column;
+    align-items: flex-end; gap: 0.3rem; flex-shrink: 0;
+  }
+  .t-dot { width: 8px; height: 8px; border-radius: 50%; transition: background 0.3s ease; }
+  .t-status {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.58rem; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; white-space: nowrap;
+  }
+  .t-status.secure  { color: rgba(0,230,118,0.7); }
+  .t-status.alert   { color: var(--alert); }
+  .t-status.motion  { color: var(--motion); }
+  .t-status.clear   { color: rgba(0,230,118,0.5); }
+
+  /* ══ MOTION RADAR ICON ═══════════════════════════════════════ */
+  .radar-wrap {
+    position: relative; width: 26px; height: 26px; border-radius: 50%;
+    border: 1px solid rgba(0,230,118,0.35); overflow: hidden;
+    transition: border-color 0.3s ease;
+    background: rgba(0,230,118,0.04);
+  }
+  .tile.motion-on .radar-wrap {
+    border-color: rgba(255,208,0,0.5);
+    background: rgba(255,208,0,0.04);
+  }
+  .radar-rings {
+    position: absolute; inset: 0; border-radius: 50%;
+  }
+  .radar-rings::before {
+    content: ''; position: absolute;
+    top: 22%; left: 22%; right: 22%; bottom: 22%;
+    border-radius: 50%; border: 1px solid rgba(0,230,118,0.22);
+    transition: border-color 0.3s ease;
+  }
+  .tile.motion-on .radar-rings::before { border-color: rgba(255,208,0,0.32); }
+  .radar-sweep {
+    position: absolute; inset: 0; border-radius: 50%;
+    background: conic-gradient(
+      from 0deg, transparent 0%, transparent 68%,
+      rgba(0,230,118,0.45) 85%, rgba(0,230,118,0.9) 100%
+    );
+    animation: radar-spin 2.5s linear infinite;
+    transition: background 0.3s ease;
+  }
+  .tile.motion-on .radar-sweep {
+    background: conic-gradient(
+      from 0deg, transparent 0%, transparent 62%,
+      rgba(255,208,0,0.5) 80%, rgba(255,208,0,1) 100%
+    );
+    animation: radar-spin 0.7s linear infinite;
+  }
+  @keyframes radar-spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  .radar-center {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 4px; height: 4px; border-radius: 50%;
+    background: rgba(0,230,118,0.85);
+    box-shadow: 0 0 4px rgba(0,230,118,0.6);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    z-index: 2;
+  }
+  .tile.motion-on .radar-center {
+    background: var(--motion);
+    box-shadow: 0 0 6px var(--motion), 0 0 12px rgba(255,208,0,0.4);
+  }
+
+  /* ══ FOOTER ══════════════════════════════════════════════════ */
+  #footer {
+    padding: 0.4rem 1.75rem;
+    border-top: 1px solid rgba(0,180,230,0.055);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .ft-text {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.52rem; letter-spacing: 0.15em;
+    color: rgba(0,197,245,0.22);
+  }
+
+  /* ══ CLICK HINT ══════════════════════════════════════════════ */
+  #hint {
+    position: fixed; bottom: 2.5rem; right: 4rem; z-index: 20;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.52rem; letter-spacing: 0.14em;
+    color: rgba(0,197,245,0.25);
+    animation: hint-fade 6s ease-in-out forwards;
+    pointer-events: none;
+  }
+  @keyframes hint-fade { 0%,60%{opacity:1} 100%{opacity:0} }
+
+  /* ══ GEAR BUTTON ═════════════════════════════════════════════ */
+  #gear-btn {
+    position: fixed; bottom: 1.1rem; right: 1.5rem; z-index: 30;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    border: 1px solid rgba(0,197,245,0.15);
+    background: rgba(6,10,18,0.8);
+    cursor: pointer;
+    opacity: 0.35;
+    transition: opacity 0.25s ease, border-color 0.25s ease,
+                box-shadow 0.25s ease, transform 0.3s ease;
+  }
+  #gear-btn:hover {
+    opacity: 1;
+    border-color: rgba(0,197,245,0.5);
+    box-shadow: 0 0 14px rgba(0,197,245,0.2);
+    transform: rotate(45deg);
+  }
+  #gear-btn svg { display: block; }
+  #gear-btn { color: rgba(0,197,245,0.65); }
+
+  /* ══ SETTINGS BACKDROP ═══════════════════════════════════════ */
+  #sp-backdrop {
+    display: none;
+    position: fixed; inset: 0; z-index: 40;
+    background: rgba(0,5,20,0.65);
+    backdrop-filter: blur(3px);
+  }
+  #sp-backdrop.open { display: block; }
+
+  /* ══ SETTINGS PANEL ══════════════════════════════════════════ */
+  #settings-panel {
+    position: fixed; top: 0; right: 0; bottom: 0; z-index: 50;
+    width: 360px;
+    background: rgba(7,11,22,0.98);
+    border-left: 1px solid rgba(0,197,245,0.15);
+    box-shadow: -20px 0 60px rgba(0,0,0,0.6);
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  #settings-panel.open { transform: translateX(0); }
+
+  /* ══ LOG BUTTON ══════════════════════════════════════════════ */
+  #log-btn {
+    position: fixed; bottom: 1.1rem; left: 1.5rem; z-index: 30;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    border: 1px solid rgba(0,197,245,0.15);
+    background: rgba(6,10,18,0.8);
+    cursor: pointer;
+    opacity: 0.35;
+    color: rgba(0,197,245,0.65);
+    transition: opacity 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  #log-btn:hover {
+    opacity: 1;
+    border-color: rgba(0,197,245,0.5);
+    box-shadow: 0 0 14px rgba(0,197,245,0.2);
+  }
+  #log-btn svg { display: block; }
+
+  /* ══ LOG BACKDROP ════════════════════════════════════════════ */
+  #log-backdrop {
+    display: none;
+    position: fixed; inset: 0; z-index: 40;
+    background: rgba(0,5,20,0.65);
+    backdrop-filter: blur(3px);
+  }
+  #log-backdrop.open { display: block; }
+
+  /* ══ LOG PANEL ═══════════════════════════════════════════════ */
+  #log-panel {
+    position: fixed; top: 0; left: 0; bottom: 0; z-index: 50;
+    width: 360px;
+    background: rgba(7,11,22,0.98);
+    border-right: 1px solid rgba(0,197,245,0.15);
+    box-shadow: 20px 0 60px rgba(0,0,0,0.6);
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  #log-panel.open { transform: translateX(0); }
+
+  .log-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 1.5rem 1rem;
+    border-bottom: 1px solid rgba(0,197,245,0.1);
+    flex-shrink: 0;
+  }
+  .log-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.22em;
+    color: var(--text);
+    text-shadow: 0 0 20px rgba(0,197,245,0.3);
+  }
+  .log-head-btns { display: flex; gap: 0.4rem; align-items: center; }
+  .log-clear-btn {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.55rem; letter-spacing: 0.18em;
+    padding: 0.28rem 0.65rem;
+    border-radius: 4px;
+    border: 1px solid rgba(255,51,51,0.2);
+    background: transparent;
+    color: rgba(255,51,51,0.5);
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  }
+  .log-clear-btn:hover { border-color: rgba(255,51,51,0.5); color: var(--alert); background: rgba(255,51,51,0.06); }
+  .log-close-btn {
+    width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 4px;
+    border: 1px solid rgba(0,197,245,0.15);
+    background: transparent;
+    color: rgba(0,197,245,0.5);
+    font-size: 1rem; line-height: 1;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  }
+  .log-close-btn:hover { border-color: rgba(255,51,51,0.5); color: var(--alert); background: rgba(255,51,51,0.06); }
+
+  .log-body {
+    flex: 1; overflow-y: auto;
+    padding: 0.75rem 0;
+  }
+  .log-body::-webkit-scrollbar { width: 3px; }
+  .log-body::-webkit-scrollbar-thumb { background: rgba(0,197,245,0.2); border-radius: 2px; }
+
+  .log-date-group { margin-bottom: 0.25rem; }
+  .log-date-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.52rem; letter-spacing: 0.22em;
+    color: rgba(0,197,245,0.35);
+    padding: 0.6rem 1.5rem 0.35rem;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(0,197,245,0.07);
+    margin-bottom: 0.15rem;
+  }
+  .log-entry {
+    display: flex; align-items: flex-start; gap: 0.9rem;
+    padding: 0.55rem 1.5rem;
+    border-bottom: 1px solid rgba(0,197,245,0.04);
+    transition: background 0.15s ease;
+  }
+  .log-entry:hover { background: rgba(0,197,245,0.03); }
+  .log-time {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.08em;
+    color: rgba(0,197,245,0.38);
+    white-space: nowrap;
+    padding-top: 0.12rem;
+    min-width: 58px;
+  }
+  .log-info { flex: 1; min-width: 0; }
+  .log-device {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.72rem; font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .log-category {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.54rem; letter-spacing: 0.1em;
+    color: rgba(0,197,245,0.32);
+    margin-top: 0.08rem;
+  }
+  .log-state {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.1em;
+    padding-top: 0.12rem;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+  .log-state.st-open   { color: #FF3333; }
+  .log-state.st-closed { color: #00E676; }
+  .log-state.st-motion { color: #FFD000; }
+  .log-state.st-clear  { color: rgba(0,230,118,0.55); }
+  .log-state.st-armed  { color: #FF5040; }
+  .log-state.st-disarm { color: #00E676; }
+
+  .log-empty {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    height: 100%;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.18em;
+    color: rgba(0,197,245,0.18);
+    text-align: center;
+    gap: 0.6rem;
+    padding: 2rem;
+  }
+  .log-empty-icon { opacity: 0.25; }
+
+  .sp-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 1.5rem 1rem;
+    border-bottom: 1px solid rgba(0,197,245,0.1);
+    flex-shrink: 0;
+  }
+  .sp-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.22em;
+    color: var(--text);
+    text-shadow: 0 0 20px rgba(0,197,245,0.3);
+  }
+  .sp-close {
+    width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 4px;
+    border: 1px solid rgba(0,197,245,0.15);
+    background: transparent;
+    color: rgba(0,197,245,0.5);
+    font-size: 1rem; line-height: 1;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  }
+  .sp-close:hover { border-color: rgba(255,51,51,0.5); color: var(--alert); background: rgba(255,51,51,0.06); }
+
+  .sp-body { flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; }
+  .sp-body::-webkit-scrollbar { width: 3px; }
+  .sp-body::-webkit-scrollbar-thumb { background: rgba(0,197,245,0.2); border-radius: 2px; }
+
+  .sp-section { margin-bottom: 1.75rem; }
+  .sp-section-title {
+    font-family: 'Exo 2', sans-serif;
+    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(0,197,245,0.6);
+    text-shadow: 0 0 10px rgba(0,197,245,0.25);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0,197,245,0.1);
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .sp-section-title::before {
+    content: '';
+    width: 3px; height: 12px;
+    background: var(--accent);
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(0,197,245,0.5);
+    flex-shrink: 0;
+  }
+
+  .sp-field { margin-bottom: 1rem; }
+  .sp-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.18em;
+    color: rgba(0,197,245,0.5);
+    text-transform: uppercase;
+    display: block; margin-bottom: 0.4rem;
+  }
+  .sp-input {
+    width: 100%;
+    background: rgba(0,197,245,0.04);
+    border: 1px solid rgba(0,197,245,0.15);
+    border-radius: 4px;
+    padding: 0.55rem 0.75rem;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.05em;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+  .sp-input::placeholder { color: rgba(0,197,245,0.22); }
+  .sp-input:focus {
+    border-color: rgba(0,197,245,0.5);
+    background: rgba(0,197,245,0.07);
+    box-shadow: 0 0 0 2px rgba(0,197,245,0.08);
+  }
+  .sp-hint {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.55rem; letter-spacing: 0.08em;
+    color: rgba(0,197,245,0.28);
+    margin-top: 0.3rem;
+  }
+  .sp-hint a { color: rgba(0,197,245,0.45); text-decoration: none; }
+  .sp-hint a:hover { color: var(--accent); }
+
+  /* Unit toggle */
+  .sp-toggle {
+    display: flex; gap: 0.4rem;
+  }
+  .toggle-opt {
+    flex: 1;
+    padding: 0.45rem;
+    border-radius: 4px;
+    border: 1px solid rgba(0,197,245,0.15);
+    background: transparent;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+    color: rgba(0,197,245,0.4);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+  }
+  .toggle-opt:hover { border-color: rgba(0,197,245,0.35); color: rgba(0,197,245,0.65); }
+  .toggle-opt.active {
+    background: rgba(0,197,245,0.12);
+    border-color: rgba(0,197,245,0.5);
+    color: var(--accent);
+    box-shadow: 0 0 10px rgba(0,197,245,0.15);
+  }
+
+  /* Save button */
+  .sp-save {
+    width: 100%; margin-top: 1.25rem;
+    padding: 0.7rem 1rem;
+    border-radius: 5px;
+    border: 1px solid rgba(0,197,245,0.4);
+    background: rgba(0,197,245,0.08);
+    font-family: 'Orbitron', monospace;
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em;
+    color: var(--accent);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+  }
+  .sp-save:hover {
+    background: rgba(0,197,245,0.16);
+    border-color: rgba(0,197,245,0.7);
+    box-shadow: 0 0 20px rgba(0,197,245,0.15);
+  }
+  .sp-save:active { transform: scale(0.98); }
+  .sp-save:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* Status message */
+  #cfg-status, #knx-status {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 0.1em;
+    text-align: center; margin-top: 0.7rem;
+    min-height: 1.1em;
+    transition: color 0.3s ease;
+  }
+  #cfg-status.ok,   #knx-status.ok   { color: var(--secure); }
+  #cfg-status.err,  #knx-status.err  { color: var(--alert); }
+  #cfg-status.busy, #knx-status.busy { color: rgba(0,197,245,0.6); }
+
+  /* Divider */
+  .sp-divider {
+    height: 1px; margin: 0.5rem 0 1.25rem;
+    background: linear-gradient(90deg, rgba(0,197,245,0.15), transparent);
+  }
+
+  /* Info row */
+  .sp-info-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.35rem 0;
+    border-bottom: 1px solid rgba(0,197,245,0.05);
+  }
+  .sp-info-key {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.1em;
+    color: rgba(0,197,245,0.4);
+  }
+  .sp-info-val {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.58rem; letter-spacing: 0.06em;
+    color: rgba(180,215,235,0.6);
+  }
+
+  /* ══ ALPINE GREEN THEME ══════════════════════════════════════ */
+  @keyframes dot-beat-alp {
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.35); box-shadow:0 0 12px rgba(51,255,0,1),0 0 25px rgba(51,255,0,0.5)}
+  }
+  @keyframes secure-glow-alp {
+    0%,100%{ box-shadow: 0 0 7px rgba(51,255,0,0.65); }
+    50%{     box-shadow: 0 0 14px rgba(51,255,0,1), 0 0 24px rgba(51,255,0,0.3); }
+  }
+
+  [data-theme="alpine"] {
+    --bg:       #040804;
+    --surf:     #070C07;
+    --surf-hi:  #0C150C;
+    --accent:   #33FF00;
+    --secure:   #33FF00;
+    --alert:    #FF3333;
+    --motion:   #AAFF00;
+    --text:     #AEFF77;
+    --text-dim: rgba(100,255,50,0.38);
+    --border:   rgba(51,255,0,0.1);
+  }
+  [data-theme="alpine"] #bg {
+    background:
+      radial-gradient(ellipse 90% 70% at 10% 90%, rgba(0,80,0,0.35) 0%, transparent 55%),
+      radial-gradient(ellipse 60% 50% at 90% 5%,  rgba(0,60,0,0.2) 0%, transparent 50%),
+      radial-gradient(ellipse 50% 60% at 50% 50%, rgba(0,25,0,0.5) 0%, transparent 80%),
+      var(--bg);
+  }
+  [data-theme="alpine"] #header {
+    background: linear-gradient(180deg, rgba(0,18,0,0.65) 0%, transparent 100%);
+    border-bottom-color: rgba(51,255,0,0.08);
+  }
+  [data-theme="alpine"] .sys-name { text-shadow: 0 0 30px rgba(51,255,0,0.45), 0 0 60px rgba(51,255,0,0.12); }
+  [data-theme="alpine"] .sys-sub  { color: rgba(51,255,0,0.5); }
+  [data-theme="alpine"] #clock    { text-shadow: 0 0 25px rgba(51,255,0,0.55), 0 0 70px rgba(51,255,0,0.18); }
+  [data-theme="alpine"] .c-sep    { color: rgba(51,255,0,0.8); }
+  [data-theme="alpine"] #clock-date { color: rgba(51,255,0,0.6); }
+  [data-theme="alpine"] .wx-meta  { color: rgba(51,255,0,0.42); }
+  [data-theme="alpine"] .wx-unit  { color: rgba(150,255,100,0.55); }
+
+  [data-theme="alpine"] #status-bar {
+    background: linear-gradient(90deg, rgba(51,255,0,0.06) 0%, rgba(51,255,0,0.03) 50%, rgba(51,255,0,0.06) 100%);
+    border-bottom-color: rgba(51,255,0,0.15);
+  }
+  [data-theme="alpine"] #status-bar::after { background: linear-gradient(90deg, transparent, rgba(51,255,0,0.08), transparent); }
+  [data-theme="alpine"] .sys-dot  { animation: dot-beat-alp 2s ease-in-out infinite; }
+  [data-theme="alpine"] .sys-divider { color: rgba(51,255,0,0.3); }
+  [data-theme="alpine"] .sys-info { color: rgba(51,255,0,0.38); }
+
+  [data-theme="alpine"] .col-head  { border-bottom-color: rgba(51,255,0,0.1); }
+  [data-theme="alpine"] .col-label { color: rgba(51,255,0,0.75); text-shadow: 0 0 12px rgba(51,255,0,0.3); }
+  [data-theme="alpine"] .col-line  { background: linear-gradient(90deg, rgba(51,255,0,0.2), transparent); }
+  [data-theme="alpine"] .col-count { color: rgba(51,255,0,0.42); }
+  [data-theme="alpine"] .tile-list::-webkit-scrollbar-thumb { background: rgba(51,255,0,0.2); }
+
+  [data-theme="alpine"] .tile::before { background: linear-gradient(225deg, rgba(51,255,0,0.07) 0%, transparent 55%); }
+  [data-theme="alpine"] .tile.secure { border-color: rgba(51,255,0,0.12); }
+  [data-theme="alpine"] .tile.secure .t-dot { animation: secure-glow-alp 2.8s ease-in-out infinite; }
+  [data-theme="alpine"] .tile.clear  { border-color: rgba(51,255,0,0.08); }
+  [data-theme="alpine"] .tile.clear .t-dot { background: rgba(51,255,0,0.35); box-shadow: 0 0 5px rgba(51,255,0,0.3); }
+  [data-theme="alpine"] .tile.alert::before { background: linear-gradient(225deg, rgba(255,51,51,0.07) 0%, transparent 55%); }
+  [data-theme="alpine"] .tile.motion-on {
+    border-left-color: rgba(170,255,0,0.8);
+    border-color: rgba(170,255,0,0.4);
+    box-shadow: 0 0 18px rgba(170,255,0,0.08), inset 0 0 16px rgba(170,255,0,0.04);
+  }
+  [data-theme="alpine"] .tile.motion-on::before { background: linear-gradient(225deg, rgba(170,255,0,0.07) 0%, transparent 55%); }
+  [data-theme="alpine"] .tile.motion-on .t-icon { background: rgba(170,255,0,0.07); border-color: rgba(170,255,0,0.2); }
+  [data-theme="alpine"] .tile.motion-on .radar-wrap { border-color: rgba(170,255,0,0.5); background: rgba(170,255,0,0.04); }
+  [data-theme="alpine"] .tile.motion-on .radar-rings::before { border-color: rgba(170,255,0,0.32); }
+  [data-theme="alpine"] .tile.motion-on .radar-sweep {
+    background: conic-gradient(from 0deg, transparent 0%, transparent 62%, rgba(170,255,0,0.5) 80%, rgba(170,255,0,1) 100%);
+  }
+  [data-theme="alpine"] .tile.motion-on .radar-center { background: var(--motion); box-shadow: 0 0 6px var(--motion), 0 0 12px rgba(170,255,0,0.4); }
+
+  [data-theme="alpine"] .t-icon   { background: rgba(51,255,0,0.05); border-color: rgba(51,255,0,0.12); }
+  [data-theme="alpine"] .t-zone   { color: rgba(51,255,0,0.4); }
+  [data-theme="alpine"] .t-status.secure { color: rgba(51,255,0,0.7); }
+  [data-theme="alpine"] .t-status.clear  { color: rgba(51,255,0,0.5); }
+  [data-theme="alpine"] .radar-wrap { border-color: rgba(51,255,0,0.35); background: rgba(51,255,0,0.04); }
+  [data-theme="alpine"] .radar-rings::before { border-color: rgba(51,255,0,0.22); }
+  [data-theme="alpine"] .radar-sweep {
+    background: conic-gradient(from 0deg, transparent 0%, transparent 68%, rgba(51,255,0,0.45) 85%, rgba(51,255,0,0.9) 100%);
+  }
+  [data-theme="alpine"] .radar-center { background: rgba(51,255,0,0.85); box-shadow: 0 0 4px rgba(51,255,0,0.6); }
+
+  [data-theme="alpine"] #arm-btn { border-color: rgba(51,255,0,0.38); background: rgba(51,255,0,0.05); }
+  [data-theme="alpine"] #arm-btn:hover { border-color: rgba(51,255,0,0.75); box-shadow: 0 0 16px rgba(51,255,0,0.18), 0 0 40px rgba(51,255,0,0.06); }
+  [data-theme="alpine"] #arm-btn::before { background: linear-gradient(135deg, rgba(51,255,0,0.05) 0%, transparent 60%); }
+  [data-theme="alpine"] #arm-label { color: rgba(51,255,0,0.9); text-shadow: 0 0 10px rgba(51,255,0,0.35); }
+  [data-theme="alpine"] #arm-sub   { color: rgba(51,255,0,0.42); }
+
+  [data-theme="alpine"] #footer  { border-top-color: rgba(51,255,0,0.055); }
+  [data-theme="alpine"] .ft-text { color: rgba(51,255,0,0.22); }
+  [data-theme="alpine"] #hint    { color: rgba(51,255,0,0.25); }
+
+  [data-theme="alpine"] #gear-btn       { border-color: rgba(51,255,0,0.15); color: rgba(51,255,0,0.65); background: rgba(2,8,2,0.85); }
+  [data-theme="alpine"] #gear-btn:hover { border-color: rgba(51,255,0,0.5); box-shadow: 0 0 14px rgba(51,255,0,0.25); }
+
+  [data-theme="alpine"] #sp-backdrop    { background: rgba(0,10,0,0.65); }
+  [data-theme="alpine"] #settings-panel { background: rgba(3,7,3,0.98); border-left-color: rgba(51,255,0,0.15); }
+  [data-theme="alpine"] .sp-head        { border-bottom-color: rgba(51,255,0,0.1); }
+  [data-theme="alpine"] .sp-title       { text-shadow: 0 0 20px rgba(51,255,0,0.3); }
+  [data-theme="alpine"] .sp-close       { border-color: rgba(51,255,0,0.15); color: rgba(51,255,0,0.5); }
+  [data-theme="alpine"] .sp-body::-webkit-scrollbar-thumb { background: rgba(51,255,0,0.2); }
+  [data-theme="alpine"] .sp-section-title { color: rgba(51,255,0,0.6); text-shadow: 0 0 10px rgba(51,255,0,0.25); border-bottom-color: rgba(51,255,0,0.1); }
+  [data-theme="alpine"] .sp-section-title::before { background: var(--accent); box-shadow: 0 0 8px rgba(51,255,0,0.5); }
+  [data-theme="alpine"] .sp-label { color: rgba(51,255,0,0.5); }
+  [data-theme="alpine"] .sp-input { background: rgba(51,255,0,0.04); border-color: rgba(51,255,0,0.15); }
+  [data-theme="alpine"] .sp-input::placeholder { color: rgba(51,255,0,0.22); }
+  [data-theme="alpine"] .sp-input:focus { border-color: rgba(51,255,0,0.5); background: rgba(51,255,0,0.07); box-shadow: 0 0 0 2px rgba(51,255,0,0.08); }
+  [data-theme="alpine"] .sp-hint   { color: rgba(51,255,0,0.28); }
+  [data-theme="alpine"] .sp-hint a { color: rgba(51,255,0,0.45); }
+  [data-theme="alpine"] .sp-hint a:hover { color: var(--accent); }
+  [data-theme="alpine"] .toggle-opt { border-color: rgba(51,255,0,0.15); color: rgba(51,255,0,0.4); }
+  [data-theme="alpine"] .toggle-opt:hover { border-color: rgba(51,255,0,0.35); color: rgba(51,255,0,0.65); }
+  [data-theme="alpine"] .toggle-opt.active { background: rgba(51,255,0,0.12); border-color: rgba(51,255,0,0.5); color: var(--accent); box-shadow: 0 0 10px rgba(51,255,0,0.15); }
+  [data-theme="alpine"] .sp-save { border-color: rgba(51,255,0,0.4); background: rgba(51,255,0,0.08); color: var(--accent); }
+  [data-theme="alpine"] .sp-save:hover { background: rgba(51,255,0,0.16); border-color: rgba(51,255,0,0.7); box-shadow: 0 0 20px rgba(51,255,0,0.15); }
+  [data-theme="alpine"] #cfg-status.busy, [data-theme="alpine"] #knx-status.busy { color: rgba(51,255,0,0.6); }
+  [data-theme="alpine"] .sp-divider { background: linear-gradient(90deg, rgba(51,255,0,0.15), transparent); }
+  [data-theme="alpine"] .sp-info-row { border-bottom-color: rgba(51,255,0,0.05); }
+  [data-theme="alpine"] .sp-info-key { color: rgba(51,255,0,0.4); }
+  [data-theme="alpine"] .sp-info-val { color: rgba(150,255,100,0.6); }
+
+  /* ══ GARAGE DOOR ANIMATION ══════════════════════════════════ */
+  /* clip-path bottom-inset: 0% = door fully closed, 74% = door rolled up (bundle at top) */
+  .gdoor-panel { clip-path: inset(0 0 0% 0); }
+  .gdoor-panel.gdoor-open { clip-path: inset(0 0 74% 0); }
+
+  @keyframes gdoor-up {
+    0%   { clip-path: inset(0 0 0%  0); }
+    100% { clip-path: inset(0 0 74% 0); }
+  }
+  @keyframes gdoor-dn {
+    0%   { clip-path: inset(0 0 74% 0); }
+    100% { clip-path: inset(0 0 0%  0); }
+  }
+  .gdoor-panel.gdoor-opening { animation: gdoor-up 0.58s cubic-bezier(0.4,0,0.15,1) both; }
+  .gdoor-panel.gdoor-closing { animation: gdoor-dn 0.48s cubic-bezier(0,0.8,0.35,1) both; }
+
+  /* ══ DOOR SWING ANIMATION ════════════════════════════════════ */
+  /* scaleX(1) = closed flat; scaleX(0.12) = swung open (edge-on) */
+  .door-panel { transform-box: fill-box; transform-origin: left center; }
+  .door-panel.door-open { transform: scaleX(0.12); }
+
+  @keyframes door-swing-open {
+    0%   { transform: scaleX(1);    }
+    82%  { transform: scaleX(0.08); }
+    100% { transform: scaleX(0.12); }
+  }
+  @keyframes door-swing-close {
+    0%   { transform: scaleX(0.12); }
+    100% { transform: scaleX(1);    }
+  }
+  .door-panel.door-opening { animation: door-swing-open  0.5s  cubic-bezier(0.35,0,0.15,1) both; }
+  .door-panel.door-closing { animation: door-swing-close 0.42s cubic-bezier(0,0.8,0.35,1) both; }
+
+  /* ══ WINDOW SASH ANIMATION ══════════════════════════════════ */
+  /* translateY(0) = closed, translateY(-11px) = slid up (open) */
+  .wsash-bottom { transform: translateY(0); }
+  .wsash-bottom.wsash-open { transform: translateY(-11px); }
+
+  @keyframes wsash-up {
+    0%   { transform: translateY(0);     }
+    100% { transform: translateY(-11px); }
+  }
+  @keyframes wsash-dn {
+    0%   { transform: translateY(-11px); }
+    100% { transform: translateY(0);     }
+  }
+  .wsash-bottom.wsash-opening { animation: wsash-up 0.5s cubic-bezier(0.4,0,0.15,1) both; }
+  .wsash-bottom.wsash-closing { animation: wsash-dn 0.45s cubic-bezier(0,0.8,0.35,1) both; }
+
+  /* ══ ARM / DISARM BUTTON ════════════════════════════════════ */
+  #right-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+  #arm-wrap {
+    display: flex; align-items: center; justify-content: center;
+  }
+  #weather {
+    text-align: right;
+  }
+
+  #arm-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 0.18rem;
+    padding: 0.55rem 0;
+    width: 108px;
+    border-radius: 5px;
+    border: 1px solid rgba(0,230,118,0.38);
+    background: rgba(0,230,118,0.05);
+    cursor: pointer;
+    position: relative; overflow: hidden;
+    transition:
+      transform 0.18s cubic-bezier(0.34,1.56,0.64,1),
+      border-color 0.3s ease,
+      background 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+  #arm-btn::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(0,230,118,0.05) 0%, transparent 60%);
+    pointer-events: none; transition: background 0.3s ease;
+  }
+  #arm-btn:hover {
+    transform: scale(1.04);
+    border-color: rgba(0,230,118,0.75);
+    box-shadow: 0 0 16px rgba(0,230,118,0.18), 0 0 40px rgba(0,230,118,0.06);
+  }
+  #arm-btn:active { transform: scale(0.97); }
+  #arm-btn:focus-visible { outline: 2px solid rgba(0,230,118,0.5); outline-offset: 3px; }
+
+  #arm-icon { line-height: 0; margin-bottom: 0.08rem; }
+  #arm-label {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.22em;
+    color: rgba(0,230,118,0.9);
+    text-shadow: 0 0 10px rgba(0,230,118,0.35);
+    line-height: 1; transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+  #arm-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.48rem; letter-spacing: 0.2em;
+    color: rgba(0,230,118,0.42); text-transform: uppercase;
+    line-height: 1; transition: color 0.3s ease;
+  }
+
+  /* Armed state */
+  @keyframes arm-btn-armed-pulse {
+    0%,100% { box-shadow: 0 0 8px rgba(255,51,51,0.12), 0 0 22px rgba(255,51,51,0.06); }
+    50%     { box-shadow: 0 0 18px rgba(255,51,51,0.28), 0 0 40px rgba(255,51,51,0.1); }
+  }
+  #arm-btn.armed {
+    border-color: rgba(255,51,51,0.55);
+    background: rgba(255,51,51,0.07);
+    animation: arm-btn-armed-pulse 2.5s ease-in-out infinite;
+  }
+  #arm-btn.armed::before { background: linear-gradient(135deg, rgba(255,51,51,0.05) 0%, transparent 60%); }
+  #arm-btn.armed:hover   { border-color: rgba(255,51,51,0.85); }
+  #arm-btn.armed #arm-label { color: rgba(255,80,60,0.92); text-shadow: 0 0 10px rgba(255,51,51,0.4); }
+  #arm-btn.armed #arm-sub   { color: rgba(255,80,60,0.45); }
+
+  /* Locked — zones open */
+  #arm-btn.locked {
+    cursor: not-allowed; opacity: 0.42;
+    border-color: rgba(255,208,0,0.32); background: rgba(255,208,0,0.04);
+    animation: none;
+  }
+  #arm-btn.locked #arm-label { color: rgba(255,208,0,0.65); text-shadow: none; }
+  #arm-btn.locked #arm-sub   { color: rgba(255,208,0,0.38); }
+
+  @keyframes arm-shake {
+    0%,100% { transform: translateX(0); }
+    18%     { transform: translateX(-5px); }
+    36%     { transform: translateX(5px); }
+    54%     { transform: translateX(-4px); }
+    72%     { transform: translateX(4px); }
+    88%     { transform: translateX(-2px); }
+  }
+  #arm-btn.shaking { animation: arm-shake 0.42s cubic-bezier(0.36,0.07,0.19,0.97) both; }
+
+  /* Locked toast */
+  #arm-toast {
+    position: absolute; bottom: calc(100% + 9px); left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.54rem; letter-spacing: 0.1em;
+    color: rgba(255,208,0,0.92);
+    background: rgba(8,14,28,0.96);
+    border: 1px solid rgba(255,208,0,0.3); border-radius: 3px;
+    padding: 0.28rem 0.65rem;
+    pointer-events: none; opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 5;
+  }
+  #arm-toast::after {
+    content: '';
+    position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+    border: 4px solid transparent; border-top-color: rgba(255,208,0,0.3);
+  }
+  #arm-toast.show { opacity: 1; }
+
+  /* ══ ARMED STATUS BANNER STATE ══════════════════════════════ */
+  #status-bar.sys-armed {
+    background: linear-gradient(90deg,
+      rgba(255,51,51,0.07) 0%, rgba(255,51,51,0.035) 50%, rgba(255,51,51,0.07) 100%
+    ) !important;
+    border-bottom-color: rgba(255,51,51,0.2) !important;
+  }
+  #status-bar.sys-armed::after {
+    background: linear-gradient(90deg, transparent, rgba(255,51,51,0.15), transparent);
+    animation: bar-sweep 1.6s ease-in-out infinite alternate;
+  }
+  @keyframes armed-dot-pulse {
+    0%,100% { box-shadow: 0 0 7px rgba(255,51,51,0.6); transform: scale(1); }
+    50%     { box-shadow: 0 0 13px rgba(255,51,51,0.95), 0 0 24px rgba(255,51,51,0.35); transform: scale(1.25); }
+  }
+
+  /* ══ RESPONSIVE — MOBILE ════════════════════════════════════ */
+  @media (max-width: 768px) {
+
+    /* Allow full-page touch scroll */
+    html, body {
+      overflow: auto;
+      height: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Shell no longer forces 100vh */
+    #shell {
+      height: auto;
+      min-height: 100dvh;
+    }
+
+    /* Header: 2×3 grid — title+weather top row, clock full-width, arm full-width */
+    #header {
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto auto auto;
+      padding: 0.6rem 1rem 0.5rem;
+      gap: 0.1rem 0;
+    }
+    #header > div:first-child { grid-column: 1; grid-row: 1; align-self: center; }
+    #clock-wrap               { grid-column: 1 / -1; grid-row: 2; text-align: center; padding: 0.2rem 0 0.1rem; }
+    #right-panel              { grid-column: 2; grid-row: 1; gap: 0.6rem; }
+    #weather                  { text-align: right; }
+    #arm-wrap                 { order: -1; }
+    #arm-btn { flex-direction: row; gap: 0.45rem; padding: 0.32rem 0.7rem; }
+    #arm-icon { margin-bottom: 0; }
+
+    /* Scale clock with viewport, never oversized */
+    #clock      { font-size: clamp(1.75rem, 10vw, 3.4rem); }
+    #clock-date { font-size: clamp(0.5rem, 2.8vw, 0.78rem); margin-top: 0.15rem; }
+
+    /* Shrink SENTINEL title */
+    .sys-name { font-size: 1rem; letter-spacing: 0.14em; }
+    .sys-sub  { font-size: 0.48rem; letter-spacing: 0.18em; }
+
+    /* Compact weather — hide icon and meta row */
+    .wx-icon-wrap { display: none !important; }
+    #wx-inner     { justify-content: flex-end; gap: 0; }
+    .wx-temp { font-size: 1.35rem; }
+    .wx-cond { font-size: 0.68rem; }
+    .wx-meta { display: none; }
+
+    /* Status bar — trim for narrow screens */
+    #status-bar { padding: 0.28rem 1rem; gap: 0.4rem; }
+    .sys-divider { display: none; }
+    #zone-txt, #sync-txt { font-size: 0.5rem; letter-spacing: 0.08em; }
+
+    /* Alert ribbon */
+    #alert-ribbon { padding: 0.25rem 1rem; }
+
+    /* Main grid: single column, natural height, scrolls with page */
+    #main {
+      grid-template-columns: 1fr;
+      overflow: visible;
+      height: auto;
+      padding: 0.75rem 1rem 1.25rem;
+      gap: 1.25rem;
+    }
+
+    /* Tile lists: expand to full height (no internal scroll) */
+    .tile-list { overflow: visible; height: auto; flex: none; }
+    .col        { min-height: auto; }
+
+    /* Larger touch targets on tiles */
+    .tile { padding: 0.9rem 1rem; backdrop-filter: none; }
+
+    /* Footer */
+    #footer {
+      padding: 0.5rem 1rem;
+      flex-direction: column;
+      gap: 0.1rem;
+      text-align: center;
+    }
+    .ft-text { font-size: 0.45rem; }
+
+    /* Hide desktop-only click hint */
+    #hint { display: none; }
+
+    /* Gear button: slightly closer to edge */
+    #gear-btn { bottom: 0.75rem; right: 0.75rem; }
+
+    /* Settings panel: full-width on narrow phones */
+    #settings-panel { width: min(360px, 100%); }
+  }
+
+  /* Extra-small phones (< 400px) */
+  @media (max-width: 400px) {
+    #clock { font-size: clamp(1.5rem, 11vw, 2rem); }
+    .sys-name { font-size: 0.88rem; letter-spacing: 0.1em; }
+    #settings-panel { width: 100%; }
+    #header { padding: 0.5rem 0.75rem 0.4rem; }
+    #main   { padding: 0.6rem 0.75rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Background -->
+<div id="bg" aria-hidden="true"></div>
+<div id="grain" aria-hidden="true"></div>
+<div id="scanlines" aria-hidden="true"></div>
+
+<!-- Shell -->
+<div id="shell">
+
+  <!-- HEADER -->
+  <header id="header">
+    <!-- Left: system identity -->
+    <div>
+      <div class="sys-name">SENTINEL</div>
+      <div class="sys-sub">Home Security Control · Konnected.io</div>
+    </div>
+
+    <!-- Center: clock -->
+    <div id="clock-wrap">
+      <div id="clock">
+        <span id="ch">--</span><span class="c-sep">:</span><span id="cm">--</span><span class="c-sep">:</span><span id="cs">--</span>
+      </div>
+      <div id="clock-date">--- -- · ----</div>
+    </div>
+
+    <!-- Right panel: ARM button + weather -->
+    <div id="right-panel">
+      <div id="arm-wrap">
+        <button id="arm-btn" onclick="armToggle()">
+          <div id="arm-icon"></div>
+          <div id="arm-label">ARM</div>
+          <div id="arm-sub">READY</div>
+          <div id="arm-toast"></div>
+        </button>
+      </div>
+      <div id="weather">
+        <div id="wx-inner" style="display:flex;align-items:flex-start;justify-content:flex-end;gap:0.7rem;"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- STATUS BANNER -->
+  <div id="status-bar">
+    <div class="sys-dot" id="sys-dot"></div>
+    <span class="sys-label" id="sys-label">SYSTEM READY</span>
+    <span class="sys-divider">—</span>
+    <span class="sys-info" id="zone-txt">14 ZONES MONITORED</span>
+    <span class="sys-divider">—</span>
+    <span class="sys-info" id="sync-txt">ALL SENSORS NOMINAL</span>
+  </div>
+
+  <!-- ALERT RIBBON -->
+  <div id="alert-ribbon">
+    <svg width="10" height="10" viewBox="0 0 10 10"><polygon points="5,0 10,10 0,10" fill="#FF3333"/></svg>
+    <span id="alert-text">ALERT: ZONE TRIGGERED</span>
+  </div>
+
+  <!-- MAIN SENSOR GRID -->
+  <main id="main">
+
+    <!-- ENTRY POINTS (Doors) -->
+    <div class="col">
+      <div class="col-head">
+        <span class="col-label">Entry Points</span>
+        <div class="col-line"></div>
+        <span class="col-count" id="d-count">4 SENSORS</span>
+      </div>
+      <div class="tile-list" id="door-list"></div>
+    </div>
+
+    <!-- PERIMETER (Windows) -->
+    <div class="col">
+      <div class="col-head">
+        <span class="col-label">Perimeter</span>
+        <div class="col-line"></div>
+        <span class="col-count" id="w-count">6 SENSORS</span>
+      </div>
+      <div class="tile-list" id="win-list"></div>
+    </div>
+
+    <!-- MOTION DETECTION -->
+    <div class="col">
+      <div class="col-head">
+        <span class="col-label">Motion Detection</span>
+        <div class="col-line"></div>
+        <span class="col-count" id="m-count">4 SENSORS</span>
+      </div>
+      <div class="tile-list" id="mot-list"></div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <span class="ft-text">SENTINEL v1.0 &nbsp;·&nbsp; KONNECTED.IO INTEGRATION READY &nbsp;·&nbsp; ALPINE SECURITY</span>
+    <span class="ft-text" id="ft-time">LAST SYNC: --:--:--</span>
+  </footer>
+
+</div>
+
+<!-- Click hint (fades out) -->
+<div id="hint">[ CLICK ANY TILE TO SIMULATE STATE CHANGE ]</div>
+
+<!-- Log button -->
+<button id="log-btn" onclick="openLog()" title="Event Log">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <rect x="2.5" y="2.5" width="11" height="11" rx="1.5" stroke="currentColor" stroke-width="1.2"/>
+    <line x1="5" y1="5.5" x2="11" y2="5.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+    <line x1="5" y1="8" x2="11" y2="8" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+    <line x1="5" y1="10.5" x2="8.5" y2="10.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<!-- Gear button -->
+<button id="gear-btn" onclick="openSettings()" title="Settings">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.2" opacity="0.9"/>
+    <path d="M8 1.5 L8 3M8 13 L8 14.5M1.5 8 L3 8M13 8 L14.5 8M3.2 3.2 L4.3 4.3M11.7 11.7 L12.8 12.8M12.8 3.2 L11.7 4.3M4.3 11.7 L3.2 12.8"
+      stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<!-- Log backdrop -->
+<div id="log-backdrop" onclick="closeLog()"></div>
+
+<!-- Log panel -->
+<div id="log-panel">
+  <div class="log-head">
+    <div class="log-title">EVENT LOG</div>
+    <div class="log-head-btns">
+      <button class="log-clear-btn" onclick="clearLog()">CLEAR</button>
+      <button class="log-close-btn" onclick="closeLog()">✕</button>
+    </div>
+  </div>
+  <div class="log-body" id="log-body"></div>
+</div>
+
+<!-- Settings backdrop -->
+<div id="sp-backdrop" onclick="closeSettings()"></div>
+
+<!-- Settings panel -->
+<div id="settings-panel">
+  <div class="sp-head">
+    <div class="sp-title">SYSTEM CONFIGURATION</div>
+    <button class="sp-close" onclick="closeSettings()">✕</button>
+  </div>
+  <div class="sp-body">
+
+    <!-- Display Theme -->
+    <div class="sp-section" style="margin-bottom:1.2rem;">
+      <div class="sp-section-title">Display Theme</div>
+      <div class="sp-toggle">
+        <button class="toggle-opt active" id="theme-sentinel" onclick="setTheme('sentinel')">
+          <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#00C5F5;margin-right:6px;vertical-align:middle;box-shadow:0 0 5px #00C5F5;"></span>SENTINEL
+        </button>
+        <button class="toggle-opt" id="theme-alpine" onclick="setTheme('alpine')">
+          <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#33FF00;margin-right:6px;vertical-align:middle;box-shadow:0 0 5px #33FF00;"></span>ALPINE
+        </button>
+      </div>
+    </div>
+
+    <div class="sp-divider"></div>
+
+    <!-- Weather Service -->
+    <div class="sp-section">
+      <div class="sp-section-title">Weather Service</div>
+
+      <div class="sp-field">
+        <label class="sp-label">OpenWeatherMap API Key</label>
+        <input class="sp-input" type="password" id="cfg-key" placeholder="Paste your API key here…" autocomplete="off">
+        <div class="sp-hint">Free key at <a href="https://openweathermap.org/api" target="_blank">openweathermap.org/api</a> — new keys can take up to 2 hrs to activate</div>
+      </div>
+
+      <div class="sp-field">
+        <label class="sp-label">Location</label>
+        <input class="sp-input" type="text" id="cfg-loc" placeholder="e.g. Kansas City, MO  or  64101">
+        <div class="sp-hint">City name, City+State, or US ZIP code</div>
+      </div>
+
+      <div class="sp-field">
+        <label class="sp-label">Units</label>
+        <div class="sp-toggle">
+          <button class="toggle-opt active" id="unit-f" onclick="setUnit('imperial')">°F Imperial</button>
+          <button class="toggle-opt" id="unit-c" onclick="setUnit('metric')">°C Metric</button>
+        </div>
+      </div>
+
+      <button class="sp-save" id="sp-save-btn" onclick="saveSettings()">SAVE &amp; APPLY</button>
+      <div id="cfg-status"></div>
+    </div>
+
+    <div class="sp-divider"></div>
+
+    <!-- Konnected.io Hardware -->
+    <div class="sp-section">
+      <div class="sp-section-title">Konnected.io Panel</div>
+
+      <div class="sp-field">
+        <label class="sp-label">Hub IP Address</label>
+        <input class="sp-input" type="text" id="cfg-knx-host" placeholder="e.g. 192.168.1.100" autocomplete="off">
+        <div class="sp-hint">Local IP of your Konnected hub — check your router or the Konnected app</div>
+      </div>
+
+      <div class="sp-field">
+        <label class="sp-label">API Port</label>
+        <input class="sp-input" type="text" id="cfg-knx-port" placeholder="e.g. 8100" maxlength="5" autocomplete="off">
+        <div class="sp-hint">Find this in the Konnected app or by scanning your network — port varies per device</div>
+      </div>
+
+      <div class="sp-field">
+        <label class="sp-label">API Token <span style="color:rgba(0,197,245,0.3);font-size:0.55rem;">(optional)</span></label>
+        <input class="sp-input" type="password" id="cfg-knx-key" placeholder="Token if authentication is enabled" autocomplete="off">
+        <div class="sp-hint">Set in Konnected app under Security → API Token</div>
+      </div>
+
+      <button class="sp-save" id="knx-save-btn" onclick="saveKonnected()">SAVE &amp; TEST CONNECTION</button>
+      <div id="knx-status"></div>
+    </div>
+
+    <div class="sp-divider"></div>
+
+    <!-- About / Version -->
+    <div class="sp-section">
+      <div class="sp-section-title">System Info</div>
+      <div class="sp-info-row"><span class="sp-info-key">VERSION</span><span class="sp-info-val">SENTINEL v1.0</span></div>
+      <div class="sp-info-row"><span class="sp-info-key">PLATFORM</span><span class="sp-info-val">Konnected.io</span></div>
+      <div class="sp-info-row"><span class="sp-info-key">PANEL</span><span class="sp-info-val" id="sp-knx-status">Not configured</span></div>
+      <div class="sp-info-row"><span class="sp-info-key">WEATHER</span><span class="sp-info-val" id="sp-wx-status">Not configured</span></div>
+      <div class="sp-info-row"><span class="sp-info-key">WX REFRESH</span><span class="sp-info-val">Every 10 minutes</span></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// SETTINGS — localStorage persistence
+// ═══════════════════════════════════════════════════════════════
+const CFG_KEY = 'sentinel_cfg';
+function loadCfg() {
+  try { return JSON.parse(localStorage.getItem(CFG_KEY)) || {}; } catch(e) { return {}; }
+}
+function saveCfg(obj) {
+  localStorage.setItem(CFG_KEY, JSON.stringify(obj));
+}
+
+// ═══════════════════════════════════════════════════════════════
+// THEME
+// ═══════════════════════════════════════════════════════════════
+function setTheme(t, save = true) {
+  if (t === 'alpine') {
+    document.documentElement.setAttribute('data-theme', 'alpine');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
+  const btnS = document.getElementById('theme-sentinel');
+  const btnA = document.getElementById('theme-alpine');
+  if (btnS) btnS.classList.toggle('active', t !== 'alpine');
+  if (btnA) btnA.classList.toggle('active', t === 'alpine');
+  if (save) {
+    const cfg = loadCfg();
+    cfg.theme = t;
+    saveCfg(cfg);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SETTINGS PANEL
+// ═══════════════════════════════════════════════════════════════
+let _unit = 'imperial';
+
+function openSettings() {
+  const cfg = loadCfg();
+  const t = cfg.theme || 'sentinel';
+  document.getElementById('theme-sentinel').classList.toggle('active', t !== 'alpine');
+  document.getElementById('theme-alpine').classList.toggle('active', t === 'alpine');
+  document.getElementById('cfg-key').value = cfg.owm_key  || '';
+  document.getElementById('cfg-loc').value = cfg.owm_loc  || '';
+  _unit = cfg.owm_units || 'imperial';
+  setUnit(_unit, false);
+  document.getElementById('cfg-status').textContent = '';
+  document.getElementById('cfg-status').className   = '';
+  document.getElementById('sp-wx-status').textContent =
+    cfg.owm_key ? `${cfg.owm_loc || '?'} (${_unit === 'imperial' ? '°F' : '°C'})` : 'Not configured';
+
+  document.getElementById('cfg-knx-host').value = cfg.knx_host || '';
+  document.getElementById('cfg-knx-port').value = cfg.knx_port || '';
+  document.getElementById('cfg-knx-key').value  = cfg.knx_key  || '';
+  document.getElementById('knx-status').textContent = '';
+  document.getElementById('knx-status').className   = '';
+  document.getElementById('sp-knx-status').textContent =
+    cfg.knx_host ? `${cfg.knx_host}:${cfg.knx_port || '??'}` : 'Not configured';
+
+  document.getElementById('sp-backdrop').classList.add('open');
+  document.getElementById('settings-panel').classList.add('open');
+}
+
+function closeSettings() {
+  document.getElementById('sp-backdrop').classList.remove('open');
+  document.getElementById('settings-panel').classList.remove('open');
+}
+
+function setUnit(u, save = true) {
+  _unit = u;
+  document.getElementById('unit-f').classList.toggle('active', u === 'imperial');
+  document.getElementById('unit-c').classList.toggle('active', u === 'metric');
+}
+
+async function saveSettings() {
+  const key = document.getElementById('cfg-key').value.trim();
+  const loc = document.getElementById('cfg-loc').value.trim();
+  const btn = document.getElementById('sp-save-btn');
+  const st  = document.getElementById('cfg-status');
+
+  if (!key || !loc) {
+    st.textContent = '⚠ API key and location are required.';
+    st.className = 'err';
+    return;
+  }
+
+  st.textContent = 'TESTING CONNECTION…';
+  st.className = 'busy';
+  btn.disabled = true;
+
+  const result = await fetchWeather(key, loc, _unit);
+
+  if (result === true) {
+    const cfg = loadCfg();
+    saveCfg({ ...cfg, owm_key: key, owm_loc: loc, owm_units: _unit });
+    document.getElementById('sp-wx-status').textContent = `${loc} (${_unit === 'imperial' ? '°F' : '°C'})`;
+    st.textContent = '✓ WEATHER UPDATED SUCCESSFULLY';
+    st.className = 'ok';
+  } else {
+    st.textContent = result; // specific error message string
+    st.className = 'err';
+  }
+  btn.disabled = false;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// KONNECTED — save & test connection
+// ═══════════════════════════════════════════════════════════════
+async function saveKonnected() {
+  const host = document.getElementById('cfg-knx-host').value.trim();
+  const port = document.getElementById('cfg-knx-port').value.trim();
+  const key  = document.getElementById('cfg-knx-key').value.trim();
+  const btn  = document.getElementById('knx-save-btn');
+  const st   = document.getElementById('knx-status');
+
+  if (!host) {
+    st.textContent = '⚠ Hub IP address is required.';
+    st.className = 'err';
+    return;
+  }
+  if (!port) {
+    st.textContent = '⚠ Port is required — find it in the Konnected app.';
+    st.className = 'err';
+    return;
+  }
+
+  // Persist immediately — user may not have auth enabled
+  const cfg = loadCfg();
+  cfg.knx_host = host;
+  cfg.knx_port = port;
+  cfg.knx_key  = key;
+  saveCfg(cfg);
+  document.getElementById('sp-knx-status').textContent = `${host}:${port}`;
+
+  st.textContent = 'TESTING CONNECTION…';
+  st.className = 'busy';
+  btn.disabled = true;
+
+  try {
+    const headers = key ? { 'Authorization': `Bearer ${key}` } : {};
+    const res = await fetch(`http://${host}:${port}/text_sensor/device_id`, {
+      method: 'GET', headers,
+      signal: AbortSignal.timeout(5000),
+    });
+    if (res.ok) {
+      let label = 'CONNECTED';
+      try {
+        const j = await res.json();
+        const id = j.value || j.state;
+        if (id) label = `CONNECTED · ${id}`;
+      } catch(_) {}
+      st.textContent = `✓ ${label}`;
+      st.className = 'ok';
+    } else if (res.status === 401) {
+      st.textContent = '✕ AUTH REQUIRED — Add your API token above';
+      st.className = 'err';
+    } else {
+      st.textContent = `✕ ERROR ${res.status} — Check IP and port`;
+      st.className = 'err';
+    }
+  } catch(e) {
+    const msg = e.name === 'TimeoutError'
+      ? '✕ TIMEOUT — Hub not reachable. Check IP and that you\'re on the same network'
+      : '✕ UNREACHABLE — Verify the IP address and port';
+    st.textContent = msg;
+    st.className = 'err';
+  }
+  btn.disabled = false;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// WEATHER ICONS (SVG generators)
+// ═══════════════════════════════════════════════════════════════
+const WX_SUN  = `rgba(255,210,0,0.82)`;
+const WX_RAY  = `rgba(255,210,0,0.7)`;
+const WX_CLD  = `rgba(195,225,245,0.7)`;
+const WX_CLD2 = `rgba(160,200,230,0.2)`;
+const WX_RAIN = `rgba(100,170,255,0.8)`;
+const WX_SNOW = `rgba(210,235,255,0.85)`;
+const WX_BOLT = `rgba(255,220,60,0.9)`;
+const WX_MOON = `rgba(210,230,255,0.8)`;
+
+function wxIconSun() {
+  return `<svg width="52" height="46" viewBox="0 0 52 46" fill="none" style="margin-top:4px;flex-shrink:0;">
+    <circle cx="26" cy="23" r="9" fill="rgba(255,210,0,0.1)"/>
+    <circle cx="26" cy="23" r="6.5" fill="${WX_SUN}"/>
+    <line x1="26" y1="10" x2="26" y2="7.5" stroke="${WX_RAY}" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="26" y1="36" x2="26" y2="38.5" stroke="${WX_RAY}" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="13" y1="23" x2="10.5" y2="23" stroke="${WX_RAY}" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="39" y1="23" x2="41.5" y2="23" stroke="${WX_RAY}" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="17.8" y1="14.8" x2="16" y2="13" stroke="${WX_RAY}" stroke-width="1.3" stroke-linecap="round"/>
+    <line x1="34.2" y1="31.2" x2="36" y2="33" stroke="${WX_RAY}" stroke-width="1.3" stroke-linecap="round"/>
+    <line x1="34.2" y1="14.8" x2="36" y2="13" stroke="${WX_RAY}" stroke-width="1.3" stroke-linecap="round"/>
+    <line x1="17.8" y1="31.2" x2="16" y2="33" stroke="${WX_RAY}" stroke-width="1.3" stroke-linecap="round"/>
+  </svg>`;
+}
+
+function wxIconMoon() {
+  return `<svg width="52" height="46" viewBox="0 0 52 46" fill="none" style="margin-top:4px;flex-shrink:0;">
+    <path d="M30 10 C20 12 14 20 16 30 C18 38 26 43 34 41 C28 42 20 37 18 29 C16 21 21 14 30 10Z" fill="${WX_MOON}"/>
+    <circle cx="36" cy="12" r="1.2" fill="${WX_MOON}" opacity="0.5"/>
+    <circle cx="42" cy="20" r="0.8" fill="${WX_MOON}" opacity="0.4"/>
+    <circle cx="38" cy="28" r="1" fill="${WX_MOON}" opacity="0.35"/>
+  </svg>`;
+}
+
+function wxIconPartlyCloudy(isDay) {
+  const sun = isDay
+    ? `<circle cx="36" cy="13" r="8" fill="rgba(255,210,0,0.08)"/>
+       <circle cx="36" cy="13" r="5.5" fill="${WX_SUN}"/>
+       <line x1="36" y1="4"  x2="36" y2="2.2" stroke="${WX_RAY}" stroke-width="1.4" stroke-linecap="round"/>
+       <line x1="36" y1="22" x2="36" y2="23.8" stroke="${WX_RAY}" stroke-width="1.4" stroke-linecap="round"/>
+       <line x1="27" y1="13" x2="25.2" y2="13" stroke="${WX_RAY}" stroke-width="1.4" stroke-linecap="round"/>
+       <line x1="45" y1="13" x2="46.8" y2="13" stroke="${WX_RAY}" stroke-width="1.4" stroke-linecap="round"/>
+       <line x1="29.6" y1="6.6"  x2="28.3" y2="5.3"  stroke="${WX_RAY}" stroke-width="1.2" stroke-linecap="round"/>
+       <line x1="42.4" y1="19.4" x2="43.7" y2="20.7" stroke="${WX_RAY}" stroke-width="1.2" stroke-linecap="round"/>
+       <line x1="42.4" y1="6.6"  x2="43.7" y2="5.3"  stroke="${WX_RAY}" stroke-width="1.2" stroke-linecap="round"/>
+       <line x1="29.6" y1="19.4" x2="28.3" y2="20.7" stroke="${WX_RAY}" stroke-width="1.2" stroke-linecap="round"/>`
+    : `<path d="M38 6 C31 8 27 14 29 21 C31 27 37 30 43 28 C38 30 30 26 29 19 C28 12 32 7 38 6Z" fill="${WX_MOON}"/>`;
+  return `<svg width="52" height="46" viewBox="0 0 52 46" fill="none" style="margin-top:2px;flex-shrink:0;">
+    ${sun}
+    <path d="M5 38 C5 31.5 10.5 26 17.5 26 C19.8 26 22 26.8 23.8 28.1 C25 24 28.8 21 33.5 21 C40 21 45.2 26.2 45.2 32.7 C47.2 34.6 48.6 36.8 48.6 39.4 C48.6 43.1 45.5 46 41.7 46 L8.3 46 C6.5 46 5 44.2 5 38 Z"
+      fill="${WX_CLD2}" stroke="rgba(160,200,230,0.25)" stroke-width="0.7"/>
+    <path d="M3 39.5 C3 34 7.8 29.5 13.8 29.5 C15.8 29.5 17.7 30.1 19.3 31.2 C20.7 27.8 24 25.5 27.8 25.5 C33.2 25.5 37.5 29.8 37.5 35.2 C38.8 35.9 39.8 37.2 39.8 38.8 C39.8 41.1 37.9 43 35.6 43 L6.4 43 C4.5 43 3 41.4 3 39.5 Z"
+      fill="${WX_CLD}" stroke="rgba(195,225,245,0.45)" stroke-width="0.6"/>
+  </svg>`;
+}
+
+function wxIconCloud() {
+  return `<svg width="52" height="46" viewBox="0 0 52 46" fill="none" style="margin-top:8px;flex-shrink:0;">
+    <path d="M5 36 C5 28 11.5 22 19.5 22 C22.5 22 25.2 23 27.5 24.8 C29.3 20.2 33.8 17 39 17 C46.5 17 52 22.5 52 30 C52 30.3 52 30.6 51.9 30.9 C52 31 52 31 52 31 C52 36 47.5 40 42 40 L10 40 C7.2 40 5 38.2 5 36 Z"
+      fill="rgba(155,195,225,0.15)" stroke="rgba(155,195,225,0.25)" stroke-width="0.8"/>
+    <path d="M2 38 C2 31.5 7.5 26 14.5 26 C17 26 19.3 26.8 21.2 28.2 C22.8 24.5 26.5 22 30.8 22 C37.2 22 42.2 27 42.2 33.4 C43.8 34.2 45 35.8 45 37.5 C45 40.5 42.5 43 39.5 43 L6 43 C3.8 43 2 40.8 2 38 Z"
+      fill="${WX_CLD}" stroke="rgba(195,225,245,0.45)" stroke-width="0.6"/>
+  </svg>`;
+}
+
+function wxIconRain() {
+  return `<svg width="52" height="46" viewBox="0 0 52 46" fill="none" style="margin-top:2px;flex-shrink:0;">
+    <path d="M3 26 C3 20 8 15 14.5 15 C16.8 15 18.9 15.7 20.7 16.9 C22.2 13.5 25.8 11 30 11 C36.1 11 41 15.9 41 22 C42.5 22.7 43.5 24.2 43.5 26 C43.5 28.8 41.2 31 38.5 31 L6 31 C4.2 31 3 28.8 3 26 Z"
+      fill="${WX_CLD}" stroke="rgba(195,225,245,0.4)" stroke-width="0.7"/>
+    <line x1="10" y1="34" x2="7"  y2="42" stroke="${WX_RAIN}" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="18" y1="34" x2="15" y2="42" stroke="${WX_RAIN}" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="26" y1="34" x2="23" y2="42" stroke="${WX_RAIN}" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="34" y1="34" x2="31" y2="42" stroke="${WX_RAIN}" stroke-width="1.4" stroke-linecap="round"/>
+  </svg>`;
+}
+
+function wxIconThunder() {
+  return `<svg width="52" height="46" viewBox="0 0 52 46" fill="none" style="margin-top:2px;flex-shrink:0;">
+    <path d="M3 24 C3 18 8 13 14.5 13 C16.8 13 18.9 13.7 20.7 14.9 C22.2 11.5 25.8 9 30 9 C36.1 9 41 13.9 41 20 C42.5 20.7 43.5 22.2 43.5 24 C43.5 26.8 41.2 29 38.5 29 L6 29 C4.2 29 3 26.8 3 24 Z"
+      fill="rgba(160,185,220,0.65)" stroke="rgba(195,225,245,0.35)" stroke-width="0.7"/>
+    <polyline points="24,30 18,39 23,39 17,46" stroke="${WX_BOLT}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <line x1="10" y1="32" x2="8"  y2="38" stroke="${WX_RAIN}" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+    <line x1="34" y1="32" x2="32" y2="38" stroke="${WX_RAIN}" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+  </svg>`;
+}
+
+function wxIconSnow() {
+  return `<svg width="52" height="46" viewBox="0 0 52 46" fill="none" style="margin-top:2px;flex-shrink:0;">
+    <path d="M3 25 C3 19 8 14 14.5 14 C16.8 14 18.9 14.7 20.7 15.9 C22.2 12.5 25.8 10 30 10 C36.1 10 41 14.9 41 21 C42.5 21.7 43.5 23.2 43.5 25 C43.5 27.8 41.2 30 38.5 30 L6 30 C4.2 30 3 27.8 3 25 Z"
+      fill="${WX_CLD}" stroke="rgba(195,225,245,0.4)" stroke-width="0.7"/>
+    <text x="9"  y="44" font-size="11" fill="${WX_SNOW}" text-anchor="middle" font-family="serif">❄</text>
+    <text x="22" y="44" font-size="11" fill="${WX_SNOW}" text-anchor="middle" font-family="serif">❄</text>
+    <text x="35" y="44" font-size="11" fill="${WX_SNOW}" text-anchor="middle" font-family="serif">❄</text>
+  </svg>`;
+}
+
+function wxIconFog() {
+  return `<svg width="52" height="46" viewBox="0 0 52 46" fill="none" style="margin-top:8px;flex-shrink:0;">
+    <line x1="4"  y1="16" x2="48" y2="16" stroke="rgba(180,215,235,0.5)" stroke-width="2" stroke-linecap="round"/>
+    <line x1="8"  y1="23" x2="44" y2="23" stroke="rgba(180,215,235,0.4)" stroke-width="2" stroke-linecap="round"/>
+    <line x1="4"  y1="30" x2="48" y2="30" stroke="rgba(180,215,235,0.35)" stroke-width="2" stroke-linecap="round"/>
+    <line x1="10" y1="37" x2="42" y2="37" stroke="rgba(180,215,235,0.25)" stroke-width="2" stroke-linecap="round"/>
+  </svg>`;
+}
+
+function wxIconDrizzle() {
+  return `<svg width="52" height="46" viewBox="0 0 52 46" fill="none" style="margin-top:2px;flex-shrink:0;">
+    <path d="M3 26 C3 20 8 15 14.5 15 C16.8 15 18.9 15.7 20.7 16.9 C22.2 13.5 25.8 11 30 11 C36.1 11 41 15.9 41 22 C42.5 22.7 43.5 24.2 43.5 26 C43.5 28.8 41.2 31 38.5 31 L6 31 C4.2 31 3 28.8 3 26 Z"
+      fill="${WX_CLD}" stroke="rgba(195,225,245,0.4)" stroke-width="0.7"/>
+    <line x1="13" y1="34" x2="11" y2="40" stroke="rgba(130,190,255,0.6)" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="22" y1="34" x2="20" y2="40" stroke="rgba(130,190,255,0.6)" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="31" y1="34" x2="29" y2="40" stroke="rgba(130,190,255,0.6)" stroke-width="1.2" stroke-linecap="round"/>
+  </svg>`;
+}
+
+function getWxIcon(condId, iconCode) {
+  const isDay = iconCode ? iconCode.endsWith('d') : true;
+  if (condId === 800)                    return isDay ? wxIconSun() : wxIconMoon();
+  if (condId >= 801 && condId <= 802)    return wxIconPartlyCloudy(isDay);
+  if (condId >= 803)                     return wxIconCloud();
+  if (condId >= 600 && condId < 700)     return wxIconSnow();
+  if (condId >= 500 && condId < 600)     return wxIconRain();
+  if (condId >= 300 && condId < 400)     return wxIconDrizzle();
+  if (condId >= 200 && condId < 300)     return wxIconThunder();
+  if (condId >= 700 && condId < 800)     return wxIconFog();
+  return wxIconPartlyCloudy(isDay);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// WEATHER — render widget
+// ═══════════════════════════════════════════════════════════════
+function windDir(deg) {
+  const dirs = ['N','NE','E','SE','S','SW','W','NW'];
+  return dirs[Math.round(deg / 45) % 8];
+}
+
+function renderWeather(data) {
+  const wrap = document.getElementById('wx-inner');
+  if (!data) {
+    wrap.innerHTML = `
+      <div style="text-align:right;padding-top:4px;">
+        <div class="wx-temp">--<span class="wx-unit">°</span></div>
+        <div class="wx-cond" style="color:rgba(0,197,245,0.35);">No weather data</div>
+        <div class="wx-meta">Click ⚙ to configure</div>
+      </div>`;
+    return;
+  }
+  const icon    = getWxIcon(data.condId, data.icon);
+  const unitSym = data.units === 'metric' ? 'C' : 'F';
+  const spd     = data.units === 'metric'
+    ? `${Math.round(data.wind)}m/s`
+    : `${Math.round(data.wind)}mph`;
+  wrap.innerHTML = `
+    <div>
+      <div style="display:flex;align-items:center;justify-content:flex-end;gap:0.55rem;">
+        <div class="wx-icon-wrap">${icon}</div>
+        <div class="wx-temp">${Math.round(data.temp)}<span class="wx-unit">°${unitSym}</span></div>
+        <div class="wx-cond">${data.desc}</div>
+      </div>
+      <div class="wx-meta" style="text-align:right;">Feels ${Math.round(data.feels)}° &nbsp;·&nbsp; ${data.humidity}% RH &nbsp;·&nbsp; ${spd} ${windDir(data.windDeg)}</div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// WEATHER — fetch from OWM
+// Returns true on success, or an error string on failure
+// ═══════════════════════════════════════════════════════════════
+async function fetchWeather(key, loc, units) {
+  try {
+    const cleanKey = key.trim();
+    const cleanLoc = loc.trim();
+
+    // ZIP code detection (5 digits, US format)
+    const isZip = /^\d{5}$/.test(cleanLoc);
+    const param = isZip
+      ? `zip=${encodeURIComponent(cleanLoc)},US`
+      : `q=${encodeURIComponent(cleanLoc)}`;
+
+    const url = `https://api.openweathermap.org/data/2.5/weather?${param}&appid=${cleanKey}&units=${units}`;
+    const res = await fetch(url);
+    const j   = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      if (res.status === 401) return '✕ INVALID API KEY — Check your key at openweathermap.org';
+      if (res.status === 404) return `✕ LOCATION NOT FOUND — Try "City, ST" format or ZIP`;
+      if (res.status === 429) return '✕ RATE LIMITED — Too many requests, try again shortly';
+      return `✕ ERROR ${res.status}: ${j.message || 'Request failed'}`;
+    }
+
+    renderWeather({
+      temp:     j.main.temp,
+      feels:    j.main.feels_like,
+      humidity: j.main.humidity,
+      wind:     j.wind.speed,
+      windDeg:  j.wind.deg || 0,
+      desc:     j.weather[0].description.replace(/\b\w/g, c => c.toUpperCase()),
+      condId:   j.weather[0].id,
+      icon:     j.weather[0].icon,
+      units,
+    });
+    return true;
+  } catch(e) {
+    return '✕ NETWORK ERROR — Check your connection';
+  }
+}
+
+function initWeather() {
+  const cfg = loadCfg();
+  if (cfg.owm_key && cfg.owm_loc) {
+    const units = cfg.owm_units || 'imperial';
+    fetchWeather(cfg.owm_key, cfg.owm_loc, units);
+    setInterval(() => fetchWeather(cfg.owm_key, cfg.owm_loc, units), 10 * 60 * 1000);
+  } else {
+    renderWeather(null);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════════════
+const db = {
+  doors: [
+    { id:'d1', name:'Front Door',  zone:'Zone 1', st:'secure',     last:'2 min ago',   knx:'KNX-A1' },
+    { id:'d2', name:'Back Door',   zone:'Zone 2', st:'secure',     last:'14 min ago',  knx:'KNX-A2' },
+    { id:'d3', name:'Garage Door', zone:'Zone 3', st:'alert',      last:'Just now',    knx:'KNX-A3' },
+    { id:'d4', name:'Side Gate',   zone:'Zone 4', st:'secure',     last:'1 hr ago',    knx:'KNX-A4' },
+  ],
+  windows: [
+    { id:'w1', name:'Living Room',    zone:'Zone 5',  st:'secure', last:'3 hr ago',   knx:'KNX-B1' },
+    { id:'w2', name:'Master Bedroom', zone:'Zone 6',  st:'secure', last:'8 hr ago',   knx:'KNX-B2' },
+    { id:'w3', name:'Kitchen',        zone:'Zone 7',  st:'alert',  last:'5 min ago',  knx:'KNX-B3' },
+    { id:'w4', name:'Basement',       zone:'Zone 8',  st:'secure', last:'1 day ago',  knx:'KNX-B4' },
+    { id:'w5', name:'Office',         zone:'Zone 9',  st:'secure', last:'2 hr ago',   knx:'KNX-B5' },
+    { id:'w6', name:'Guest Room',     zone:'Zone 10', st:'secure', last:'3 days ago', knx:'KNX-B6' },
+  ],
+  motion: [
+    { id:'m1', name:'Living Room', zone:'Zone 11', st:'motion-on', last:'Just now',  knx:'KNX-C1' },
+    { id:'m2', name:'Kitchen',     zone:'Zone 12', st:'clear',     last:'22 min ago',knx:'KNX-C2' },
+    { id:'m3', name:'Hallway',     zone:'Zone 13', st:'clear',     last:'45 min ago',knx:'KNX-C3' },
+    { id:'m4', name:'Backyard',    zone:'Zone 14', st:'clear',     last:'3 hr ago',  knx:'KNX-C4' },
+  ],
+};
+
+// ═══════════════════════════════════════════════════════════════
+// SVG ICONS
+// ═══════════════════════════════════════════════════════════════
+function doorSVG(st, animating = false) {
+  const c  = st === 'alert' ? 'rgba(255,70,50,0.92)'  : 'rgba(0,197,245,0.65)';
+  const cf = st === 'alert' ? 'rgba(255,70,50,0.08)'  : 'rgba(0,197,245,0.05)';
+  const cs = st === 'alert' ? 'rgba(255,70,50,0.38)'  : 'rgba(0,197,245,0.28)';
+
+  // Panel swings around its left edge (hinge side)
+  let panelClass = 'door-panel';
+  if (animating) {
+    panelClass += st === 'alert' ? ' door-opening' : ' door-closing';
+  } else if (st === 'alert') {
+    panelClass += ' door-open';
+  }
+
+  return `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" overflow="hidden">
+    <!-- Door frame (full rect — no missing top) -->
+    <rect x="3" y="2" width="22" height="23" rx="0.5" stroke="${c}" stroke-width="1.5" fill="none"/>
+    <!-- Floor threshold -->
+    <line x1="1" y1="25" x2="27" y2="25" stroke="${c}" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
+    <!-- Hinge dots on frame left (always visible) -->
+    <circle cx="4.5" cy="6.5"  r="0.9" fill="${c}" opacity="0.55"/>
+    <circle cx="4.5" cy="20.5" r="0.9" fill="${c}" opacity="0.55"/>
+    <!-- Door panel group — swings open via scaleX -->
+    <g class="${panelClass}">
+      <!-- Panel fill -->
+      <rect x="3.5" y="2.5" width="21" height="22" fill="${cf}"/>
+      <!-- Upper inset panel -->
+      <rect x="6" y="4.5" width="15.5" height="7" rx="0.5" stroke="${cs}" stroke-width="0.8" fill="none"/>
+      <!-- Lower inset panel -->
+      <rect x="6" y="13.5" width="15.5" height="8.5" rx="0.5" stroke="${cs}" stroke-width="0.8" fill="none"/>
+      <!-- Knob -->
+      <circle cx="21.5" cy="13.5" r="1.5" fill="${c}" opacity="0.9"/>
+      <line x1="19.5" y1="13.5" x2="21.5" y2="13.5" stroke="${c}" stroke-width="1" opacity="0.7"/>
+    </g>
+  </svg>`;
+}
+
+function winSVG(st, animating = false) {
+  const c  = st === 'alert' ? 'rgba(255,70,50,0.92)'  : 'rgba(0,197,245,0.65)';
+  const cf = st === 'alert' ? 'rgba(255,70,50,0.05)'  : 'rgba(0,197,245,0.04)';
+  const cs = st === 'alert' ? 'rgba(255,70,50,0.45)'  : 'rgba(0,197,245,0.35)';
+
+  // Bottom sash: wsash-opening = slides up (opening), wsash-closing = slides down (closing)
+  let sashClass = 'wsash-bottom';
+  if (animating) {
+    sashClass += st === 'alert' ? ' wsash-opening' : ' wsash-closing';
+  } else if (st === 'alert') {
+    sashClass += ' wsash-open';
+  }
+
+  return `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" overflow="hidden">
+    <!-- Outer window frame -->
+    <rect x="2" y="2" width="24" height="24" rx="0.5" fill="${cf}" stroke="${c}" stroke-width="1.4"/>
+    <!-- Top sash glass (fixed) -->
+    <rect x="3.5" y="3.5" width="21" height="9" fill="${cf}"/>
+    <!-- Top sash center divider (fixed) -->
+    <line x1="14" y1="3.5" x2="14" y2="12.5" stroke="${c}" stroke-width="1" opacity="0.8"/>
+    <!-- Bottom sash group — translates up when open -->
+    <g class="${sashClass}">
+      <!-- Meeting rail at top of bottom sash -->
+      <rect x="2" y="13.5" width="24" height="2.2" rx="0.3" fill="${cs}" opacity="0.7"/>
+      <!-- Bottom sash glass -->
+      <rect x="3.5" y="15.7" width="21" height="8" fill="${cf}"/>
+      <!-- Bottom sash center divider -->
+      <line x1="14" y1="15.7" x2="14" y2="23.7" stroke="${c}" stroke-width="1" opacity="0.8"/>
+      <!-- Lift handle -->
+      <rect x="10" y="21.8" width="8" height="1.5" rx="0.75" fill="${c}" opacity="0.65"/>
+    </g>
+  </svg>`;
+}
+
+function garageDoorSVG(st, animating = false) {
+  const c  = st === 'alert' ? 'rgba(255,70,50,0.92)'  : 'rgba(0,197,245,0.65)';
+  const cf = st === 'alert' ? 'rgba(255,70,50,0.10)'  : 'rgba(0,197,245,0.06)';
+  const cs = st === 'alert' ? 'rgba(255,70,50,0.42)'  : 'rgba(0,197,245,0.28)'; // slat lines
+  const ct = st === 'alert' ? 'rgba(255,70,50,0.55)'  : 'rgba(0,197,245,0.4)';  // tracks
+
+  // Panel animation class: animating overrides static clip
+  let panelClass = 'gdoor-panel';
+  if (animating) {
+    panelClass += st === 'alert' ? ' gdoor-opening' : ' gdoor-closing';
+  } else if (st === 'alert') {
+    panelClass += ' gdoor-open';
+  }
+
+  return `<svg width="28" height="28" viewBox="0 0 28 28" fill="none" overflow="hidden">
+    <!-- Left track channel -->
+    <rect x="1" y="1.5" width="2.2" height="23.5" rx="0.6" fill="${ct}" opacity="0.45"/>
+    <!-- Right track channel -->
+    <rect x="24.8" y="1.5" width="2.2" height="23.5" rx="0.6" fill="${ct}" opacity="0.45"/>
+    <!-- Top header board -->
+    <rect x="1" y="1.5" width="26" height="2" rx="0.5" fill="${ct}" opacity="0.55"/>
+    <!-- Threshold / floor line -->
+    <line x1="1" y1="26" x2="27" y2="26" stroke="${c}" stroke-width="1.6" stroke-linecap="round" opacity="0.75"/>
+
+    <!-- Door panel (clip-animated) -->
+    <g class="${panelClass}">
+      <!-- Panel fill -->
+      <rect x="3.2" y="3.5" width="21.6" height="21.5" fill="${cf}"/>
+      <!-- Slat lines — 4 panels -->
+      <line x1="3.2" y1="8.9"  x2="24.8" y2="8.9"  stroke="${cs}" stroke-width="0.9" stroke-linecap="round"/>
+      <line x1="3.2" y1="14.3" x2="24.8" y2="14.3" stroke="${cs}" stroke-width="0.9" stroke-linecap="round"/>
+      <line x1="3.2" y1="19.7" x2="24.8" y2="19.7" stroke="${cs}" stroke-width="0.9" stroke-linecap="round"/>
+      <!-- Subtle vertical center crease (panel symmetry) -->
+      <line x1="14" y1="3.5" x2="14" y2="25" stroke="${cs}" stroke-width="0.4" opacity="0.5"/>
+      <!-- Panel border -->
+      <rect x="3.2" y="3.5" width="21.6" height="21.5" stroke="${c}" stroke-width="0.7" opacity="0.5"/>
+      <!-- Pull handle bar -->
+      <rect x="9.5" y="22.2" width="9" height="1.8" rx="0.9" fill="${c}" opacity="0.75"/>
+    </g>
+  </svg>`;
+}
+
+function motionIcon(st) {
+  return `<div class="radar-wrap">
+    <div class="radar-rings"></div>
+    <div class="radar-sweep"></div>
+    <div class="radar-center"></div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════════
+function renderTile(s, type) {
+  const st = s.st;
+  let statusLabel, statusClass;
+  if (type === 'motion') {
+    statusLabel = st === 'motion-on' ? 'DETECTED' : 'CLEAR';
+    statusClass = st === 'motion-on' ? 'motion' : 'clear';
+  } else {
+    statusLabel = st === 'alert' ? 'OPEN' : 'SECURE';
+    statusClass = st === 'alert' ? 'alert' : 'secure';
+  }
+  const isGarage = type === 'door' && s.name.toLowerCase().includes('garage');
+  const icon = isGarage ? garageDoorSVG(st, _recentlyToggled.has(s.id))
+             : type === 'door' ? doorSVG(st, _recentlyToggled.has(s.id))
+             : type === 'window' ? winSVG(st, _recentlyToggled.has(s.id))
+             : motionIcon(st);
+  return `<div class="tile ${st}" id="tile-${s.id}" onclick="toggle('${s.id}','${type}')">
+    <div class="t-icon">${icon}</div>
+    <div class="t-body">
+      <div class="t-zone">${s.zone} &nbsp;·&nbsp; ${s.knx}</div>
+      <div class="t-name">${s.name}</div>
+      <div class="t-event">Last: ${s.last}</div>
+    </div>
+    <div class="t-right">
+      <div class="t-dot"></div>
+      <div class="t-status ${statusClass}">${statusLabel}</div>
+    </div>
+  </div>`;
+}
+
+function render() {
+  document.getElementById('door-list').innerHTML = db.doors.map(s => renderTile(s,'door')).join('');
+  document.getElementById('win-list').innerHTML  = db.windows.map(s => renderTile(s,'window')).join('');
+  document.getElementById('mot-list').innerHTML  = db.motion.map(s => renderTile(s,'motion')).join('');
+  syncBanner();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ARM / DISARM
+// ═══════════════════════════════════════════════════════════════
+let _armed = false;
+
+function armIconSVG(armed) {
+  if (armed) {
+    // Lock (closed) — system armed
+    return `<svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+      <rect x="3" y="6.5" width="9" height="7" rx="1" stroke="rgba(255,70,50,0.78)" stroke-width="1" fill="rgba(255,51,51,0.1)"/>
+      <path d="M5 6.5 L5 4.5 C5 2.8 10 2.8 10 4.5 L10 6.5" stroke="rgba(255,70,50,0.72)" stroke-width="1" fill="none" stroke-linecap="round"/>
+      <circle cx="7.5" cy="10.5" r="1.2" fill="rgba(255,70,50,0.8)"/>
+    </svg>`;
+  } else {
+    // Shield with checkmark — system ready to arm
+    return `<svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+      <path d="M7.5 1.5 L13 4 L13 8.5 C13 11.5 10 13.8 7.5 14.5 C5 13.8 2 11.5 2 8.5 L2 4 Z"
+        stroke="rgba(0,230,118,0.58)" stroke-width="1" fill="rgba(0,230,118,0.06)"/>
+      <path d="M5 7.5 L6.8 9.3 L10.2 6" stroke="rgba(0,230,118,0.75)" stroke-width="1.2"
+        stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`;
+  }
+}
+
+function updateArmBtn() {
+  const btn   = document.getElementById('arm-btn');
+  const label = document.getElementById('arm-label');
+  const sub   = document.getElementById('arm-sub');
+  const icon  = document.getElementById('arm-icon');
+  if (!btn) return;
+
+  const allSensors = [...db.doors, ...db.windows, ...db.motion];
+  const notReady   = allSensors.some(s => s.st === 'alert' || s.st === 'motion-on');
+
+  if (_armed) {
+    btn.classList.add('armed');
+    btn.classList.remove('locked');
+    label.textContent = 'DISARM';
+    sub.textContent   = 'ARMED';
+    icon.innerHTML    = armIconSVG(true);
+    btn.title         = 'Click to disarm the security system';
+  } else if (notReady) {
+    btn.classList.remove('armed');
+    btn.classList.add('locked');
+    label.textContent = 'ARM';
+    sub.textContent   = 'ZONES OPEN';
+    icon.innerHTML    = armIconSVG(false);
+    btn.title         = 'Secure all zones before arming';
+  } else {
+    btn.classList.remove('armed', 'locked');
+    label.textContent = 'ARM';
+    sub.textContent   = 'READY';
+    icon.innerHTML    = armIconSVG(false);
+    btn.title         = 'Click to arm the security system';
+  }
+}
+
+function armToggle() {
+  if (_armed) {
+    logEvent('Security System', '—', '—', 'system', 'armed', 'disarmed');
+    _armed = false;
+    updateArmBtn();
+    syncBanner();
+    return;
+  }
+  const allSensors = [...db.doors, ...db.windows, ...db.motion];
+  const notReady   = allSensors.some(s => s.st === 'alert' || s.st === 'motion-on');
+  if (notReady) {
+    const btn   = document.getElementById('arm-btn');
+    const toast = document.getElementById('arm-toast');
+    btn.classList.add('shaking');
+    toast.textContent = 'SECURE ALL ZONES FIRST';
+    toast.classList.add('show');
+    setTimeout(() => {
+      btn.classList.remove('shaking');
+      toast.classList.remove('show');
+    }, 2100);
+    return;
+  }
+  logEvent('Security System', '—', '—', 'system', 'disarmed', 'armed');
+  _armed = true;
+  updateArmBtn();
+  syncBanner();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// EVENT LOG
+// ═══════════════════════════════════════════════════════════════
+const LOG_KEY = 'sentinel_log';
+const LOG_MAX = 200;
+let eventLog = [];
+
+function saveLog() {
+  try { localStorage.setItem(LOG_KEY, JSON.stringify(eventLog)); } catch(e) {}
+}
+function loadLog() {
+  try { eventLog = JSON.parse(localStorage.getItem(LOG_KEY)) || []; } catch(e) { eventLog = []; }
+}
+
+function logEvent(name, zone, knx, type, oldSt, newSt) {
+  eventLog.unshift({ ts: Date.now(), name, zone, knx, type, oldSt, newSt });
+  if (eventLog.length > LOG_MAX) eventLog.length = LOG_MAX;
+  saveLog();
+  const panel = document.getElementById('log-panel');
+  if (panel && panel.classList.contains('open')) renderLog();
+}
+
+function openLog() {
+  renderLog();
+  document.getElementById('log-backdrop').classList.add('open');
+  document.getElementById('log-panel').classList.add('open');
+}
+function closeLog() {
+  document.getElementById('log-backdrop').classList.remove('open');
+  document.getElementById('log-panel').classList.remove('open');
+}
+function clearLog() {
+  eventLog = [];
+  saveLog();
+  renderLog();
+}
+
+function _formatTime(ts) {
+  const d = new Date(ts);
+  let h = d.getHours(), m = d.getMinutes();
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  return `${h}:${String(m).padStart(2,'0')} ${ampm}`;
+}
+function _formatDate(ts) {
+  const d = new Date(ts);
+  const today = new Date();
+  const yesterday = new Date(today); yesterday.setDate(today.getDate() - 1);
+  if (d.toDateString() === today.toDateString()) return 'Today';
+  if (d.toDateString() === yesterday.toDateString()) return 'Yesterday';
+  return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+}
+function _stateLabel(type, st) {
+  if (type === 'system') return st === 'armed' ? 'Armed' : 'Disarmed';
+  if (type === 'motion')  return st === 'motion-on' ? 'Motion Detected' : 'Cleared';
+  return st === 'alert' ? 'Opened' : 'Closed';
+}
+function _stateCls(type, st) {
+  if (type === 'system') return st === 'armed' ? 'st-armed' : 'st-disarm';
+  if (type === 'motion') return st === 'motion-on' ? 'st-motion' : 'st-clear';
+  return st === 'alert' ? 'st-open' : 'st-closed';
+}
+function _categoryLabel(type) {
+  if (type === 'door')   return 'Security System · Door';
+  if (type === 'window') return 'Security System · Window';
+  if (type === 'motion') return 'Security System · Motion';
+  return 'Security System';
+}
+
+function renderLog() {
+  const body = document.getElementById('log-body');
+  if (!body) return;
+  if (!eventLog.length) {
+    body.innerHTML = `<div class="log-empty">
+      <svg class="log-empty-icon" width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <rect x="5" y="5" width="22" height="22" rx="3" stroke="rgba(0,197,245,0.4)" stroke-width="1.5"/>
+        <line x1="10" y1="11" x2="22" y2="11" stroke="rgba(0,197,245,0.4)" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="10" y1="16" x2="22" y2="16" stroke="rgba(0,197,245,0.4)" stroke-width="1.3" stroke-linecap="round"/>
+        <line x1="10" y1="21" x2="17" y2="21" stroke="rgba(0,197,245,0.4)" stroke-width="1.3" stroke-linecap="round"/>
+      </svg>
+      <span>NO EVENTS RECORDED</span>
+      <span style="font-size:0.5rem;opacity:0.6;">Events appear here when sensors change state</span>
+    </div>`;
+    return;
+  }
+  // Group by date
+  const groups = {};
+  for (const e of eventLog) {
+    const key = _formatDate(e.ts);
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(e);
+  }
+  let html = '';
+  for (const [date, entries] of Object.entries(groups)) {
+    html += `<div class="log-date-group"><div class="log-date-label">${date}</div>`;
+    for (const e of entries) {
+      html += `<div class="log-entry">
+        <div class="log-time">${_formatTime(e.ts)}</div>
+        <div class="log-info">
+          <div class="log-device">${e.name}</div>
+          <div class="log-category">${_categoryLabel(e.type)}</div>
+        </div>
+        <div class="log-state ${_stateCls(e.type, e.newSt)}">${_stateLabel(e.type, e.newSt)}</div>
+      </div>`;
+    }
+    html += `</div>`;
+  }
+  body.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TOGGLE (click)
+// ═══════════════════════════════════════════════════════════════
+const _recentlyToggled = new Set();
+
+function toggle(id, type) {
+  let list = type === 'door' ? db.doors : type === 'window' ? db.windows : db.motion;
+  const s = list.find(x => x.id === id);
+  if (!s) return;
+  const oldSt = s.st;
+  if (type === 'motion') {
+    s.st   = s.st === 'motion-on' ? 'clear' : 'motion-on';
+    s.last = s.st === 'motion-on' ? 'Just now' : 'Cleared';
+  } else {
+    s.st   = s.st === 'alert' ? 'secure' : 'alert';
+    s.last = s.st === 'alert'  ? 'Just now' : 'Secured';
+  }
+  logEvent(s.name, s.zone, s.knx, type, oldSt, s.st);
+  _recentlyToggled.add(id);
+  setTimeout(() => _recentlyToggled.delete(id), 900);
+  render();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// STATUS BANNER SYNC
+// ═══════════════════════════════════════════════════════════════
+function syncBanner() {
+  const all    = [...db.doors, ...db.windows, ...db.motion];
+  const alerts = all.filter(s => s.st === 'alert');
+  const motion = all.filter(s => s.st === 'motion-on');
+  const hasAlert = alerts.length > 0 || motion.length > 0;
+
+  const bar   = document.getElementById('status-bar');
+  const dot   = document.getElementById('sys-dot');
+  const label = document.getElementById('sys-label');
+  const zoneT = document.getElementById('zone-txt');
+  const syncT = document.getElementById('sync-txt');
+  const ribbon= document.getElementById('alert-ribbon');
+  const alertT= document.getElementById('alert-text');
+
+  if (hasAlert) {
+    bar.classList.remove('sys-armed');
+    dot.style.background  = 'var(--alert)';
+    dot.style.boxShadow   = '0 0 8px rgba(255,51,51,0.9), 0 0 18px rgba(255,51,51,0.4)';
+    dot.style.animation   = 'alert-dot 0.75s ease-in-out infinite';
+    label.textContent     = 'ALERT ACTIVE';
+    label.style.color     = 'var(--alert)';
+    bar.style.background  = 'linear-gradient(90deg,rgba(255,51,51,0.08),rgba(255,51,51,0.04),rgba(255,51,51,0.08))';
+    bar.style.borderBottomColor = 'rgba(255,51,51,0.25)';
+    const names = [...alerts, ...motion].map(s => s.name).join(', ');
+    alertT.textContent = `ALERT: ${names.toUpperCase()} — ${alerts.length > 0 ? 'OPEN ' : ''}${motion.length > 0 ? 'MOTION DETECTED' : ''}`.trim();
+    ribbon.classList.add('show');
+    syncT.textContent = `${alerts.length + motion.length} SENSOR${alerts.length + motion.length > 1 ? 'S' : ''} TRIGGERED`;
+    syncT.style.color = 'rgba(255,51,51,0.55)';
+    zoneT.style.color = 'rgba(255,51,51,0.45)';
+  } else if (_armed) {
+    bar.classList.add('sys-armed');
+    dot.style.background  = '#FF5040';
+    dot.style.boxShadow   = '0 0 8px rgba(255,51,51,0.65), 0 0 18px rgba(255,51,51,0.3)';
+    dot.style.animation   = 'armed-dot-pulse 2s ease-in-out infinite';
+    label.textContent     = 'SYSTEM ARMED';
+    label.style.color     = 'rgba(255,85,65,0.92)';
+    bar.style.background  = '';
+    bar.style.borderBottomColor = '';
+    ribbon.classList.remove('show');
+    syncT.textContent = 'ALL ZONES SECURE';
+    syncT.style.color = 'rgba(255,85,65,0.5)';
+    zoneT.style.color = 'rgba(255,85,65,0.45)';
+  } else {
+    bar.classList.remove('sys-armed');
+    dot.style.background  = 'var(--secure)';
+    dot.style.boxShadow   = '0 0 8px rgba(0,230,118,0.8), 0 0 18px rgba(0,230,118,0.35)';
+    dot.style.animation   = 'dot-beat 2s ease-in-out infinite';
+    label.textContent     = 'SYSTEM READY';
+    label.style.color     = 'var(--secure)';
+    bar.style.background  = '';
+    bar.style.borderBottomColor = '';
+    ribbon.classList.remove('show');
+    syncT.textContent = 'ALL SENSORS NOMINAL';
+    syncT.style.color = '';
+    zoneT.style.color = '';
+  }
+  updateArmBtn();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CLOCK
+// ═══════════════════════════════════════════════════════════════
+const DAYS   = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+function tick() {
+  const n = new Date();
+  document.getElementById('ch').textContent = String(n.getHours()).padStart(2,'0');
+  document.getElementById('cm').textContent = String(n.getMinutes()).padStart(2,'0');
+  document.getElementById('cs').textContent = String(n.getSeconds()).padStart(2,'0');
+  document.getElementById('clock-date').textContent =
+    `${DAYS[n.getDay()]}, ${MONTHS[n.getMonth()]} ${n.getDate()} · ${n.getFullYear()}`;
+  document.getElementById('ft-time').textContent =
+    `LAST SYNC: ${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}:${String(n.getSeconds()).padStart(2,'0')}`;
+}
+tick();
+setInterval(tick, 1000);
+
+// ═══════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════
+(function() { const cfg = loadCfg(); if (cfg.theme === 'alpine') setTheme('alpine', false); })();
+render();
+updateArmBtn();
+loadLog();
+initWeather();
+</script>
+</body>
+</html>

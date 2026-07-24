@@ -1,0 +1,26 @@
+# Build / distribution archives
+*.zip
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Secrets / environment
+.env
+.env.*
+*.pem
+*.key
+*.crt
+*.pfx
+credentials*
+secret*
+
+# Dependencies / logs / temporary files
+node_modules/
+*.log
