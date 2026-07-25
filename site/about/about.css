@@ -104,7 +104,13 @@
 .ab-qa-card{border:1px solid var(--line-2);border-radius:20px;background:var(--panel);overflow:hidden;
   display:flex;flex-direction:column;transition:transform .3s var(--ease),border-color .3s}
 .ab-qa-card:hover{transform:translateY(-5px);border-color:var(--line)}
-.ab-qa-photo{aspect-ratio:4/3;border:none;border-bottom:1px dashed rgba(255,255,255,.14);border-radius:0}
+.ab-qa-photo{aspect-ratio:1/1;overflow:hidden;background:var(--bg-2);border-bottom:1px solid var(--line-2)}
+.ab-qa-photo img{width:100%;height:100%;object-fit:cover;display:block}
+/* joint field-exercise photo (Finn + Sola) */
+.ab-qa-collab{margin-top:20px;border:1px solid var(--line-2);border-radius:20px;overflow:hidden;background:var(--panel)}
+.ab-qa-collab img{width:100%;height:auto;display:block}
+.ab-qa-collab figcaption{padding:16px 22px;font-family:var(--mono);font-size:12px;letter-spacing:.03em;color:var(--muted);border-top:1px solid var(--line-2);line-height:1.55}
+.ab-qa-collab figcaption b{color:var(--ink);font-weight:500}
 .ab-qa-body{padding:24px 24px 26px}
 .ab-qa-emoji{font-size:28px;line-height:1}
 .ab-qa-body h3{font-family:var(--disp);font-weight:700;font-size:22px;letter-spacing:.03em;margin:10px 0 4px}
