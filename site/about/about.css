@@ -15,8 +15,10 @@
   opacity:0;animation:abFade 1.4s var(--ease) .1s forwards}
 @keyframes abFade{to{opacity:1}}
 .ab-hero .eyebrow{margin-bottom:26px}
-.ab-hero h1{font-family:var(--disp);font-weight:700;font-size:clamp(46px,8.5vw,112px);letter-spacing:-.035em;line-height:.96;margin-bottom:24px;
-  background:linear-gradient(180deg,#ffffff 28%,#c6d0de 88%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.ab-hero h1{font-family:var(--disp);font-weight:700;font-size:clamp(46px,8.5vw,112px);letter-spacing:-.035em;line-height:.96;
+  background:linear-gradient(180deg,#ffffff 28%,#c6d0de 88%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
+  /* "Meet Zoneary" — the y descender needs headroom; negative margin keeps geometry (see --ink-safe) */
+  padding-bottom:var(--ink-safe);margin-bottom:calc(24px - var(--ink-safe))}
 .ab-hero .ab-sub{max-width:700px;margin:0 auto;color:var(--muted);font-size:clamp(16px,1.55vw,21px);line-height:1.62}
 .ab-scroll{margin-top:clamp(38px,6vh,58px);font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--faint);display:inline-flex;flex-direction:column;align-items:center;gap:12px}
 .ab-scroll svg{width:16px;height:16px;stroke:var(--faint);animation:abBob 2.4s ease-in-out infinite}

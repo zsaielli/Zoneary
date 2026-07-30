@@ -20,7 +20,7 @@
 
 /* headline accent — frost fading into violet (mirrors the homepage .grad) */
 .pg-warm{color:transparent;background:linear-gradient(116deg,#fff 22%,var(--pg-soft) 88%);
-  -webkit-background-clip:text;background-clip:text}
+  -webkit-background-clip:text;background-clip:text;padding-bottom:var(--ink-safe);margin-bottom:calc(var(--ink-safe) * -1)}  /* descender headroom — see --ink-safe in styles.css */
 .pg-steel{color:var(--steel)}
 .pg-vt{color:var(--pg-soft)}
 

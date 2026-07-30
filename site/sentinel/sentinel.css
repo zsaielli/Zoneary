@@ -28,7 +28,7 @@
 
 /* headline accent — frost fading into the Alpine green glow (mirrors .grad) */
 .sn-warm{color:transparent;background:linear-gradient(116deg,#fff 26%,var(--sn) 90%);
-  -webkit-background-clip:text;background-clip:text}
+  -webkit-background-clip:text;background-clip:text;padding-bottom:var(--ink-safe);margin-bottom:calc(var(--ink-safe) * -1)}  /* descender headroom — see --ink-safe in styles.css */
 .sn-steel{color:var(--steel)}
 .sn-hl{color:var(--sn)}   /* small inline text highlight (Sentinel green) */
 

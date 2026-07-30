@@ -51,7 +51,7 @@
   "name": "Watchtower",
   "applicationCategory": "SecurityApplication",
   "operatingSystem": "Linux, Windows",
-  "url": "https://zoneary.com/#watchtower",
+  "url": "https://zoneary.com/watchtower/",
   "description": "Watchtower is Zoneary's local-first video management system for live monitoring, recording, playback, investigations and system health, running on your own hardware.",
   "publisher": { "@type": "Organization", "name": "Zoneary", "url": "https://zoneary.com/" }
 }
@@ -73,7 +73,7 @@
       </span>
       <div class="menu">
         <div class="menu-head">The Zoneary ecosystem</div>
-        <a class="menu-item" href="#watchtower">
+        <a class="menu-item" href="watchtower/index.html">
           <span class="menu-ico"><img src="assets/watchtower/watchtower_logo.png" alt="" /></span>
           <span><span class="menu-t">Watchtower <span class="flag">FLAGSHIP</span></span><span class="menu-d">Modern video management system</span></span>
         </a>
@@ -92,7 +92,7 @@
     <a href="mailto:info@zoneary.com">Contact</a>
   </nav>
   <div class="nav-right">
-    <a class="nav-cta" href="#watchtower">Explore Watchtower</a>
+    <a class="nav-cta" href="watchtower/index.html">Explore Watchtower</a>
   </div>
   <button class="mobile-btn" id="mobileBtn" aria-label="Menu">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -112,15 +112,16 @@
       <h1 class="hi hi-d2">A real VMS.<br>For <span class="grad">the rest of us.</span></h1>
       <p class="hi hi-d3">Watchtower is Zoneary's local-first video management system — live monitoring, recording, playback and investigations on your own hardware, no subscription required, with your footage kept where it belongs: with you.</p>
       <div class="hero-actions hi hi-d4">
-        <a class="btn btn-primary btn-lg" href="#watchtower">Explore Watchtower <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <a class="btn btn-ghost btn-lg" href="about/index.html">Meet Zoneary</a>
+        <!-- directory URLs so the hero CTAs land on the canonical /watchtower/ and /about/ -->
+        <a class="btn btn-primary btn-lg" href="watchtower/">Explore Watchtower <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn-ghost btn-lg" href="about/">Meet Zoneary</a>
       </div>
       <div class="hero-note hi hi-d5"><b>Local by conviction.</b> Owned, not rented. Yours to keep.</div>
 
       <!-- product family — the natural conclusion of the hero -->
       <div class="fam-eyebrow hi hi-d6"><span class="ln"></span>The Zoneary Ecosystem<span class="ln r"></span></div>
       <nav class="hero-family hi hi-d6" aria-label="Zoneary products">
-        <a class="fam-item" href="#watchtower">
+        <a class="fam-item" href="watchtower/index.html">
           <span class="fam-ico wt"><img src="assets/watchtower/watchtower_logo.png" alt="" /></span>
           <span class="fam-txt"><b>Watchtower</b><small>Modern video management system</small></span>
         </a>
@@ -168,12 +169,15 @@
   </div>
 </div>
 
-<!-- ============ WATCHTOWER — CAPABILITIES BENTO ============ -->
+<!-- ============ WATCHTOWER — THE FLAGSHIP, INTRODUCED ============
+     The homepage introduces Watchtower and hands off to /watchtower/,
+     which carries the complete product story. Deliberately a preview:
+     enough to establish the flagship, never the whole product manual. -->
 <section class="pad" id="watchtower">
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow"><i></i>The Flagship — Watchtower</span>
-      <h2 class="st">Everything a serious VMS does.<br>None of the enterprise punishment.</h2>
+      <h2 class="st">Video management,<br>done <span class="grad">honestly.</span></h2>
       <p class="lede">Live monitoring, recording, playback and investigations — built to stay responsive at scale, honest about system state, and yours to own. No per-camera fees, no cloud dependency. This is the heart of Zoneary; everything else exists to support it.</p>
     </div>
 
@@ -198,12 +202,6 @@
         <h3>Investigations</h3><p>Bookmark, tag and export clips to build an investigation.</p><span class="kpi">Case export</span>
       </div>
 
-      <!-- Sites map screenshot cell -->
-      <div class="cell shot c-2 reveal rd1" style="min-height:220px">
-        <div class="frame"><img src="assets/watchtower/sites.webp" alt="Watchtower Sites geographic operations map" loading="lazy" style="object-position:center" /></div>
-        <div class="cap"><h3>Every site, one map</h3><p>Monitor every location at a glance.</p></div>
-      </div>
-
       <div class="cell feature c-wide reveal rd2">
         <span class="ci"><svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
         <h3>Local-first &amp; owned, not rented</h3>
@@ -211,76 +209,15 @@
         <span class="kpi">On-prem · one-time license · no cloud round-trips</span>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ============ WATCHTOWER — PRODUCT EXPERIENCE (showcase rows) ============ -->
-<section class="pad-sm">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow"><i></i>The Watchtower Experience</span>
-      <h2 class="st">See the real product.</h2>
-      <p class="lede">Not conceptual artwork — these are the actual screens your team works in every day.</p>
-    </div>
-
-    <!-- Operations -->
-    <div class="showcase reveal">
-      <div class="sc-copy">
-        <div class="step"><span class="n">01</span> Operations Dashboard</div>
-        <h3>Your whole deployment,<br>told honestly.</h3>
-        <p>Sites, cameras, recording and storage in one calm view. And when Watchtower isn't sure, it says so — "unknown", never a comforting green. False reassurance is more dangerous than an honest warning.</p>
-        <ul class="sc-list">
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 4h16v6H4zM4 14h10v6H4z"/></svg>Real-time state across every site, no guesswork</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Live activity &amp; alert feed with jump-to-playback</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg>Server &amp; recording health, surfaced not buried</li>
-        </ul>      </div>
-      <div class="sc-media">
-        <div class="beam-accent"></div>
-        <figure class="app-window">
-          <div class="aw-bar"><span class="aw-dots"><i></i><i></i><i></i></span><span class="aw-title">watchtower · operations</span></div>
-          <div class="aw-media"><img src="assets/watchtower/operations.webp" alt="Watchtower Operations dashboard" loading="lazy" /></div>
-        </figure>
+    <!-- hand-off into the flagship product page -->
+    <div class="reveal rd3" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;
+      margin-top:clamp(28px,3.5vw,44px);border:1px solid var(--line-2);border-radius:16px;background:var(--panel);padding:24px 28px">
+      <div>
+        <div style="font-family:var(--disp);font-weight:600;font-size:19px;letter-spacing:-.01em">The complete Watchtower story.</div>
+        <p style="color:var(--muted);font-size:14px;line-height:1.6;margin-top:6px;max-width:560px">Operations, live monitoring, recording, playback, investigations, health, camera compatibility and licensing — in depth, on the flagship's own page.</p>
       </div>
-    </div>
-
-    <!-- Playback & Investigations -->
-    <div class="showcase flip reveal">
-      <div class="sc-copy">
-        <div class="step"><span class="n">02</span> Playback &amp; Investigations</div>
-        <h3>Rewind time,<br>frame by frame.</h3>
-        <p>Pick a camera and a moment, and Watchtower takes you straight there. A dense recording timeline, motion markers and export tools turn footage into a clear record for investigations.</p>
-        <ul class="sc-list">
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Precise scrubbing with motion markers</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 4h16v14H4z"/><path d="M8 21h8"/></svg>Export vault &amp; clip tools for investigations</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg>Skip gaps and jump straight to activity</li>
-        </ul>      </div>
-      <div class="sc-media">
-        <div class="beam-accent"></div>
-        <figure class="app-window">
-          <div class="aw-bar"><span class="aw-dots"><i></i><i></i><i></i></span><span class="aw-title">watchtower · playback</span></div>
-          <div class="aw-media"><img src="assets/watchtower/playback.webp" alt="Watchtower Playback with recording timeline and investigation tools" loading="lazy" /></div>
-        </figure>
-      </div>
-    </div>
-
-    <!-- Health & Storage -->
-    <div class="showcase reveal">
-      <div class="sc-copy">
-        <div class="step"><span class="n">03</span> Health &amp; Storage Intelligence</div>
-        <h3>Know exactly how long<br>your footage lasts.</h3>
-        <p>Watchtower tracks storage composition, retention and system health in real time — and tells you before you run out of room. If footage has a gap, it doesn't hide it. The playback cache is pruned automatically before a single recording is ever touched, so it can never crowd out what you came for.</p>
-        <ul class="sc-list">
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 7c0-2 4-3 8-3s8 1 8 3-4 3-8 3-8-1-8-3z"/><path d="M4 7v10c0 2 4 3 8 3s8-1 8-3V7"/></svg>Predictive retention — days left, not just "disk full"</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 4h16v6H4zM4 14h16v6H4z"/></svg>Real health, not just a green ping</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg>Retention protection that never stops recording</li>
-        </ul>      </div>
-      <div class="sc-media">
-        <div class="beam-accent"></div>
-        <figure class="app-window">
-          <div class="aw-bar"><span class="aw-dots"><i></i><i></i><i></i></span><span class="aw-title">watchtower · recording</span></div>
-          <div class="aw-media"><img src="assets/watchtower/recording.webp" alt="Watchtower Recording view with storage composition and retention protection" loading="lazy" /></div>
-        </figure>
-      </div>
+      <a class="btn btn-primary" href="watchtower/index.html">Explore Watchtower <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
   </div>
 </section>
@@ -322,7 +259,7 @@
         <div class="ef-logo"><img src="assets/watchtower/watchtower_logo.png" alt="" /><span class="ef-name">Watchtower</span></div>
         <div class="eco-desc">Video Management System</div>
         <p>A modern, local-first video management system for live monitoring, recording, playback, investigations, and system health — running on your own hardware without a mandatory subscription.</p>
-        <a class="btn btn-primary" href="#watchtower">Explore Watchtower <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn-primary" href="watchtower/index.html">Explore Watchtower <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
       <div class="ef-media">
         <figure class="app-window">
@@ -475,7 +412,7 @@
         <p>Start with the flagship, or build out the full Zoneary ecosystem. Local, owned, and honest — the way it should have been all along.</p>
       </div>
       <div class="actions">
-        <a class="btn btn-primary btn-lg" href="#watchtower">Explore Watchtower <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn-primary btn-lg" href="watchtower/index.html">Explore Watchtower <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         <a class="btn btn-ghost btn-lg" href="mailto:info@zoneary.com?subject=Zoneary%20sales%20enquiry">Contact sales</a>
       </div>
     </div>
@@ -491,7 +428,7 @@
         <p>Serious, local-first security software for the rest of us.</p>
         <div class="foot-tag"><b>See it. Understand it. Protect it.</b></div>
       </div>
-      <div class="fcol"><h5>Products</h5><a href="#watchtower">Watchtower</a><a href="pulsegrid/index.html">PulseGrid</a><a href="sentinel/index.html">Sentinel</a></div>
+      <div class="fcol"><h5>Products</h5><a href="watchtower/index.html">Watchtower</a><a href="pulsegrid/index.html">PulseGrid</a><a href="sentinel/index.html">Sentinel</a></div>
       <div class="fcol"><h5>Company</h5><a href="about/index.html">Meet Zoneary</a><a href="support.html">Support</a><a href="mailto:info@zoneary.com">Contact</a></div>
       <div class="fcol"><h5>Legal</h5><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="security.html">Security</a></div>
     </div>
