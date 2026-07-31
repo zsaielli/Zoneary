@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>
+  /* Own the initial scroll position before first paint (matches the homepage). */
+  try { history.scrollRestoration = 'manual'; } catch (e) {}
+  if (!location.hash) { window.scrollTo(0, 0); }
+</script>
+<title>Sentinel — Home Security Control | Zoneary</title>
+<meta name="description" content="Sentinel is local-first home security control, developed around a Konnected-based home installation and open home-automation principles. An active development project — commercial availability, platform support and pricing have not yet been announced." />
+<link rel="canonical" href="https://zoneary.com/sentinel/" />
+<link rel="icon" type="image/png" href="img/sentinel_shield_128.png" />
+<link rel="apple-touch-icon" href="img/sentinel_shield_128.png" />
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Zoneary" />
+<meta property="og:url" content="https://zoneary.com/sentinel/" />
+<meta property="og:title" content="Sentinel | Home Security Control by Zoneary" />
+<meta property="og:description" content="Local-first home security control, designed to reuse compatible wiring and sensors. An active development project. Part of the Zoneary ecosystem." />
+<meta property="og:image" content="https://zoneary.com/sentinel/img/dashboard_ready.png" />
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Sentinel | Home Security Control by Zoneary" />
+<meta name="twitter:description" content="Local-first home security control, designed to reuse compatible wiring and sensors. In development. Part of the Zoneary ecosystem." />
+<meta name="twitter:image" content="https://zoneary.com/sentinel/img/dashboard_ready.png" />
+<link rel="stylesheet" href="../css/fonts.css" />
+<link rel="stylesheet" href="../css/styles.css" />
+<link rel="stylesheet" href="sentinel.css" />
+</head>
+<body>
+<div class="atmos"><div class="top-glow"></div><div class="grid"></div></div>
+<div class="stars"></div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <a class="nav-logo" href="../index.html" aria-label="Zoneary home">
+    <img src="../assets/brand/zoneary_wordmark_key.png" alt="Zoneary" />
+  </a>
+  <nav class="nav-links" aria-label="Sentinel">
+    <a href="#how">How it works</a>
+    <a href="#demo">Live demo</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#features">Features</a>
+  </nav>
+  <div class="nav-right">
+    <a class="nav-ghost" href="../index.html#ecosystem">← The Zoneary ecosystem</a>
+    <a class="nav-cta" href="../early-access.html?product=Sentinel" style="background:linear-gradient(180deg,#3df2a0,#00c853);color:#04160c">Join Early Access</a>
+  </div>
+  <button class="mobile-btn" id="mobileBtn" aria-label="Menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+  </button>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="sn-hero" id="top">
+  <div class="sn-hero-orb" style="width:640px;height:640px;background:rgba(0,230,118,.06);top:-180px;right:-60px"></div>
+  <div class="sn-hero-orb" style="width:480px;height:480px;background:rgba(0,212,255,.06);bottom:-200px;left:-120px"></div>
+  <div class="wrap">
+    <div class="sn-hero-grid">
+      <div class="sn-hero-content">
+        <div class="sn-hero-brand"><img src="img/sentinel_lockup.png" alt="Sentinel — old wiring, new intelligence" /></div>
+        <h1><span class="sn-steel">Old wiring.</span><br><span class="sn-warm">New intelligence.</span></h1>
+        <p class="sn-hero-body">Sentinel is local-first home security control that runs in your own home. It is designed to reuse compatible sensors, wiring and panels and bring them into one dashboard you actually enjoy using — developed around a Konnected-based home installation and open home-automation principles.</p>
+        <div class="sn-hero-actions">
+          <a class="btn btn-sn btn-lg" href="../early-access.html?product=Sentinel">Join Sentinel Early Access <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn-ghost btn-lg" href="#demo">See the live demo</a>
+        </div>
+        <div class="sn-stats">
+          <div class="sn-stat"><div class="sn-stat-num accent">Local</div><div class="sn-stat-label">Runs on your network</div></div>
+          <div class="sn-stat"><div class="sn-stat-num">Yours</div><div class="sn-stat-label">Hardware you own</div></div>
+          <div class="sn-stat"><div class="sn-stat-num">Dev</div><div class="sn-stat-label">In active development</div></div>
+        </div>
+      </div>
+      <div class="sn-hero-visual">
+        <div class="sn-screen">
+          <figure class="app-window">
+            <div class="aw-bar">
+              <span class="aw-dots"><i></i><i></i><i></i></span>
+              <span class="aw-title"><img src="img/sentinel_shield.png" alt="" /> sentinel · control center</span>
+              <span class="aw-live"><i></i>LIVE</span>
+            </div>
+            <div class="aw-media"><img src="img/dashboard_ready.png" alt="Sentinel control center — all zones secure, system ready" width="2650" height="1716" /></div>
+          </figure>
+          <div class="sn-screen-badge"><span class="sn-badge-dot"></span>System Ready</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CURRENT vs PLANNED BOUNDARY ============ -->
+<div class="wrap">
+  <p class="prelaunch" style="max-width:880px;margin:0 auto">Sentinel is an active development project built from a working home installation. Commercial availability, platform support, and final pricing have not yet been announced.</p>
+</div>
+
+<!-- ============ WHY / BEFORE-AFTER ============ -->
+<section class="pad sn-band" id="about">
+  <div class="wrap">
+    <div class="sn-head">
+      <span class="eyebrow sn-eb"><i></i>The transformation</span>
+      <h2>From <span style="color:var(--sn-red)">this.</span> To <span class="sn-warm">this.</span></h2>
+      <p>The home you already own deserves better than a beige plastic box with a 4-line LCD. Sentinel is designed to bring compatible existing equipment into one clean dashboard — without replacing what still works.</p>
+    </div>
+    <div class="sn-compare reveal">
+      <!-- BEFORE -->
+      <div class="sn-side sn-side-before">
+        <span class="sn-tag sn-tag-before">Before</span>
+        <div class="sn-shot"><img src="img/old_keypad.jpg" alt="The old alarm keypad, before Sentinel" width="694" height="504" /></div>
+        <h3>The keypad from 1998</h3>
+        <p>Cryptic buttons, a green LCD glow, one tiny speaker. Bolted to your wall and slowly yellowing. Still technically works — but barely.</p>
+        <ul class="sn-checks bad">
+          <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="#ff8080" stroke-width="1.3"/><path d="M5 5l5 5M10 5l-5 5" stroke="#ff8080" stroke-width="1.3" stroke-linecap="round"/></svg>No visual zone feedback</li>
+          <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="#ff8080" stroke-width="1.3"/><path d="M5 5l5 5M10 5l-5 5" stroke="#ff8080" stroke-width="1.3" stroke-linecap="round"/></svg>No event history</li>
+          <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="#ff8080" stroke-width="1.3"/><path d="M5 5l5 5M10 5l-5 5" stroke="#ff8080" stroke-width="1.3" stroke-linecap="round"/></svg>Ugly on your wall</li>
+          <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="#ff8080" stroke-width="1.3"/><path d="M5 5l5 5M10 5l-5 5" stroke="#ff8080" stroke-width="1.3" stroke-linecap="round"/></svg>Confusing zone numbers</li>
+        </ul>
+      </div>
+      <!-- DIVIDER -->
+      <div class="sn-divider"><div class="sn-vs">VS</div></div>
+      <!-- AFTER -->
+      <div class="sn-side sn-side-after">
+        <span class="sn-tag sn-tag-after">After</span>
+        <div class="sn-shot"><img src="img/dashboard_ready.png" alt="The Sentinel control center, after" width="2650" height="1716" /></div>
+        <h3>Sentinel Control Center</h3>
+        <p>A full-colour dashboard on a wall tablet — named zones and sensor state at a glance. Designed to be worth leaving on permanent display.</p>
+        <ul class="sn-checks good">
+          <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="#00E676" stroke-width="1.3"/><path d="M5 7.5l2 2 3-3" stroke="#00E676" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Live status — every zone named</li>
+          <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="#00E676" stroke-width="1.3"/><path d="M5 7.5l2 2 3-3" stroke="#00E676" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Full timestamped event log</li>
+          <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="#00E676" stroke-width="1.3"/><path d="M5 7.5l2 2 3-3" stroke="#00E676" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Beautiful on any wall</li>
+          <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="#00E676" stroke-width="1.3"/><path d="M5 7.5l2 2 3-3" stroke="#00E676" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Browser-based dashboard</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section class="pad" id="how">
+  <div class="wrap">
+    <div class="sn-head">
+      <span class="eyebrow sn-eb"><i></i>The process</span>
+      <h2>Four steps. One beautiful upgrade.</h2>
+      <p>Sentinel is designed to work with compatible equipment you already have, so a typical retrofit avoids new cable runs. Final installation requirements will be published before release.</p>
+    </div>
+    <div class="sn-steps reveal">
+      <div class="sn-step">
+        <div class="sn-step-num">01</div>
+        <div class="sn-ico"><svg viewBox="0 0 26 26" fill="none"><path d="M13 2.5L3.5 7.5V14C3.5 19.2 7.8 24 13 25.5C18.2 24 22.5 19.2 22.5 14V7.5L13 2.5Z" stroke-width="1.5" fill="rgba(0,230,118,.08)"/><path d="M9.5 13l2.5 2.5 4.5-4.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Designed to reuse your wiring.</h3>
+        <p>Compatible door sensors, window contacts, motion detectors, sirens and buzzers are designed to stay connected — reusing wiring already in your walls instead of replacing the whole system.</p>
+      </div>
+      <div class="sn-step">
+        <div class="sn-step-num">02</div>
+        <div class="sn-ico"><svg viewBox="0 0 26 26" fill="none"><rect x="3" y="7" width="20" height="14" rx="2" stroke-width="1.5"/><path d="M9 7V5M17 7V5" stroke-width="1.5" stroke-linecap="round"/><circle cx="13" cy="14" r="2.5" stroke-width="1.5"/><path d="M10 14H8M16 14H18" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <h3>A Konnected board bridges the old panel.</h3>
+        <p>A Konnected board sits alongside your existing alarm panel and brings compatible sensors and wiring onto your local network, where Sentinel can read them. This is the arrangement Sentinel was developed on.</p>
+      </div>
+      <div class="sn-step">
+        <div class="sn-step-num">03</div>
+        <div class="sn-ico"><svg viewBox="0 0 26 26" fill="none"><rect x="4" y="6" width="18" height="14" rx="2" stroke-width="1.5"/><circle cx="13" cy="13" r="3" stroke-width="1.5"/><path d="M4 10h3M19 10h3M4 16h3M19 16h3" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+        <h3>Install Sentinel on hardware you own.</h3>
+        <p>Sentinel is designed to run on supported user-owned hardware, kept on quietly in the background. A guided DIY setup is planned, and final platform support will be published before release.</p>
+      </div>
+      <div class="sn-step">
+        <div class="sn-step-num">04</div>
+        <div class="sn-ico"><svg viewBox="0 0 26 26" fill="none"><rect x="2" y="4.5" width="22" height="15" rx="2" stroke-width="1.5"/><path d="M9 20.5H17M13 19.5V20.5" stroke-width="1.5" stroke-linecap="round"/><circle cx="19" cy="8" r="3" stroke-width="1.3"/></svg></div>
+        <h3>Mount your display. Access on your network.</h3>
+        <p>Mount a wall tablet where the old keypad was, and open Sentinel from a browser on your local network. Remote-access options and supported browsers will be published before release.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHAT YOU KEEP ============ -->
+<section class="pad sn-band" id="keep" style="border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2)">
+  <div class="wrap">
+    <div class="sn-head">
+      <span class="eyebrow sn-eb"><i></i>Zero waste</span>
+      <h2>Everything you already own. <span class="sn-warm">Still working.</span></h2>
+      <p>The biggest cost in home security is installation. Sentinel is designed around reusing the sensors and wiring already in place, where they are compatible.</p>
+    </div>
+    <div class="sn-keep">
+      <div class="sn-keep-card reveal">
+        <div class="sn-ico"><svg viewBox="0 0 28 28" fill="none"><rect x="4" y="7" width="7" height="11" rx="1.5" stroke-width="1.5"/><rect x="17" y="7" width="7" height="11" rx="1.5" stroke-width="1.5"/><path d="M11 12.5H17" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <h3>Door &amp; Window Sensors</h3>
+        <p>Compatible entry-point contacts are designed to keep working — with named feedback on your dashboard.</p>
+      </div>
+      <div class="sn-keep-card reveal reveal-delay-1">
+        <div class="sn-ico"><svg viewBox="0 0 28 28" fill="none"><circle cx="14" cy="11" r="5" stroke-width="1.5"/><path d="M8 24c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke-width="1.5" stroke-linecap="round"/><path d="M20 8a8 8 0 010 6" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <h3>Motion Detectors</h3>
+        <p>Compatible PIR sensors are read directly, so you can see which room triggered.</p>
+      </div>
+      <div class="sn-keep-card reveal reveal-delay-2">
+        <div class="sn-ico"><svg viewBox="0 0 28 28" fill="none"><path d="M14 4v4M9 6.5l2.5 2M19 6.5l-2.5 2M5.5 14H9M19 14h3.5M9 20l2.5-2M19 20l-2.5-2M14 20v4" stroke-width="1.5" stroke-linecap="round"/><circle cx="14" cy="14" r="3.5" stroke-width="1.5"/></svg></div>
+        <h3>Sirens &amp; Buzzers</h3>
+        <p>Compatible alarm speakers, indoor sirens and piezo buzzers are designed to stay operational.</p>
+      </div>
+      <div class="sn-keep-card reveal reveal-delay-3">
+        <div class="sn-ico"><svg viewBox="0 0 28 28" fill="none"><path d="M5 14c0-5 4.5-9 9-9s9 4 9 9c0 2.8-1.2 5.2-3 7H8c-1.8-1.8-3-4.2-3-7z" stroke-width="1.5"/><path d="M11 24h6" stroke-width="1.5" stroke-linecap="round"/><path d="M14 9v5l3 2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Existing Wiring</h3>
+        <p>Designed to reuse compatible wiring already in your walls rather than pulling new runs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LIVE DEMO ============ -->
+<section class="pad" id="demo">
+  <div class="wrap">
+    <div class="sn-head">
+      <span class="eyebrow sn-eb"><i></i>Meet Sentinel</span>
+      <h2>Your home security <span class="sn-warm">control center.</span></h2>
+      <p>Built for clarity and calm — named zones, colour-coded state. This is the interface from the working Sentinel home installation, running right here.</p>
+    </div>
+    <div class="reveal">
+      <div class="sn-demo-tabs" role="tablist">
+        <button class="sn-demo-tab t-ready active" role="tab" aria-selected="true" onclick="switchSentinelState('ready')">System Ready</button>
+        <button class="sn-demo-tab t-armed" role="tab" aria-selected="false" onclick="switchSentinelState('armed')">Armed</button>
+        <button class="sn-demo-tab t-alarm" role="tab" aria-selected="false" onclick="switchSentinelState('alarm')">Alert Active</button>
+      </div>
+      <div class="sn-demo-wrap" id="sentinel-frame-wrap">
+        <iframe class="sn-demo-frame" id="sentinel-frame" title="Sentinel live dashboard demo" src="demo.html?state=ready" scrolling="no" loading="lazy"></iframe>
+      </div>
+      <p class="sn-demo-caption" id="sentinel-caption">All zones secured. System standing by. Every entry point green.</p>
+      <p class="sn-demo-note">Sentinel development demo — an interactive build of the dashboard from the working Sentinel home installation. Not a released commercial product.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section class="pad sn-band" id="features" style="border-top:1px solid var(--line-2)">
+  <div class="wrap">
+    <div class="sn-head">
+      <span class="eyebrow sn-eb"><i></i>Why Sentinel</span>
+      <h2>Modern intelligence. No compromises.</h2>
+    </div>
+    <div class="sn-features">
+      <div class="sn-feature reveal">
+        <div class="sn-ico"><svg viewBox="0 0 34 34" fill="none"><path d="M17 3L4 9.5V17C4 24.3 10 30.8 17 32.5C24 30.8 30 24.3 30 17V9.5L17 3Z" stroke-width="1.5" fill="rgba(0,230,118,.07)"/><path d="M12 17l3.5 3.5 6.5-6.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Your home. Your data.</h3>
+        <p>Sentinel runs on your own network, so security-system data stays in your home. It is designed to keep working when the internet is down, and was developed around a Konnected-based installation and open home-automation principles.</p>
+      </div>
+      <div class="sn-feature reveal reveal-delay-1">
+        <div class="sn-ico"><svg viewBox="0 0 34 34" fill="none"><rect x="4" y="8" width="26" height="18" rx="2.5" stroke-width="1.5"/><path d="M12 26v3M22 26v3M10 30h14" stroke-width="1.5" stroke-linecap="round"/><circle cx="17" cy="17" r="3" stroke-width="1.5"/></svg></div>
+        <h3>Browser-based dashboard.</h3>
+        <p>The dashboard is browser-based, so it is designed to open on a wall tablet or a desktop. Supported browsers and devices will be published before release.</p>
+      </div>
+      <div class="sn-feature reveal reveal-delay-2">
+        <div class="sn-ico"><svg viewBox="0 0 34 34" fill="none"><circle cx="17" cy="17" r="13" stroke-width="1.5"/><path d="M17 10v7l4.5 2.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Full event log &amp; history.</h3>
+        <p>Opens, closes, motion, arm and disarm events are logged with a timestamp — a clean, scrollable timeline of recorded activity.</p>
+      </div>
+      <div class="sn-feature reveal">
+        <div class="sn-ico"><svg viewBox="0 0 34 34" fill="none"><rect x="4" y="7" width="26" height="22" rx="3" stroke-width="1.5"/><path d="M9 14h16M9 19h10M9 24h13" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <h3>Zone dashboard at a glance.</h3>
+        <p>Doors, windows and motion zones at a glance, colour-coded by state. No cryptic zone numbers — just "Front Door — Open."</p>
+      </div>
+      <div class="sn-feature reveal reveal-delay-1">
+        <div class="sn-ico"><svg viewBox="0 0 34 34" fill="none"><path d="M7 17l5 5 15-12" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="17" cy="17" r="13" stroke-width="1.5" opacity="0.3"/></svg></div>
+        <h3>One-tap arm &amp; disarm.</h3>
+        <p>Arm in Stay, Away or Disarm mode with a single tap. No memorizing codes on tiny buttons at 6am before coffee.</p>
+      </div>
+      <div class="sn-feature reveal reveal-delay-2">
+        <div class="sn-ico"><svg viewBox="0 0 34 34" fill="none"><path d="M4 22l7-8 5.5 6 5.5-6 8 8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="6" width="26" height="22" rx="3" stroke-width="1.5"/></svg></div>
+        <h3>Live weather &amp; home display.</h3>
+        <p>Sentinel doubles as a home display with weather — designed to earn its place on the wall even when you're not checking security.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ARCHITECTURE / DEVICES ============ -->
+<section class="pad" id="architecture">
+  <div class="wrap">
+    <div class="sn-head">
+      <span class="eyebrow sn-eb"><i></i>The architecture</span>
+      <h2>Runs on the hardware you own.</h2>
+      <p>Sentinel is designed to run on supported user-owned hardware, kept on quietly on your network, with the dashboard opened from a browser in the house. Compatibility details will be published before release.</p>
+    </div>
+    <div class="sn-hub reveal">
+      <div class="sn-ico"><svg viewBox="0 0 30 30" fill="none"><rect x="3" y="8" width="24" height="14" rx="2.5" stroke-width="1.5"/><circle cx="8" cy="15" r="1.5" fill="var(--sn)" stroke="none"/><circle cx="13" cy="15" r="1.5" fill="rgba(0,230,118,.4)" stroke="none"/><path d="M18 13h6M18 15h4M18 17h5" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+      <div>
+        <h3>Guided DIY setup is planned</h3>
+        <p>A guided setup flow is planned to walk through installation and pointing Sentinel at your network. <span class="sn-hl">Setup requirements will be published before release.</span></p>
+      </div>
+    </div>
+    <div class="sn-devices-label">Devices used during development — compatibility details will be published before release</div>
+    <div class="sn-devices reveal">
+      <div class="sn-pill"><svg viewBox="0 0 22 22" fill="none"><rect x="5.5" y="2" width="11" height="18" rx="2" stroke-width="1.4"/><circle cx="11" cy="17.5" r="1" fill="var(--sn-cyan)" stroke="none"/></svg><span>iPad</span></div>
+      <div class="sn-pill"><svg viewBox="0 0 22 22" fill="none"><rect x="2" y="4" width="18" height="14" rx="2" stroke-width="1.4"/><circle cx="11" cy="11" r="2" stroke-width="1.3"/></svg><span>Android Tablet</span></div>
+      <div class="sn-pill"><svg viewBox="0 0 22 22" fill="none"><rect x="2" y="3" width="18" height="13" rx="1.5" stroke-width="1.4"/><path d="M7 19h8M11 16v3" stroke-width="1.4" stroke-linecap="round"/></svg><span>Windows PC</span></div>
+      <div class="sn-pill"><svg viewBox="0 0 22 22" fill="none"><rect x="2" y="3" width="18" height="13" rx="1.5" stroke-width="1.4"/><path d="M7 19h8M11 16v3" stroke-width="1.4" stroke-linecap="round"/><circle cx="11" cy="9.5" r="1.2" fill="var(--sn-cyan)" stroke="none"/></svg><span>Mac</span></div>
+      <div class="sn-pill"><svg viewBox="0 0 22 22" fill="none"><rect x="3" y="2" width="10" height="16" rx="1.5" stroke-width="1.4"/><path d="M16.5 7.5H18.5a1 1 0 011 1v5a1 1 0 01-1 1H16.5" stroke-width="1.4" stroke-linecap="round"/></svg><span>Amazon Fire</span></div>
+      <div class="sn-pill"><svg viewBox="0 0 22 22" fill="none"><rect x="5.5" y="2" width="11" height="18" rx="2" stroke-width="1.4"/><rect x="8" y="4" width="6" height="3" rx="0.5" stroke-width="1.1"/></svg><span>Any Phone</span></div>
+    </div>
+    <p class="sn-demo-note" style="margin-top:26px">Developed around a Konnected-based home installation and open home-automation principles. Home Assistant and Konnected are third-party products, referenced for compatibility context only. Zigbee and Z-Wave workflows are planned. A tested platform and integration matrix will be published before release.</p>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section class="pad sn-band" id="pricing" style="border-top:1px solid var(--line-2)">
+  <div class="wrap">
+    <div class="sn-head">
+      <span class="eyebrow sn-eb"><i></i>Pricing to be announced</span>
+      <h2>We build <span class="sn-warm">software.</span> Not hardware.</h2>
+      <p>Sentinel is intended as software you install on hardware you own. Pricing and commercial terms have not been finalised and will be announced before release.</p>
+    </div>
+    <div class="sn-pricing reveal">
+      <div class="sn-tier featured">
+        <div class="sn-tier-flag">DIY DOWNLOAD · IN DEVELOPMENT</div>
+        <div class="sn-tier-label">Sentinel</div>
+        <div class="sn-tier-name">DIY Download</div>
+        <div class="sn-tier-plabel">Pricing</div>
+        <div class="sn-tier-price">TBA</div>
+        <div class="sn-tier-sub">Pricing to be announced. Join early access for availability and pricing updates.</div>
+        <ul>
+          <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="#00E676" stroke-width="1.3"/><path d="M5 7.5l2 2 3-3" stroke="#00E676" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>The Sentinel software</li>
+          <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="#00E676" stroke-width="1.3"/><path d="M5 7.5l2 2 3-3" stroke="#00E676" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Guided installation (planned)</li>
+          <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="#00E676" stroke-width="1.3"/><path d="M5 7.5l2 2 3-3" stroke="#00E676" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Setup documentation (planned)</li>
+          <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="#00E676" stroke-width="1.3"/><path d="M5 7.5l2 2 3-3" stroke="#00E676" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Installation tutorials (planned)</li>
+          <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="#00E676" stroke-width="1.3"/><path d="M5 7.5l2 2 3-3" stroke="#00E676" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Developed around Konnected hardware</li>
+          <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="7.5" cy="7.5" r="6" stroke="#00E676" stroke-width="1.3"/><path d="M5 7.5l2 2 3-3" stroke="#00E676" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Update options to be announced</li>
+        </ul>
+        <a class="btn btn-sn btn-lg" href="../early-access.html?product=Sentinel" style="justify-content:center">Join Sentinel Early Access</a>
+      </div>
+    </div>
+    <p class="sn-demo-note" style="margin-top:32px">Pricing, editions and commercial terms are not final and will be announced before release. Sentinel is designed so security-system data stays in your home.</p>
+  </div>
+</section>
+
+<!-- ============ RECOMMENDED HARDWARE ============ -->
+<section class="pad" id="hardware">
+  <div class="wrap">
+    <div class="sn-head">
+      <span class="eyebrow sn-eb"><i></i>Recommended hardware</span>
+      <h2>Great hardware. <span class="sn-warm">We just don't sell it.</span></h2>
+      <p>Sentinel is designed to run on gear you may already have. Where you do need a part, we'll point to ones we've used — buy them wherever you like. We recommend hardware; we don't sell it.</p>
+    </div>
+    <div class="sn-hardware reveal">
+      <div class="sn-hw-card">
+        <div class="sn-ico"><svg viewBox="0 0 26 26" fill="none"><rect x="3" y="7" width="20" height="14" rx="2" stroke-width="1.5"/><path d="M9 7V5M17 7V5" stroke-width="1.5" stroke-linecap="round"/><circle cx="13" cy="14" r="2.5" stroke-width="1.5"/><path d="M10 14H8M16 14H18" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <span class="sn-hw-tag">Recommended</span>
+        <h3>Konnected Alarm Panel</h3>
+        <p>Brings compatible sensors, wiring and alarm panels onto your local network so Sentinel can read them. This is the hardware Sentinel was developed on.</p>
+        <a class="sn-hw-link" href="#pricing">Shop compatible <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="sn-hw-card">
+        <div class="sn-ico"><svg viewBox="0 0 26 26" fill="none"><rect x="4" y="6" width="18" height="14" rx="2" stroke-width="1.5"/><circle cx="13" cy="13" r="3" stroke-width="1.5"/><path d="M4 10h3M19 10h3M4 16h3M19 16h3" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+        <span class="sn-hw-tag">Compatible host</span>
+        <h3>Raspberry Pi, NUC or Mini PC</h3>
+        <p>Hardware used during development includes small always-on computers such as a Raspberry Pi or mini PC. A supported-hardware list will be published before release.</p>
+        <a class="sn-hw-link" href="#pricing">Shop compatible <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="sn-hw-card">
+        <div class="sn-ico"><svg viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="2.5" stroke-width="1.5"/><path d="M13 10.5V5M13 20.5v-5M15.5 13H21M5 13h5.5" stroke-width="1.3" stroke-linecap="round"/><circle cx="13" cy="5" r="1.4" stroke-width="1.3"/><circle cx="21" cy="13" r="1.4" stroke-width="1.3"/><circle cx="5" cy="13" r="1.4" stroke-width="1.3"/></svg></div>
+        <span class="sn-hw-tag opt">Planned</span>
+        <h3>Zigbee Coordinator</h3>
+        <p>Planned: Zigbee device support — locks, contacts and sensors — alongside the wired system.</p>
+        <a class="sn-hw-link" href="#pricing">Shop compatible <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="sn-hw-card">
+        <div class="sn-ico"><svg viewBox="0 0 26 26" fill="none"><path d="M6 16c0-3.9 3.1-7 7-7s7 3.1 7 7" stroke-width="1.5" stroke-linecap="round"/><path d="M9 16c0-2.2 1.8-4 4-4s4 1.8 4 4" stroke-width="1.5" stroke-linecap="round"/><circle cx="13" cy="16" r="1.4" fill="currentColor" stroke="none"/></svg></div>
+        <span class="sn-hw-tag opt">Planned</span>
+        <h3>Z-Wave Controller</h3>
+        <p>Planned: optional Z-Wave support for a broader range of smart-home devices.</p>
+        <a class="sn-hw-link" href="#pricing">Shop compatible <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+    <p class="sn-demo-note" style="margin-top:32px">Buy your hardware wherever you like. Some links may become affiliate links — you are not locked to a vendor.</p>
+  </div>
+</section>
+
+<!-- ============ CTA / QUOTE ============ -->
+<section class="pad sn-cta" id="quote">
+  <div class="sn-hero-orb" style="width:820px;height:820px;background:rgba(0,230,118,.05);top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+  <div class="sn-hero-orb" style="width:380px;height:380px;background:rgba(0,212,255,.06);top:8%;right:10%"></div>
+  <div class="wrap">
+    <div class="sn-cta-inner reveal">
+      <span class="eyebrow sn-eb" style="justify-content:center"><i></i>Modernize the home you already own.</span>
+      <h2>Ready to retire<br><span class="sn-warm">that old keypad?</span></h2>
+      <p>Sentinel is in active development. Join early access for availability and pricing updates — and to follow the work as the build comes together.</p>
+      <div class="sn-cta-actions">
+        <a class="btn btn-sn btn-lg" href="../early-access.html?product=Sentinel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v11M8 11l4 4 4-4M5 20h14"/></svg>
+          Join Sentinel Early Access
+        </a>
+        <a class="btn btn-ghost btn-lg" href="#demo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M10 9l4 2.5-4 2.5z"/></svg>
+          See the live demo
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="../assets/brand/zoneary_wordmark_key.png" alt="Zoneary" />
+        <p>Serious, local-first security software for the rest of us.</p>
+        <div class="foot-tag"><b>See it. Understand it. Protect it.</b></div>
+      </div>
+      <div class="fcol"><h5>Products</h5><a href="../watchtower/index.html">Watchtower</a><a href="../pulsegrid/index.html">PulseGrid</a><a href="index.html">Sentinel</a></div>
+      <div class="fcol"><h5>Sentinel</h5><a href="#how">How it works</a><a href="#demo">Live demo</a><a href="#pricing">Pricing</a><a href="#hardware">Recommended hardware</a></div>
+      <div class="fcol"><h5>Company</h5><a href="../about/index.html">Meet Zoneary</a><a href="../early-access.html?product=Sentinel">Early access</a><a href="../support.html">Support</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Zoneary. All rights reserved. Sentinel — old wiring, new intelligence.</span>
+      <!-- Sola — Original Motion QA Engineer. Those who know the story will understand. -->
+      <span class="mono" title="Sola — Original Motion QA Engineer">Tested against real sensors, real wiring, and one very independent chicken.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+<script>
+  /* Sentinel live-demo state switching — reuses the original demo (demo.html?state=…) */
+  var SENTINEL_CAPTIONS = {
+    ready: 'All zones secured. System standing by. Every entry point green.',
+    armed: 'Armed and monitoring. Full perimeter protection engaged.',
+    alarm: 'Alert active. Triggered zones highlighted red — immediate visual clarity on what’s open.'
+  };
+  var SENTINEL_BORDERS = {
+    ready: { border: 'rgba(0,230,118,.3)', glow: 'rgba(0,230,118,.2)' },
+    armed: { border: 'rgba(0,212,255,.3)',   glow: 'rgba(0,212,255,.2)' },
+    alarm: { border: 'rgba(255,90,90,.34)',  glow: 'rgba(255,90,90,.22)' }
+  };
+  function switchSentinelState(state) {
+    document.querySelectorAll('.sn-demo-tab').forEach(function (t) {
+      t.classList.remove('active'); t.setAttribute('aria-selected', 'false');
+    });
+    var tab = document.querySelector('.sn-demo-tab.t-' + state);
+    if (tab) { tab.classList.add('active'); tab.setAttribute('aria-selected', 'true'); }
+    var cap = document.getElementById('sentinel-caption');
+    if (cap) cap.textContent = SENTINEL_CAPTIONS[state];
+    var b = SENTINEL_BORDERS[state];
+    var wrap = document.getElementById('sentinel-frame-wrap');
+    if (wrap) {
+      wrap.style.borderColor = b.border;
+      wrap.style.boxShadow = '0 28px 90px rgba(0,0,0,.6),0 0 70px -20px ' + b.glow;
+    }
+    document.getElementById('sentinel-frame').src = 'demo.html?state=' + state;
+  }
+</script>
+</body>
+</html>

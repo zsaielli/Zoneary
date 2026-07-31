@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>
+  /* Own the initial scroll position before the first paint: no restored
+     mid-page landing, no visible scroll into the hero reveal. */
+  try { history.scrollRestoration = 'manual'; } catch (e) {}
+  if (!location.hash) { window.scrollTo(0, 0); }
+</script>
+<title>Zoneary | Modern Software for Physical Security</title>
+<meta name="description" content="Zoneary develops local-first physical security software, including Watchtower video management, PulseGrid infrastructure monitoring, and Sentinel home security control." />
+<link rel="canonical" href="https://zoneary.com/" />
+<link rel="icon" type="image/png" href="assets/brand/z_icon_square.png" />
+<link rel="apple-touch-icon" href="assets/brand/z_icon_square.png" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Zoneary" />
+<meta property="og:url" content="https://zoneary.com/" />
+<meta property="og:title" content="Zoneary | Modern Software for Physical Security" />
+<meta property="og:description" content="Local-first physical security software: Watchtower video management, PulseGrid infrastructure health monitoring, and Sentinel home security control. One connected ecosystem." />
+<meta property="og:image" content="https://zoneary.com/assets/hero-bg.png" />
+<meta property="og:image:alt" content="Zoneary — a lighthouse casting its beam over a dark coastline" />
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Zoneary | Modern Software for Physical Security" />
+<meta name="twitter:description" content="Local-first physical security software: Watchtower video management, PulseGrid infrastructure health monitoring, and Sentinel home security control." />
+<meta name="twitter:image" content="https://zoneary.com/assets/hero-bg.png" />
+<link rel="stylesheet" href="css/fonts.css" />
+<link rel="stylesheet" href="css/styles.css" />
+<!-- Structured data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Zoneary",
+  "url": "https://zoneary.com/",
+  "logo": "https://zoneary.com/assets/brand/zoneary_wordmark_key.png",
+  "email": "info@zoneary.com",
+  "description": "Zoneary develops local-first physical security software: Watchtower video management, PulseGrid infrastructure health monitoring, and Sentinel home security control."
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Watchtower",
+  "applicationCategory": "SecurityApplication",
+  "url": "https://zoneary.com/watchtower/",
+  "description": "Watchtower is Zoneary's local-first video management system for live monitoring, recording, playback, investigations and system health, running on your own hardware.",
+  "publisher": { "@type": "Organization", "name": "Zoneary", "url": "https://zoneary.com/" }
+}
+</script>
+</head>
+<body>
+<div class="atmos"><div class="top-glow"></div><div class="grid"></div></div>
+<div class="stars"></div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="nav">
+  <a class="nav-logo" href="#top" aria-label="Zoneary home">
+    <img src="assets/brand/zoneary_wordmark_key.png" alt="Zoneary" />
+  </a>
+  <nav class="nav-links" aria-label="Primary">
+    <div class="has-menu">
+      <span class="trigger" role="button" tabindex="0">Products
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </span>
+      <div class="menu">
+        <div class="menu-head">The Zoneary ecosystem</div>
+        <a class="menu-item" href="watchtower/index.html">
+          <span class="menu-ico"><img src="assets/watchtower/watchtower_logo.png" alt="" /></span>
+          <span><span class="menu-t">Watchtower <span class="flag">FLAGSHIP</span></span><span class="menu-d">Modern video management system</span></span>
+        </a>
+        <a class="menu-item" href="pulsegrid/index.html">
+          <span class="menu-ico v"><svg viewBox="0 0 24 24" fill="none" stroke="#a08cff" stroke-width="1.6"><path d="M3 12h3l2-6 3 13 3-9 2 5h5"/></svg></span>
+          <span><span class="menu-t">PulseGrid</span><span class="menu-d">Infrastructure health monitoring</span></span>
+        </a>
+        <a class="menu-item" href="sentinel/index.html">
+          <span class="menu-ico a"><img src="assets/brand/sentinel_shield.png" alt="" /></span>
+          <span><span class="menu-t">Sentinel</span><span class="menu-d">Home Security Control</span></span>
+        </a>
+      </div>
+    </div>
+    <a href="about/index.html">Meet Zoneary</a>
+    <a href="support.html">Support</a>
+    <a href="mailto:info@zoneary.com">Contact</a>
+  </nav>
+  <div class="nav-right">
+    <a class="nav-cta" href="watchtower/index.html">Explore Watchtower</a>
+  </div>
+  <button class="mobile-btn" id="mobileBtn" aria-label="Menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+  </button>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-scrim" aria-hidden="true"></div>
+  <div class="hero-beam" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-inner">
+      <div class="hero-mark"><img src="assets/watchtower/watchtower_logo.png" alt="Watchtower" width="240" height="279" /></div>
+      <div class="hero-word">WATCHTOWER</div>
+      <div class="hero-flag hi hi-d1"><span class="ln"></span><span class="fl-text">The flagship of <em>Zoneary</em></span><span class="ln r"></span></div>
+      <h1 class="hi hi-d2">A real VMS.<br>For <span class="grad">the rest of us.</span></h1>
+      <p class="hi hi-d3">Watchtower is Zoneary's local-first video management system — live monitoring, recording, playback and investigations, running on your own hardware, with your footage kept where it belongs: with you.</p>
+      <div class="hero-actions hi hi-d4">
+        <!-- directory URLs so the hero CTAs land on the canonical /watchtower/ and /about/ -->
+        <a class="btn btn-primary btn-lg" href="watchtower/">Explore Watchtower <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn-ghost btn-lg" href="about/">Meet Zoneary</a>
+      </div>
+      <div class="hero-note hi hi-d5"><b>Local by conviction.</b> Owned, not rented. Yours to keep.</div>
+
+      <!-- product family — the natural conclusion of the hero -->
+      <div class="fam-eyebrow hi hi-d6"><span class="ln"></span>The Zoneary Ecosystem<span class="ln r"></span></div>
+      <nav class="hero-family hi hi-d6" aria-label="Zoneary products">
+        <a class="fam-item" href="watchtower/index.html">
+          <span class="fam-ico wt"><img src="assets/watchtower/watchtower_logo.png" alt="" /></span>
+          <span class="fam-txt"><b>Watchtower</b><small>Modern video management system</small></span>
+        </a>
+        <span class="fam-div"></span>
+        <a class="fam-item" href="pulsegrid/index.html">
+          <span class="fam-ico pg"><img src="assets/brand/pulsegrid_icon.png" alt="" /></span>
+          <span class="fam-txt"><b>PulseGrid</b><small>Infrastructure health monitoring</small></span>
+        </a>
+        <span class="fam-div"></span>
+        <a class="fam-item" href="sentinel/index.html">
+          <span class="fam-ico sn"><img src="assets/brand/sentinel_shield.png" alt="" /></span>
+          <span class="fam-txt"><b>Sentinel</b><small>Home Security Control</small></span>
+        </a>
+      </nav>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROOF: the real product, emerging below the hero ============ -->
+<section class="proof">
+  <div class="wrap">
+    <div class="hero-shot" id="heroShot">
+      <div class="glow"></div>
+      <figure class="app-window">
+        <div class="aw-bar">
+          <span class="aw-dots"><i></i><i></i><i></i></span>
+          <span class="aw-title"><img src="assets/watchtower/watchtower_logo.png" alt="" /> watchtower · operations</span>
+          <span class="aw-live"><i></i>LIVE</span>
+        </div>
+        <div class="aw-media"><img src="assets/watchtower/operations.webp" alt="Watchtower Operations dashboard showing sites, cameras online, recording status, server and recording health, and a live activity feed" width="1920" height="1200" /></div>
+      </figure>
+      <div class="caption">Watchtower Operations — the real product, running on real hardware.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPANY INTRO ============ -->
+<div class="strip" id="company">
+  <div class="wrap">
+    <div class="co-intro reveal">
+      <span class="eyebrow"><i></i>The company</span>
+      <h2 class="st">Modern software for<br>physical security.</h2>
+      <p>Zoneary creates local-first software for the systems that protect people, property, and operations. Our products bring video management, infrastructure health, and home security control together through modern interfaces designed for real-world security environments.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ WATCHTOWER — THE FLAGSHIP, INTRODUCED ============
+     The homepage introduces Watchtower and hands off to /watchtower/,
+     which carries the complete product story. Deliberately a preview:
+     enough to establish the flagship, never the whole product manual. -->
+<section class="pad" id="watchtower">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><i></i>The Flagship — Watchtower</span>
+      <h2 class="st">Video management,<br>done <span class="grad">honestly.</span></h2>
+      <p class="lede">Live monitoring, recording, playback and investigations — designed for responsive multi-camera monitoring, honest about system state, and built to grow with the installation. Watchtower does not charge per camera. This is the heart of Zoneary; everything else exists to support it.</p>
+    </div>
+
+    <div class="bento">
+      <!-- Live View screenshot cell -->
+      <div class="cell shot c-wide reveal rd1" style="min-height:340px">
+        <span class="live-tag"><i></i>LIVE</span>
+        <div class="frame"><img src="assets/watchtower/live-view.webp" alt="Watchtower Live View showing a 2x2 wall of live camera feeds" loading="lazy" /></div>
+        <div class="cap">
+          <h3>Live Monitoring at scale</h3>
+          <p>Multi-camera walls designed for responsive monitoring, and built to grow with the installation. Latency is a security flaw — Watchtower is designed to treat it like one.</p>
+        </div>
+      </div>
+
+      <div class="cell c-2 reveal rd2">
+        <span class="ci"><svg viewBox="0 0 24 24" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+        <h3>Playback</h3><p>Precise timeline navigation across recorded footage.</p><span class="kpi">Recording timeline</span>
+      </div>
+
+      <div class="cell c-2 reveal rd3">
+        <span class="ci"><svg viewBox="0 0 24 24" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></span>
+        <h3>Investigations</h3><p>Bookmark, tag and export clips to build an investigation.</p><span class="kpi">Case export</span>
+      </div>
+
+      <div class="cell feature c-wide reveal rd2">
+        <span class="ci"><svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+        <h3>Local-first &amp; owned, not rented</h3>
+        <p>Runs on your own hardware. Watchtower does not charge per camera, and core local operation does not require cloud video storage. Final editions, ownership terms and update options will be published before launch.</p>
+        <span class="kpi">On-prem · no per-camera fees · local video storage</span>
+      </div>
+    </div>
+
+    <!-- hand-off into the flagship product page -->
+    <div class="reveal rd3" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;
+      margin-top:clamp(28px,3.5vw,44px);border:1px solid var(--line-2);border-radius:16px;background:var(--panel);padding:24px 28px">
+      <div>
+        <div style="font-family:var(--disp);font-weight:600;font-size:19px;letter-spacing:-.01em">The complete Watchtower story.</div>
+        <p style="color:var(--muted);font-size:14px;line-height:1.6;margin-top:6px;max-width:560px">Operations, live monitoring, recording, playback, investigations, health, camera compatibility and licensing — in depth, on the flagship's own page.</p>
+      </div>
+      <a class="btn btn-primary" href="watchtower/index.html">Explore Watchtower <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE WATCHTOWER MOMENT ============ -->
+<section class="cinematic" aria-label="Watchtower — always watching">
+  <div class="cine-scenes" id="cineScenes">
+    <div class="cine-scene is-active" style="background-image:url('assets/watchtower/operations.webp')"></div>
+    <div class="cine-scene" style="background-image:url('assets/watchtower/live-view.webp')"></div>
+    <div class="cine-scene" style="background-image:url('assets/watchtower/sites.webp')"></div>
+    <div class="cine-scene" style="background-image:url('assets/watchtower/playback.webp')"></div>
+    <div class="cine-scene" style="background-image:url('assets/watchtower/health.webp')"></div>
+    <div class="cine-scene" style="background-image:url('assets/watchtower/recording.webp')"></div>
+  </div>
+  <div class="cine-veil"></div>
+  <div class="cine-grain"></div>
+  <div class="cine-beam"></div>
+  <div class="cine-content">
+    <img class="cine-mark" src="assets/watchtower/watchtower_logo.png" alt="Watchtower" />
+    <p class="cine-line reveal">Something is always<br>watching over this place.</p>
+    <span class="cine-cap reveal rd1">Watchtower · local-first, and yours</span>
+  </div>
+</section>
+
+<!-- ============ ECOSYSTEM ============ -->
+<section class="pad" id="ecosystem">
+  <div class="wrap">
+    <div class="eco-head reveal">
+      <span class="eyebrow"><i></i>The Zoneary Ecosystem</span>
+      <h2 class="st">Three focused products.<br>One connected vision.</h2>
+      <p class="lede">Each product solves one real problem in physical security — and together they form a single local-first ecosystem. Watchtower leads; PulseGrid and Sentinel complete the picture.</p>
+    </div>
+
+    <!-- FLAGSHIP — Watchtower, given the largest presence -->
+    <div class="eco-feature reveal rd1">
+      <span class="bar"></span>
+      <div class="ef-copy">
+        <span class="eco-flag"><i></i>Flagship product</span>
+        <div class="ef-logo"><img src="assets/watchtower/watchtower_logo.png" alt="" /><span class="ef-name">Watchtower</span></div>
+        <div class="eco-desc">Video Management System</div>
+        <p>A modern, local-first video management system for live monitoring, recording, playback, investigations, and system health — running on your own hardware. Watchtower does not charge per camera.</p>
+        <a class="btn btn-primary" href="watchtower/index.html">Explore Watchtower <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="ef-media">
+        <figure class="app-window">
+          <div class="aw-bar"><span class="aw-dots"><i></i><i></i><i></i></span><span class="aw-title"><img src="assets/watchtower/watchtower_logo.png" alt="" /> watchtower · operations</span><span class="aw-live"><i></i>LIVE</span></div>
+          <div class="aw-media"><img src="assets/watchtower/operations.webp" alt="Watchtower Operations dashboard" width="1920" height="1200" loading="lazy" /></div>
+        </figure>
+      </div>
+    </div>
+
+    <!-- SUPPORTING — PulseGrid + Sentinel, clearly secondary -->
+    <div class="eco-pair">
+      <div class="eco-s b reveal rd2">
+        <span class="bar"></span>
+        <div class="es-logo"><img src="assets/brand/pulsegrid_lockup_key.png" alt="PulseGrid" /></div>
+        <div class="eco-desc">Infrastructure Health Monitoring</div>
+        <p>PulseGrid is being built to watch the infrastructure behind the video — cameras, servers, storage, networks, power and environmental conditions — so small problems surface before they become outages.</p>
+        <div class="foot"><a class="link-arrow pg" href="pulsegrid/index.html">Explore PulseGrid <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+      </div>
+      <div class="eco-s c reveal rd3">
+        <span class="bar"></span>
+        <div class="es-logo"><img src="assets/brand/sentinel_lockup.png" alt="Sentinel" /></div>
+        <div class="eco-desc">Home Security Control</div>
+        <p>Sentinel is designed to bring compatible home security equipment — sensors, wiring and sirens — into one modern, local dashboard, with device awareness and event history. In active development.</p>
+        <div class="foot"><a class="link-arrow sn" href="sentinel/index.html">Explore Sentinel <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+      </div>
+    </div>
+
+    <!-- how the three fit together -->
+    <div class="eco-rel reveal rd2">
+      <div class="r"><b class="wt">Watchtower</b><span>manages the video.</span></div>
+      <div class="r"><b class="pg">PulseGrid</b><span>monitors the infrastructure.</span></div>
+      <div class="r"><b class="sn">Sentinel</b><span>modernizes and controls the home security system.</span></div>
+      <div class="eco-rel-sum">Together, they form the Zoneary ecosystem — one local-first direction for physical security.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SUPPORTING PRODUCTS (tabs) ============ -->
+<section class="pad" id="pulsegrid">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin-bottom:30px">
+      <span class="eyebrow"><i></i>Beyond the VMS</span>
+      <h2 class="st">See the rest of the Zoneary ecosystem in action.</h2>
+      <p class="lede">PulseGrid and Sentinel are both in active development. What follows describes the direction and the capabilities being built and tested.</p>
+    </div>
+
+    <div class="tabs-head reveal rd1" role="tablist">
+      <button class="tab on" data-tab="pg" role="tab" aria-selected="true">PulseGrid</button>
+      <button class="tab" data-tab="sn" role="tab" aria-selected="false">Sentinel <span class="fl">/sentinel</span></button>
+    </div>
+
+    <!-- PULSEGRID -->
+    <div class="tab-panel on" id="tab-pg" role="tabpanel">
+      <div class="split violet">
+        <div>
+          <span class="eyebrow violet"><i></i>Understand it</span>
+          <div class="p-logo" style="margin-top:18px"><img src="assets/brand/pulsegrid_lockup_key.png" alt="PulseGrid" /></div>
+          <h2 class="st">A green ping<br>isn't health.</h2>
+          <p class="lede" style="margin-bottom:8px">A server can answer every network check while its drive quietly fails and its services collapse. PulseGrid separates <em style="color:var(--violet-soft);font-style:normal">is it responding</em> from <em style="color:var(--violet-soft);font-style:normal">is it actually well</em> — so you catch trouble before darkness, not after.</p>
+          <ul class="p-list">
+            <li><svg viewBox="0 0 24 24" stroke-width="1.7"><rect x="3" y="4" width="18" height="6" rx="1"/><rect x="3" y="14" width="18" height="6" rx="1"/></svg>Server, storage and service health — drive by drive</li>
+            <li><svg viewBox="0 0 24 24" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="12" cy="12" r="3"/></svg>Availability separated from true system health</li>
+            <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg>The old NOC wall, rebuilt for the rest of us — in active development</li>
+          </ul>
+          <a class="btn btn-ghost" href="pulsegrid/index.html">Explore PulseGrid <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <figure class="app-window pg-shot">
+          <div class="aw-bar">
+            <span class="aw-dots"><i></i><i></i><i></i></span>
+            <span class="aw-title"><img src="assets/brand/pulsegrid_icon.png" alt="" /> pulsegrid · all devices</span>
+            <span class="aw-live"><i></i>LIVE</span>
+          </div>
+          <div class="aw-media"><img src="assets/pulsegrid/all-devices.png" alt="PulseGrid All Devices dashboard — cameras, servers, switches and alarm panels with live health status" width="1913" height="923" loading="lazy" /></div>
+        </figure>
+      </div>
+    </div>
+
+    <!-- SENTINEL -->
+    <div class="tab-panel" id="tab-sn" role="tabpanel">
+      <div class="split green">
+        <div class="sent-shot">
+          <span class="bd">SENTINEL · TABLET INTERFACE</span>
+          <img src="assets/sentinel/sentinel_dashboard.png" alt="Sentinel home security dashboard, all zones secure" loading="lazy" />
+        </div>
+        <div>
+          <span class="eyebrow green"><i></i>Protect it · Old wiring. New intelligence.</span>
+          <div class="p-logo" style="margin-top:18px"><img src="assets/brand/sentinel_lockup.png" alt="Sentinel" /></div>
+          <h2 class="st">Don't replace what<br>still works.</h2>
+          <p class="lede" style="margin-bottom:8px">The sensors, sirens and wiring you already have are often fine — it's the plastic keypad and the contract that feel stuck in the past. Sentinel is designed to bring compatible existing equipment into one modern, local dashboard, built for you instead of the installer.</p>
+          <ul class="p-list">
+            <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg>Designed to reuse compatible sensors &amp; wiring, developed on Konnected hardware</li>
+            <li><svg viewBox="0 0 24 24" stroke-width="1.7"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M10 18h4"/></svg>Zones by their real names, not cryptic numbers</li>
+          </ul>
+          <a class="btn btn-green" href="sentinel/index.html">Explore Sentinel <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LOCAL-FIRST (company philosophy) ============ -->
+<section class="local-band" aria-label="Local-first philosophy">
+  <div class="wrap">
+    <div class="lb-inner reveal">
+      <span class="eyebrow"><i></i>Local-first by design</span>
+      <h2 class="lb-head"><span>Your systems.</span> <span>Your hardware.</span> <span class="grad">Your data.</span></h2>
+      <p>Zoneary products are designed to run where your security operations live — no mandatory cloud dependency, no forced subscription model. Your operational data stays under your control. It's the direction behind everything we build.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY ZONEARY ============ -->
+<section class="pad" id="about">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow"><i></i>Why Zoneary</span>
+      <h2 class="st">Principles, not features.</h2>
+      <p class="lede">We're a small team building the security software we always wished existed — tested against real cameras, real storage, real failures. Four beliefs sit underneath every screen.</p>
+    </div>
+    <div class="principles">
+      <div class="principle reveal rd1">
+        <span class="pn">i</span>
+        <h4>Local by conviction</h4>
+        <p>Designed to keep working when the internet doesn't. Your footage lives on your hardware, and core local operation does not require cloud video storage.</p>
+      </div>
+      <div class="principle reveal rd2">
+        <span class="pn">ii</span>
+        <h4>Owned, not rented</h4>
+        <p>Pay for value, not dependency. Watchtower does not charge per camera. Final editions, ownership terms and update options will be published before launch.</p>
+      </div>
+      <div class="principle reveal rd3">
+        <span class="pn">iii</span>
+        <h4>Honest by default</h4>
+        <p>If a drive is failing, we show it. Detected recording gaps are surfaced, not buried. When we don't know, we say "unknown" rather than a comforting green.</p>
+      </div>
+      <div class="principle reveal rd4">
+        <span class="pn">iv</span>
+        <h4>For the rest of us</h4>
+        <p>Professional capability without institutional arrogance. Built for the small installation and the large one, on the same software.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="pad-sm">
+  <div class="wrap">
+    <div class="cta-band reveal">
+      <div class="ct">
+        <h2>Put Watchtower to work.</h2>
+        <p>Start with the flagship, or build out the full Zoneary ecosystem. Local, owned, and honest — the way it should have been all along.</p>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary btn-lg" href="watchtower/index.html">Explore Watchtower <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn btn-ghost btn-lg" href="mailto:info@zoneary.com?subject=Zoneary%20sales%20enquiry">Contact sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="assets/brand/zoneary_wordmark_key.png" alt="Zoneary" />
+        <p>Serious, local-first security software for the rest of us.</p>
+        <div class="foot-tag"><b>See it. Understand it. Protect it.</b></div>
+      </div>
+      <div class="fcol"><h5>Products</h5><a href="watchtower/index.html">Watchtower</a><a href="pulsegrid/index.html">PulseGrid</a><a href="sentinel/index.html">Sentinel</a></div>
+      <div class="fcol"><h5>Company</h5><a href="about/index.html">Meet Zoneary</a><a href="support.html">Support</a><a href="mailto:info@zoneary.com">Contact</a></div>
+      <div class="fcol"><h5>Legal</h5><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="security.html">Security</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Zoneary. All rights reserved.</span>
+      <!-- Sola — Original Motion QA Engineer. Those who know the story will understand. -->
+      <span class="mono" title="Sola — Original Motion QA Engineer">Tested against real cameras, real storage, and one very independent chicken.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
