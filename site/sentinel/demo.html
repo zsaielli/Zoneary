@@ -4,10 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SENTINEL — Home Security Dashboard</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@200;300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<!-- Tailwind 3.4.17 CDN build, vendored locally so the page makes no third-party request -->
+<script src="tailwind.min.js"></script>
+<link rel="stylesheet" href="demo-fonts.css">
 <script>
   tailwind.config = {
     theme: {
@@ -1371,7 +1370,7 @@
 
   <!-- FOOTER -->
   <footer id="footer">
-    <span class="ft-text">SENTINEL v1.0 &nbsp;·&nbsp; KONNECTED.IO INTEGRATION READY &nbsp;·&nbsp; ALPINE SECURITY</span>
+    <span class="ft-text">SENTINEL DEVELOPMENT DEMO &nbsp;·&nbsp; KONNECTED-BASED HOME INSTALLATION</span>
     <span class="ft-text" id="ft-time">LAST SYNC: --:--:--</span>
   </footer>
 
@@ -1501,7 +1500,7 @@
     <!-- About / Version -->
     <div class="sp-section">
       <div class="sp-section-title">System Info</div>
-      <div class="sp-info-row"><span class="sp-info-key">VERSION</span><span class="sp-info-val">SENTINEL v1.0</span></div>
+      <div class="sp-info-row"><span class="sp-info-key">BUILD</span><span class="sp-info-val">Development demo</span></div>
       <div class="sp-info-row"><span class="sp-info-key">PLATFORM</span><span class="sp-info-val">Konnected.io</span></div>
       <div class="sp-info-row"><span class="sp-info-key">PANEL</span><span class="sp-info-val" id="sp-knx-status">Not configured</span></div>
       <div class="sp-info-row"><span class="sp-info-key">WEATHER</span><span class="sp-info-val" id="sp-wx-status">Not configured</span></div>

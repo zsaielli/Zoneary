@@ -8,7 +8,7 @@
   if (!location.hash) { window.scrollTo(0, 0); }
 </script>
 <title>Watchtower — A real VMS, for the rest of us | Zoneary</title>
-<meta name="description" content="Watchtower is Zoneary's flagship local-first video management system — live monitoring, recording, playback, investigations, operations and system health, running on your own hardware with no mandatory subscription and no per-camera fees." />
+<meta name="description" content="Watchtower is Zoneary's flagship local-first video management system — live monitoring, recording, playback, investigations, operations and system health, running on your own hardware. In active development; Watchtower does not charge per camera." />
 <link rel="canonical" href="https://zoneary.com/watchtower/" />
 <link rel="icon" type="image/png" href="../assets/watchtower/watchtower_logo.png" />
 <link rel="apple-touch-icon" href="../assets/watchtower/watchtower_logo.png" />
@@ -17,17 +17,15 @@
 <meta property="og:site_name" content="Zoneary" />
 <meta property="og:url" content="https://zoneary.com/watchtower/" />
 <meta property="og:title" content="Watchtower | Local-first Video Management by Zoneary" />
-<meta property="og:description" content="Everything a serious VMS does. None of the enterprise punishment. Live monitoring, recording, playback and investigations on hardware you own — local-first, owned, not rented." />
+<meta property="og:description" content="A modern VMS built around the tools operators use every day. Live monitoring, recording, playback and investigations on hardware you own — local-first, owned, not rented." />
 <meta property="og:image" content="https://zoneary.com/assets/watchtower/operations.webp" />
 <meta property="og:image:alt" content="Watchtower Operations dashboard running on real hardware" />
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Watchtower | Local-first Video Management by Zoneary" />
-<meta name="twitter:description" content="Everything a serious VMS does. None of the enterprise punishment. Local-first video management on hardware you own." />
+<meta name="twitter:description" content="A modern VMS built around the tools operators use every day. Local-first video management on hardware you own." />
 <meta name="twitter:image" content="https://zoneary.com/assets/watchtower/operations.webp" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/fonts.css" />
 <link rel="stylesheet" href="../css/styles.css" />
 <link rel="stylesheet" href="watchtower.css" />
 <!-- Structured data -->
@@ -37,7 +35,6 @@
   "@type": "SoftwareApplication",
   "name": "Watchtower",
   "applicationCategory": "SecurityApplication",
-  "operatingSystem": "Linux, Windows",
   "url": "https://zoneary.com/watchtower/",
   "description": "Watchtower is Zoneary's local-first video management system for live monitoring, recording, playback, investigations and system health, running on your own hardware.",
   "publisher": { "@type": "Organization", "name": "Zoneary", "url": "https://zoneary.com/" }
@@ -79,16 +76,16 @@
           <img src="../assets/watchtower/watchtower_logo.png" alt="Watchtower" width="240" height="279" />
           <span class="wm">WATCHTOWER</span>
         </div>
-        <h1>Everything a serious VMS does.<br><span class="wt-warm">None of the enterprise punishment.</span></h1>
-        <p class="wt-hero-body">Watchtower is Zoneary's flagship video management system — live monitoring, recording, playback and investigations, built to stay responsive at scale, honest about system state, and yours to own. It runs on your hardware. No per-camera fees, no cloud dependency, no subscription standing between you and your own footage.</p>
+        <h1>A modern VMS built around <span class="wt-warm">the tools operators use every day.</span></h1>
+        <p class="wt-hero-body">Watchtower is Zoneary's flagship video management system — live monitoring, recording, playback and investigations, designed for responsive multi-camera monitoring, honest about system state, and built to grow with the installation. It runs on your own hardware, and Watchtower does not charge per camera.</p>
         <div class="wt-hero-actions">
           <a class="btn btn-primary btn-lg" href="../early-access.html?product=Watchtower">Request early access <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           <a class="btn btn-ghost btn-lg" href="#overview">See how it works</a>
         </div>
         <div class="wt-marks">
+          <span><i></i>Current development build</span>
           <span><i></i>Local-first</span>
           <span><i></i>Owned, not rented</span>
-          <span><i></i>Honest by default</span>
         </div>
       </div>
       <div class="wt-hero-visual">
@@ -129,7 +126,7 @@
         <span class="eyebrow"><i></i>Why Watchtower exists</span>
         <h2 style="margin-top:20px">Video management split in two. <span class="wt-cy">Neither half was for us.</span></h2>
         <p>On one side: enterprise platforms priced per camera, licensed per feature, and complex enough to need a specialist on staff. On the other: free recorders and phone apps that fall over the moment a deployment gets real.</p>
-        <p>Watchtower is the missing middle. Professional capability without institutional arrogance — built for the homeowner with four cameras and the operator with two hundred, on the same software, with the same honesty.</p>
+        <p>Watchtower is the missing middle. Professional capability without institutional arrogance — built for the small installation and the large one, on the same software, with the same honesty.</p>
       </div>
       <ul class="wt-gap">
         <li><svg viewBox="0 0 24 24" stroke-width="1.6"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="3.2"/></svg>Priced per camera <span>cost</span></li>
@@ -150,12 +147,12 @@
     <div class="showcase reveal">
       <div class="sc-copy">
         <div class="step"><span class="n">01</span> Live Monitoring</div>
-        <h3>Monitoring at scale,<br>without the lag.</h3>
-        <p>Fluid multi-camera walls designed for responsive, low-latency monitoring. Latency is a security flaw — Watchtower treats it like one, from the first camera to the two-hundredth.</p>
+        <h3>Multi-camera monitoring,<br>built to stay clear.</h3>
+        <p>Multi-camera walls designed for responsive monitoring of local video. Latency is a security flaw, and Watchtower is designed to treat it like one as the wall grows.</p>
         <ul class="sc-list">
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><rect x="3" y="4" width="8" height="7" rx="1"/><rect x="13" y="4" width="8" height="7" rx="1"/><rect x="3" y="13" width="8" height="7" rx="1"/><rect x="13" y="13" width="8" height="7" rx="1"/></svg>Multi-camera walls with flexible layouts</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Built to stay responsive as the wall grows</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg>Live state you can trust at a glance</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Built to grow with the installation</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg>Local video processing and playback</li>
         </ul>
       </div>
       <div class="sc-media">
@@ -164,6 +161,23 @@
           <div class="aw-bar"><span class="aw-dots"><i></i><i></i><i></i></span><span class="aw-title">watchtower · live view</span><span class="aw-live"><i></i>LIVE</span></div>
           <div class="aw-media"><img src="../assets/watchtower/live-view.webp" alt="Watchtower Live View — a wall of live camera feeds" width="1920" height="1200" loading="lazy" /></div>
         </figure>
+      </div>
+    </div>
+
+    <!-- verified capability: WebGL dewarping in the browser, no desktop plugin -->
+    <div class="wt-feats two reveal" style="margin-top:clamp(38px,5vw,56px)">
+      <div class="wt-feat">
+        <div class="wt-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 3c3 3.6 3 14.4 0 18M3 12h18"/></svg></div>
+        <h3>Browser-native fisheye dewarping</h3>
+        <p>Watchtower includes a native WebGL dewarping experience for compatible fisheye workflows, running directly in the browser without a proprietary desktop viewing plugin.</p>
+        <div class="wt-tags"><span>WebGL</span><span>No desktop plugin</span></div>
+      </div>
+      <div class="wt-feat">
+        <div class="wt-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><rect x="3" y="4" width="8" height="7" rx="1"/><rect x="13" y="4" width="8" height="7" rx="1"/><rect x="3" y="13" width="8" height="7" rx="1"/><rect x="13" y="13" width="8" height="7" rx="1"/></svg></div>
+        <h3>Layouts that suit the site</h3>
+        <p>Camera walls are arranged to match how a site is actually watched, rather than a fixed grid the software insists on.</p>
+        <div class="wt-tags"><span>Flexible layouts</span></div>
+        <p class="wt-plan"><span class="lab">Planned</span>Published browser, GPU and camera-model support matrix</p>
       </div>
     </div>
   </div>
@@ -176,10 +190,10 @@
       <div class="sc-copy">
         <div class="step"><span class="n">02</span> Recording &amp; Storage</div>
         <h3>Know exactly how long<br>your footage lasts.</h3>
-        <p>Watchtower tracks storage composition, retention and system health in real time — and tells you before you run out of room. The playback cache is pruned automatically before a single recording is ever touched, so it can never crowd out what you came for.</p>
+        <p>Watchtower tracks storage composition, retention and system health, and is designed to surface capacity pressure before you run out of room. Pruning prioritizes recordings over regenerable playback cache.</p>
         <ul class="sc-list">
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 7c0-2 4-3 8-3s8 1 8 3-4 3-8 3-8-1-8-3z"/><path d="M4 7v10c0 2 4 3 8 3s8-1 8-3V7"/></svg>Predictive retention — days left, not just "disk full"</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg>Retention protection that never stops recording</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 7c0-2 4-3 8-3s8 1 8 3-4 3-8 3-8-1-8-3z"/><path d="M4 7v10c0 2 4 3 8 3s8-1 8-3V7"/></svg>Retention estimates in days, not just "disk full"</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg>Designed to protect recording continuity</li>
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 4h16v6H4zM4 14h16v6H4z"/></svg>Storage composition, broken out honestly</li>
         </ul>
       </div>
@@ -194,9 +208,9 @@
 
     <div class="wt-checklist" style="max-width:1060px;margin:clamp(38px,5vw,56px) auto 0">
       <div class="wt-check"><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Continuous recording per camera</div>
-      <div class="wt-check"><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Retention measured in days, not guesses</div>
-      <div class="wt-check"><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Cache pruned before recordings, always</div>
-      <div class="wt-check"><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Gaps surfaced, never quietly hidden</div>
+      <div class="wt-check"><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Retention reported in days, not guesses</div>
+      <div class="wt-check"><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Recordings prioritized over playback cache</div>
+      <div class="wt-check"><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Surfaces detected recording gaps</div>
     </div>
   </div>
 </section>
@@ -208,11 +222,11 @@
       <div class="sc-copy">
         <div class="step"><span class="n">03</span> Playback</div>
         <h3>Rewind time,<br>frame by frame.</h3>
-        <p>Pick a camera and a moment, and Watchtower takes you straight there. A dense recording timeline and motion markers turn weeks of footage into something you can actually navigate.</p>
+        <p>Pick a camera and a moment, and Watchtower takes you there. A dense recording timeline and motion markers are designed to turn long stretches of recorded footage into something you can actually navigate.</p>
         <ul class="sc-list">
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Precise scrubbing with motion markers</li>
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg>Skip gaps and jump straight to activity</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Navigate weeks of footage with responsive controls</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Precise timeline navigation across recorded footage</li>
         </ul>
       </div>
       <div class="sc-media">
@@ -238,7 +252,7 @@
       <div class="wt-feat reveal">
         <div class="wt-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M6 4h12v16l-6-4-6 4z"/></svg></div>
         <h3>Bookmark the moment</h3>
-        <p>Mark a point on the timeline the instant you find it, so it's still there tomorrow — and so the next person doesn't have to find it again.</p>
+        <p>Mark a point on the timeline as soon as you find it, so it's still there tomorrow — and so the next person doesn't have to find it again.</p>
         <div class="wt-tags"><span>Bookmarks</span><span>Timeline marks</span></div>
       </div>
       <div class="wt-feat reveal rd1">
@@ -265,9 +279,9 @@
       <div class="sc-copy">
         <div class="step"><span class="n">04</span> Operations Dashboard</div>
         <h3>Your whole deployment,<br>told honestly.</h3>
-        <p>Sites, cameras, recording and storage in one calm view. And when Watchtower isn't sure, it says so — "unknown", never a comforting green. False reassurance is more dangerous than an honest warning.</p>
+        <p>Sites, cameras, recording and storage in one calm view. And when Watchtower isn't sure, it says so — "unknown", rather than a comforting green. False reassurance is more dangerous than an honest warning.</p>
         <ul class="sc-list">
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 4h16v6H4zM4 14h10v6H4z"/></svg>Real-time state across every site, no guesswork</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 4h16v6H4zM4 14h10v6H4z"/></svg>Current state across connected sites, no guesswork</li>
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Live activity &amp; alert feed with jump-to-playback</li>
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg>Server &amp; recording health, surfaced not buried</li>
         </ul>
@@ -297,7 +311,7 @@
   <div class="wrap">
     <div class="wt-head">
       <span class="eyebrow"><i></i>Motion detection</span>
-      <h2>Weeks of footage.<br>Minutes that matter.</h2>
+      <h2>Long stretches of footage.<br>Minutes that matter.</h2>
       <p>Most recorded time is empty. Watchtower analyzes camera video locally and records motion activity into the event timeline, so playback starts at activity instead of at midnight.</p>
     </div>
     <div class="wt-feats">
@@ -331,11 +345,11 @@
       <div class="sc-copy">
         <div class="step"><span class="n">05</span> Health Monitoring</div>
         <h3>Real health,<br>not just a green ping.</h3>
-        <p>A recorder can answer every network check while its drive quietly fails. Watchtower reports what is actually true about the system it runs on — and when it doesn't know something, it says "unknown" rather than showing you a colour you'd like to see.</p>
+        <p>A recorder can answer a network check while its drive quietly fails. Watchtower is designed to report what is actually true about the system it runs on — and when it doesn't know something, to say "unknown" rather than show you a colour you'd like to see.</p>
         <ul class="sc-list">
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 4h16v6H4zM4 14h16v6H4z"/></svg>Server and recording-pipeline health in one place</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>Warnings raised early, while there's still time to act</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>"Unknown" when it's unknown — never a comforting green</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>Designed to raise warnings while there is still time to act</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg>"Unknown" when it's unknown, rather than a comforting green</li>
         </ul>
         <a class="link-arrow" href="../pulsegrid/index.html" style="color:var(--violet-soft)">Watching the wider infrastructure? That's PulseGrid
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -357,8 +371,8 @@
   <div class="wrap">
     <div class="wt-head">
       <span class="eyebrow"><i></i>Cameras &amp; compatibility</span>
-      <h2>Open standards.<br>Not a vendor list.</h2>
-      <p>Watchtower is built on the protocols the industry already agreed on, so cameras get chosen on merit — price, optics, the mount that fits — instead of on whose logo the software will accept.</p>
+      <h2>Built on open standards.</h2>
+      <p>Watchtower is built around protocols the industry already agreed on, so cameras can be chosen on merit — price, optics, the mount that fits. Compatibility details will be published before release.</p>
     </div>
     <div class="wt-feats">
       <div class="wt-feat reveal">
@@ -371,13 +385,13 @@
       <div class="wt-feat reveal rd1">
         <div class="wt-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M4 6h11v12H4z"/><path d="M15 10l5-3v10l-5-3z"/></svg></div>
         <h3>RTSP video ingestion</h3>
-        <p>Video is ingested over RTSP, the standard practically every IP camera already speaks — including the ones already mounted on your building.</p>
+        <p>Standards-based RTSP video ingestion — the streaming standard widely implemented across IP cameras, including ones already mounted on your building.</p>
         <div class="wt-tags"><span>RTSP</span><span>Main &amp; sub streams</span></div>
       </div>
       <div class="wt-feat reveal rd2">
         <div class="wt-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
         <h3>Hardware you already own</h3>
-        <p>No proprietary recorder to buy, no camera you have to replace to qualify. If it speaks the standards, it belongs on the wall.</p>
+        <p>No proprietary recorder to buy. Watchtower is built around open standards rather than a per-brand integration list, so cameras can be chosen on merit.</p>
         <div class="wt-tags"><span>Bring your own cameras</span><span>Bring your own server</span></div>
         <p class="wt-plan"><span class="lab">Planned</span>Vendor-specific extensions</p>
       </div>
@@ -403,7 +417,7 @@
   <div class="wrap">
     <span class="eyebrow" style="margin-bottom:26px"><i></i>Local-first architecture</span>
     <h2><span class="a">Your cameras.</span><span class="b">Your hardware.</span><span class="c">Your footage.</span></h2>
-    <p>Watchtower runs entirely on your own hardware. There is no cloud round-trip between a camera and the recording it produces, and no remote service that has to be reachable for you to watch your own site. The internet can go down; your security doesn't.</p>
+    <p>Watchtower runs on your own hardware. Core local operation — live view, recording and playback — does not require cloud video storage or a remote service round-trip.</p>
     <div class="wt-arch">
       <div class="a">
         <b>Nothing leaves unless you send it</b>
@@ -411,11 +425,11 @@
       </div>
       <div class="a">
         <b>No cloud dependency</b>
-        <p>Live view, playback and recording keep working when the uplink doesn't. A vendor outage is not a security incident at your site.</p>
+        <p>Live view, playback and recording are designed to keep working on the local network when the uplink does not.</p>
       </div>
       <div class="a">
         <b>Owned, not rented</b>
-        <p>A cancelled subscription can't disable what you already own. The software you bought keeps running on the hardware you bought.</p>
+        <p>Watchtower does not charge per camera. Final ownership and update terms will be published before launch.</p>
       </div>
     </div>
   </div>
@@ -427,41 +441,41 @@
     <div class="wt-head">
       <span class="eyebrow"><i></i>Licensing</span>
       <h2>Pay for value.<br>Not for dependency.</h2>
-      <p>Watchtower is licensed the way software used to be: you buy the version, and the version is yours. Staying current is a choice you make each year — not a switch someone else can flip.</p>
+      <p>One commercial commitment is settled: Watchtower does not charge per camera. The rest of the structure is still being finalised, and we would rather say so than publish an offer we might have to change.</p>
     </div>
     <div class="wt-lic">
       <div class="wt-lic-card featured reveal">
         <span class="flagline"></span>
-        <div class="wt-lic-name">Perpetual license</div>
-        <div class="wt-lic-role">Buy once · keep forever</div>
+        <div class="wt-lic-name">No per-camera fees</div>
+        <div class="wt-lic-role">Confirmed</div>
         <ul>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Buy the version once and keep using it</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>No mandatory monthly fee to keep recording</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Runs on your hardware, under your control</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Watchtower does not charge per camera</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Adding a camera is not a licence purchase</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>The same software at small and large installations</li>
         </ul>
       </div>
       <div class="wt-lic-card reveal rd1">
         <span class="flagline"></span>
-        <div class="wt-lic-name">Update coverage</div>
-        <div class="wt-lic-role">Optional · stay current</div>
+        <div class="wt-lic-name">Owned, not rented</div>
+        <div class="wt-lic-role">The direction we're building to</div>
         <ul>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Optional coverage for ongoing updates</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Let it lapse and your system keeps running</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Renew when a release earns it</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Software you own rather than rent</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Runs on your hardware, under your control</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Pay for value, not for dependency</li>
         </ul>
       </div>
       <div class="wt-lic-card reveal rd2">
         <span class="flagline"></span>
-        <div class="wt-lic-name">No per-camera fees</div>
-        <div class="wt-lic-role">Scale · without the tax</div>
+        <div class="wt-lic-name">Still to be published</div>
+        <div class="wt-lic-role">Before launch</div>
         <ul>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Adding a camera isn't a purchase order</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>The same software at four cameras and two hundred</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>No feature held hostage behind a tier</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>Editions and pricing</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>Ownership and update options</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>Support terms</li>
         </ul>
       </div>
     </div>
-    <p class="wt-lic-note">Watchtower is pre-launch. Editions and pricing will be published at launch — the licensing model above is the commitment we're building to.<br>Questions about a specific deployment? <a class="link-arrow" href="mailto:info@zoneary.com?subject=Watchtower%20licensing" style="font-size:12px">info@zoneary.com</a></p>
+    <p class="wt-lic-note">Watchtower is pre-launch. Final editions, ownership terms, and update options will be published before launch — nothing above is a completed offer.<br>Questions about a specific deployment? <a class="link-arrow" href="mailto:info@zoneary.com?subject=Watchtower%20licensing" style="font-size:12px">info@zoneary.com</a></p>
   </div>
 </section>
 
@@ -471,7 +485,7 @@
     <div class="wt-head">
       <span class="eyebrow"><i></i>Screenshots</span>
       <h2>See the real product.</h2>
-      <p>Not conceptual artwork — these are the actual screens your team works in every day.</p>
+      <p>Real screens from the current Watchtower build — not conceptual artwork.</p>
     </div>
     <div class="wt-gallery">
       <figure class="wt-gal reveal"><img src="../assets/watchtower/operations.webp" alt="Watchtower Operations dashboard" width="1920" height="1200" loading="lazy" /><figcaption>Operations</figcaption></figure>
@@ -514,23 +528,23 @@
     <div class="wt-faq">
       <details class="wt-q">
         <summary>Does Watchtower need an internet connection?</summary>
-        <div class="a"><p>No. Watchtower runs entirely on your own hardware — live view, recording and playback all work on your local network with the uplink down. Internet access is for the things that genuinely need it, not for watching your own cameras.</p></div>
+        <div class="a"><p>No. Watchtower runs on your own hardware, and live view, recording and playback are designed to work on your local network with the uplink down. Internet access is for the things that genuinely need it, not for watching your own cameras.</p></div>
       </details>
       <details class="wt-q">
         <summary>Where is my footage stored?</summary>
-        <div class="a"><p>On storage you chose, in the building you chose. Nothing is uploaded to a Zoneary cloud, and there is no remote service holding a key to your recordings. Sharing a clip is an action you take, not a default you have to opt out of.</p></div>
+        <div class="a"><p>On storage you chose, in the building you chose. Core local operation does not require cloud video storage, and does not upload your recordings to Zoneary. Sharing a clip is an action you take, not a default you have to opt out of.</p></div>
       </details>
       <details class="wt-q">
         <summary>Is there a per-camera fee?</summary>
-        <div class="a"><p>No. Adding a camera doesn't trigger a purchase order. Watchtower is licensed per system, not per lens — the same software runs a four-camera house and a two-hundred-camera operation.</p></div>
+        <div class="a"><p>No — Watchtower does not charge per camera. Adding a camera is not a licence purchase. The wider commercial structure is not final; editions and ownership terms will be published before launch.</p></div>
       </details>
       <details class="wt-q">
-        <summary>What happens if I stop paying?</summary>
-        <div class="a"><p>The version you bought keeps running. Update coverage is optional: if it lapses, you stop receiving new releases — you don't stop recording. A cancelled invoice can't disable what you already own.</p></div>
+        <summary>What are the commercial terms?</summary>
+        <div class="a"><p>Only one is settled today: Watchtower does not charge per camera. The direction we're building to is software you own rather than rent — but final editions, ownership terms, update options and support terms have not been decided, and we won't publish them until they are.</p></div>
       </details>
       <details class="wt-q">
         <summary>Which cameras work with Watchtower?</summary>
-        <div class="a"><p>Watchtower is built on open standards — ONVIF for setup and profile discovery, RTSP for video ingestion — rather than a per-brand integration list, so most modern IP cameras are candidates.</p><p>Our development and interoperability testing currently runs on i-PRO, MOBOTIX Q71 and MOBOTIX MOVE / MOVE U2VC-series hardware. That's what we've actually verified, not a universal compatibility guarantee. A published compatibility list is on the roadmap; until then, ask us about a specific model and we'll tell you what we know.</p></div>
+        <div class="a"><p>Watchtower uses ONVIF-based setup and profile discovery with standards-based RTSP video ingestion, rather than a per-brand integration list. Automatic local-network camera discovery is still in development.</p><p>Hardware used during development and interoperability testing currently includes i-PRO, MOBOTIX Q71 and MOBOTIX MOVE / MOVE U2VC-series equipment. That is a test bench, not a supported-device list. Compatibility details will be published before release; until then, ask us about a specific model and we'll tell you what we know.</p></div>
       </details>
       <details class="wt-q">
         <summary>How does Watchtower relate to PulseGrid and Sentinel?</summary>
@@ -549,8 +563,8 @@
   <div class="wrap">
     <div class="wt-head">
       <span class="eyebrow"><i></i>The Zoneary ecosystem</span>
-      <h2>Three products. One local-first platform.</h2>
-      <p>Watchtower leads, but it doesn't stand alone. Each product owns one layer of the same security operation.</p>
+      <h2>Three products. One local-first direction.</h2>
+      <p>Watchtower leads, but it doesn't stand alone. Each product addresses one layer of the same security operation. They share a philosophy and direction; they are not yet marketed as one integrated suite.</p>
     </div>
     <div class="wt-eco">
       <a class="wt-eco-row wt" href="#top">

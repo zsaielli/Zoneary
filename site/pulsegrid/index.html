@@ -8,7 +8,7 @@
   if (!location.hash) { window.scrollTo(0, 0); }
 </script>
 <title>PulseGrid — The heartbeat of your security infrastructure | Zoneary</title>
-<meta name="description" content="PulseGrid continuously monitors the health of your physical security infrastructure — cameras, recording servers, storage, switches, UPS and environmental conditions — surfacing developing issues before they become outages. Local-first, part of the Zoneary ecosystem." />
+<meta name="description" content="PulseGrid is being built to monitor the health of physical security infrastructure — cameras, recording servers, storage, switches, UPS and environmental conditions — surfacing developing issues before they become outages. In active development. Local-first, part of the Zoneary ecosystem." />
 <link rel="canonical" href="https://zoneary.com/pulsegrid/" />
 <link rel="icon" type="image/png" href="../assets/brand/pulsegrid_icon.png" />
 <link rel="apple-touch-icon" href="../assets/brand/pulsegrid_icon.png" />
@@ -17,16 +17,14 @@
 <meta property="og:site_name" content="Zoneary" />
 <meta property="og:url" content="https://zoneary.com/pulsegrid/" />
 <meta property="og:title" content="PulseGrid | Physical Security Infrastructure Monitoring by Zoneary" />
-<meta property="og:description" content="PulseGrid monitors the health of the infrastructure behind your video — cameras, servers, storage, networks, power and environment — before small problems become outages. Local-first, part of the Zoneary ecosystem." />
+<meta property="og:description" content="PulseGrid is being built to monitor the health of the infrastructure behind your video — cameras, servers, storage, networks, power and environment. In active development. Local-first, part of the Zoneary ecosystem." />
 <meta property="og:image" content="https://zoneary.com/pulsegrid/img/all-devices.png" />
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="PulseGrid | Physical Security Infrastructure Monitoring by Zoneary" />
-<meta name="twitter:description" content="Monitor the health of your physical security infrastructure before small problems become outages. Local-first, part of the Zoneary ecosystem." />
+<meta name="twitter:description" content="In development: monitoring the health of physical security infrastructure before small problems become outages. Local-first, part of the Zoneary ecosystem." />
 <meta name="twitter:image" content="https://zoneary.com/pulsegrid/img/all-devices.png" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../css/fonts.css" />
 <link rel="stylesheet" href="../css/styles.css" />
 <link rel="stylesheet" href="pulsegrid.css" />
 </head>
@@ -62,7 +60,7 @@
       <div class="pg-hero-content">
         <div class="pg-hero-brand"><img src="../assets/brand/pulsegrid_lockup_key.png" alt="PulseGrid" /></div>
         <h1>The heartbeat of your <span class="pg-warm">security infrastructure.</span></h1>
-        <p class="pg-hero-body">PulseGrid continuously monitors the health of your physical security ecosystem — from cameras and recording servers to storage, switches, UPS systems and environmental conditions — giving you real-time visibility before small issues become major outages.</p>
+        <p class="pg-hero-body">PulseGrid is being built to monitor the health of your physical security ecosystem — from cameras and recording servers to storage, switches, UPS systems and environmental conditions — so developing issues surface before they become outages.</p>
         <div class="pg-hero-actions">
           <span class="btn btn-soon btn-lg"><span class="dot"></span>Coming soon</span>
           <a class="btn btn-pg btn-lg" href="#access">Request early access <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -88,6 +86,11 @@
   </div>
 </section>
 
+<!-- ============ CURRENT vs PLANNED BOUNDARY ============ -->
+<div class="wrap">
+  <p class="prelaunch" style="max-width:860px;margin:0 auto">PulseGrid is in active development. This page describes the product direction and the capabilities currently being built and tested — it is not a shipping feature list. Items marked <b>Planned</b> are not yet implemented.</p>
+</div>
+
 <!-- ============ WHAT IS PULSEGRID ============ -->
 <section class="pad pg-band" id="what">
   <div class="wrap">
@@ -96,7 +99,7 @@
         <span class="eyebrow pg-eb"><i></i>What is PulseGrid</span>
         <h2 style="margin-top:20px">Security systems rarely fail all at once. <span class="pg-vt">They degrade.</span></h2>
         <p>Storage fills. SSD health declines. Temperatures climb. UPS batteries age. Switches run out of PoE budget. Recording servers quietly run short on resources. None of it trips an alarm — until the night you need footage and it isn't there.</p>
-        <p>PulseGrid watches all of it, continuously. Watchtower watches the video; <b style="color:var(--ink)">PulseGrid watches everything behind the video</b> — the hardware, storage, network and environment your security depends on.</p>
+        <p>That is what PulseGrid is being built to watch. Watchtower watches the video; <b style="color:var(--ink)">PulseGrid is designed to watch what sits behind the video</b> — the hardware, storage, network and environment your security depends on.</p>
       </div>
       <ul class="pg-decay">
         <li><svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h10"/></svg>Storage fills <span>capacity</span></li>
@@ -107,7 +110,7 @@
         <li><svg viewBox="0 0 24 24" stroke-width="1.6"><rect x="3" y="4" width="18" height="6" rx="1"/><rect x="3" y="14" width="18" height="6" rx="1"/></svg>Servers run short <span>compute</span></li>
       </ul>
     </div>
-    <p class="pg-punch">Instead of watching video, PulseGrid watches <b>everything the video depends on</b> — so you catch trouble before darkness, not after.</p>
+    <p class="pg-punch">Instead of watching video, PulseGrid is designed to watch <b>what the video depends on</b> — so you catch trouble before darkness, not after.</p>
   </div>
 </section>
 
@@ -117,27 +120,29 @@
     <div class="pg-head">
       <span class="eyebrow pg-eb"><i></i>Purpose-built for physical security</span>
       <h2>Everything that keeps the cameras rolling.</h2>
-      <p>Not generic IT monitoring — PulseGrid understands the devices a security operation actually runs on, and watches each one for the failures that matter.</p>
+      <p>Not generic IT monitoring. PulseGrid is being built around the devices a security operation actually runs on, and the failures that matter on each. Capability depth varies by device class — see the Planned notes below.</p>
     </div>
     <div class="pg-features">
       <div class="pg-feat reveal">
         <div class="pg-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="3.2"/></svg></div>
         <h3>Cameras</h3>
-        <p>Camera connectivity, availability and operational state across the whole fleet — surfaced the moment a device drops.</p>
+        <p>Camera connectivity, availability and operational state — surfaced when a device drops.</p>
         <div class="pg-tags"><span>Connectivity</span><span>Availability</span><span>Operational state</span><span>Device status</span></div>
         <p class="pg-plan"><span class="lab">Planned</span>Firmware telemetry · sensor temperature · onboard storage health</p>
       </div>
       <div class="pg-feat reveal reveal-delay-1">
         <div class="pg-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5h.01M7 16.5h.01"/></svg></div>
         <h3>Recording servers</h3>
-        <p>The machines Watchtower runs on, watched end to end — from load to recording pipeline health.</p>
+        <p>The machines Watchtower runs on — from load to recording pipeline health.</p>
         <div class="pg-tags"><span>CPU</span><span>Memory</span><span>Storage</span><span>Services</span><span>Recording health</span><span>Telemetry</span></div>
+        <p class="pg-plan"><span class="lab">In development</span>Service-level and recording-pipeline checks are still being built out</p>
       </div>
       <div class="pg-feat reveal reveal-delay-2">
         <div class="pg-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></div>
         <h3>Storage health</h3>
-        <p>Drive-level truth for the vault your footage lives in — before a disk takes the retention with it.</p>
-        <div class="pg-tags"><span>SMART</span><span>SSD wear</span><span>NVMe</span><span>RAID</span><span>Capacity</span><span>Performance</span><span>Temps</span></div>
+        <p>Drive-level visibility for the vault your footage lives in — so a failing disk surfaces before it takes the retention with it.</p>
+        <div class="pg-tags"><span>SMART</span><span>SSD wear</span><span>NVMe</span><span>Capacity</span><span>Temps</span></div>
+        <p class="pg-plan"><span class="lab">Planned</span>RAID array health · throughput/performance metrics</p>
       </div>
       <div class="pg-feat reveal">
         <div class="pg-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><rect x="3" y="9" width="18" height="7" rx="1.5"/><path d="M7 12.5h.01M11 12.5h.01M6 9V6M18 9V6"/></svg></div>
@@ -156,8 +161,9 @@
       <div class="pg-feat reveal reveal-delay-2">
         <div class="pg-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><circle cx="12" cy="10" r="7"/><path d="M12 3a12 12 0 000 14M5 10h14"/></svg></div>
         <h3>Multi-site</h3>
-        <p>Monitor one location — or hundreds — through a single unified interface, with every site's health at a glance.</p>
+        <p>Bring multiple locations into a single interface, with each site's health at a glance.</p>
         <div class="pg-tags"><span>Unified view</span><span>Per-site health</span><span>One console</span></div>
+        <p class="pg-plan"><span class="lab">Planned</span>Validated large-fleet and cross-site rollups</p>
       </div>
     </div>
   </div>
@@ -169,7 +175,7 @@
     <div class="pg-head">
       <span class="eyebrow pg-eb"><i></i>The Health Engine</span>
       <h2>Early warning, not late reaction.</h2>
-      <p>PulseGrid continuously evaluates health telemetry and surfaces developing problems — a wearing SSD, a climbing drive temperature, a service starting to slip — before they become outages, while there's still time to act.</p>
+      <p>PulseGrid is being built to evaluate health telemetry and surface developing problems — a wearing SSD, a climbing drive temperature, a service starting to slip — while there is still time to act.</p>
     </div>
     <div class="pg-health">
       <div>
@@ -192,7 +198,7 @@
           <div class="aw-bar"><span class="aw-dots"><i></i><i></i><i></i></span><span class="aw-title"><img src="../assets/brand/pulsegrid_icon.png" alt="" /> pulsegrid · device health</span><span class="aw-live"><i></i>LIVE</span></div>
           <div class="aw-media" style="background:#0a0d15"><img src="img/health.png" alt="PulseGrid device health panel — 94 health score with active checks and a SMART/NVMe early warning" width="1910" height="938" loading="lazy" /></div>
         </figure>
-        <p class="pg-cap">Overall health scores summarize the wider device condition while critical findings remain independently visible and actionable.</p>
+        <p class="pg-cap">Health scores are designed to summarize wider device condition while critical findings stay independently visible. Scoring is still being tuned against real hardware.</p>
       </div>
     </div>
   </div>
@@ -204,7 +210,7 @@
     <div class="pg-head">
       <span class="eyebrow pg-eb"><i></i>Incident management</span>
       <h2>Problems, organized into action.</h2>
-      <p>PulseGrid doesn't just display statistics. It groups related signals into actionable incidents — acknowledge, suppress, resolve — so an operator always knows what actually needs attention.</p>
+      <p>PulseGrid is being built to group related signals into actionable incidents — acknowledge, suppress, resolve — so an operator can see what actually needs attention rather than a wall of statistics.</p>
     </div>
     <div class="pg-incidents">
       <div class="pg-inc-list">
@@ -231,7 +237,7 @@
     <div class="pg-head">
       <span class="eyebrow pg-eb"><i></i>Interactive maps</span>
       <h2>Every site, at a glance.</h2>
-      <p>See your whole footprint on one live map — sites pulsing with their real health, devices reachable directly from the point they sit on.</p>
+      <p>Sites on one map, showing their current health, with devices reachable from the point they sit on.</p>
     </div>
     <div class="pg-map-wrap reveal">
       <div class="pg-shot">
@@ -284,8 +290,8 @@
   <div class="wrap">
     <div class="pg-head">
       <span class="eyebrow pg-eb"><i></i>The Zoneary ecosystem</span>
-      <h2>Three products. One local-first platform.</h2>
-      <p>PulseGrid doesn't compete with Watchtower — it completes it. Each product owns one layer of the same security operation.</p>
+      <h2>Three products. One local-first direction.</h2>
+      <p>PulseGrid doesn't compete with Watchtower — it complements it. Each product addresses one layer of the same security operation. They share a philosophy and direction; they are not yet marketed as one integrated suite.</p>
     </div>
     <div class="pg-eco">
       <a class="pg-eco-row wt" href="../watchtower/index.html">
@@ -304,7 +310,7 @@
         <span class="lbl">Protect it →</span>
       </a>
     </div>
-    <p class="pg-eco-note">Watchtower manages the video. PulseGrid monitors the infrastructure. Sentinel modernizes and controls the home security system. Together, they form the Zoneary ecosystem — local-first, owned, not rented.</p>
+    <p class="pg-eco-note">Watchtower manages the video. PulseGrid watches the infrastructure behind it. Sentinel modernizes and controls the home security system. Together they form the Zoneary ecosystem — local-first, owned, not rented.</p>
   </div>
 </section>
 
