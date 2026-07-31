@@ -1,0 +1,106 @@
+name: Publish production branch (Hostinger)
+
+# MANUAL ONLY. This never runs on push.
+#
+# Takes the contents of site/ at the selected revision of main and replaces the
+# `production` branch with it, so that the root of `production` is the finished
+# static website. Hostinger deploys `production` to public_html.
+#
+# GitHub Pages (.github/workflows/pages.yml) is unaffected and remains the
+# staging/review environment.
+#
+# See DEPLOYMENT.md for the full process.
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Revision of main to publish (branch, tag or full SHA)"
+        required: true
+        default: main
+      confirm:
+        description: 'Type "publish" to confirm this goes to production'
+        required: true
+        default: ""
+
+# Least privilege: the job only needs to write the production branch.
+permissions:
+  contents: write
+
+# Never let two production publishes overlap; do not cancel one midway.
+concurrency:
+  group: publish-production
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Validate and publish site/ to production
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Guard - confirmation phrase
+        if: ${{ inputs.confirm != 'publish' }}
+        run: |
+          echo "::error::Confirmation failed. Re-run and type exactly: publish"
+          exit 1
+
+      - name: Checkout selected revision
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+          # full history so the production branch can be fetched and extended
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Guard - site/index.html must exist
+        run: |
+          test -f site/index.html \
+            || { echo "::error::site/index.html not found at ${{ inputs.ref }}"; exit 1; }
+          echo "site/index.html present"
+
+      - name: Run website checks
+        run: python tools/check_site.py --site site
+
+      - name: Build production branch (dry run, no push)
+        env:
+          DRY_RUN: "1"
+          SOURCE_REF: ${{ inputs.ref }}
+        run: bash tools/publish-production.sh
+
+      - name: Publish to production branch
+        env:
+          SOURCE_REF: ${{ inputs.ref }}
+        run: bash tools/publish-production.sh
+
+      - name: Verify published branch root
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin +refs/heads/production:refs/remotes/origin/production
+          echo "--- root of origin/production ---"
+          git ls-tree --name-only origin/production | sed 's/^/  /'
+          git cat-file -e origin/production:index.html \
+            || { echo "::error::index.html is not at the root of production"; exit 1; }
+          if git ls-tree --name-only origin/production | grep -qx 'site'; then
+            echo "::error::production still contains a nested site/ directory"; exit 1
+          fi
+          echo "verified: index.html is at the root of production"
+
+      - name: Summary
+        run: |
+          {
+            echo "### Production publish"
+            echo ""
+            echo "| | |"
+            echo "|---|---|"
+            echo "| Source ref | \`${{ inputs.ref }}\` |"
+            echo "| Source commit | \`$(git rev-parse HEAD)\` |"
+            echo "| Production commit | \`$(git rev-parse origin/production)\` |"
+            echo ""
+            echo "Hostinger can now pull the updated \`production\` branch."
+          } >> "$GITHUB_STEP_SUMMARY"
