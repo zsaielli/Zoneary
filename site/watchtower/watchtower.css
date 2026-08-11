@@ -132,6 +132,38 @@ section[id]{scroll-margin-top:114px}
 .wt-tested-note{margin-top:18px;font-size:13px;line-height:1.65;color:var(--muted)}
 .wt-tested-note a{color:var(--wt);border-bottom:1px solid rgba(0,212,255,.3)}
 
+/* two screenshots side by side with a corner label (fisheye before/after,
+   desktop client sign-in + live view) */
+.wt-duo{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1160px;margin:clamp(30px,4vw,44px) auto 0}
+.wt-duo-item{position:relative;border:1px solid var(--line-2);border-radius:14px;overflow:hidden;background:var(--panel);
+  transition:border-color .25s}
+.wt-duo-item:hover{border-color:var(--wt-line)}
+.wt-duo-item img{width:100%;height:auto;display:block}
+/* sits at the bottom so it never lands on the popout's own header bar */
+.wt-duo-tag{position:absolute;left:14px;bottom:14px;z-index:2;font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--steel);background:rgba(8,10,17,.72);border:1px solid var(--line);
+  border-radius:6px;padding:5px 10px;backdrop-filter:blur(6px)}
+.wt-duo-tag.on{color:var(--wt);border-color:var(--wt-line);background:rgba(0,212,255,.12)}
+
+
+/* ============ DESKTOP CLIENT PLATFORMS ============ */
+.wt-platforms{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1000px;margin:0 auto}
+.wt-plat{background:var(--panel);border:1px solid var(--line-2);border-radius:18px;text-align:center;
+  padding:clamp(28px,2.6vw,36px) clamp(20px,2vw,28px);transition:border-color .25s,transform .25s,background .25s}
+.wt-plat:hover{border-color:var(--wt-line);transform:translateY(-4px);background:var(--panel-hi)}
+.wt-plat-mark{display:grid;place-items:center;width:60px;height:60px;margin:0 auto 18px;border-radius:16px;
+  border:1px solid var(--line);background:linear-gradient(160deg,rgba(255,255,255,.07),transparent)}
+.wt-plat-mark svg{width:29px;height:29px;fill:var(--ink)}
+.wt-plat h3{font-family:var(--disp);font-weight:600;font-size:19px;letter-spacing:-.01em;margin-bottom:12px}
+.wt-plat-status{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;
+  letter-spacing:.16em;text-transform:uppercase;border-radius:100px;padding:5px 12px;margin-bottom:14px}
+.wt-plat-status i{width:6px;height:6px;border-radius:50%;flex:none}
+.wt-plat-status.ok{color:var(--green);border:1px solid rgba(62,224,138,.32);background:rgba(62,224,138,.08)}
+.wt-plat-status.ok i{background:var(--green);box-shadow:0 0 8px var(--green)}
+.wt-plat-status.dev{color:var(--amber);border:1px dashed rgba(255,180,84,.45);background:rgba(255,180,84,.07)}
+.wt-plat-status.dev i{background:var(--amber);box-shadow:0 0 8px var(--amber)}
+.wt-plat p{font-size:13.5px;color:var(--muted);line-height:1.6}
+
 /* ============ CHECK GRID (storage / health signals) ============ */
 .wt-checklist{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .wt-check{display:flex;align-items:center;gap:11px;background:var(--panel);border:1px solid var(--line-2);border-radius:11px;
@@ -231,6 +263,10 @@ section[id]{scroll-margin-top:114px}
   .wt-why{grid-template-columns:1fr;gap:34px}
   .wt-feats,.wt-feats.two{grid-template-columns:1fr 1fr}
   .wt-lic,.wt-roadmap,.wt-gallery,.wt-arch{grid-template-columns:1fr 1fr}
+}
+@media(max-width:760px){
+  .wt-duo{grid-template-columns:1fr}
+  .wt-platforms{grid-template-columns:1fr}
 }
 @media(max-width:640px){
   .wt-feats,.wt-feats.two,.wt-lic,.wt-roadmap,.wt-gallery,.wt-arch{grid-template-columns:1fr}
