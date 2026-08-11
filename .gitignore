@@ -24,8 +24,3 @@ secret*
 # Dependencies / logs / temporary files
 node_modules/
 *.log
-
-# Held back deliberately: this capture has a third-party Discord notification
-# visible (a real person's name and message). This repo is public, so committing
-# it would publish that. Re-capture without the popup before adding it.
-assets/Watchtower Screenshots/Aug 11/WT_Settings_Dashboard.png
