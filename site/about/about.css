@@ -80,26 +80,27 @@
 .ab-prod-note b.wt{color:var(--cyan);font-weight:600}.ab-prod-note b.pg{color:var(--violet-soft);font-weight:600}.ab-prod-note b.sn{color:var(--sn);font-weight:600}
 @media(max-width:640px){.ab-prod{grid-template-columns:44px 1fr;padding:20px}.ab-prod .ico{width:44px;height:44px}.ab-prod .go{display:none}}
 
-/* ---- PHOTO PLACEHOLDER (to be replaced with real photography) ---- */
-.photo-ph{position:relative;border:1px dashed rgba(255,255,255,.17);border-radius:16px;overflow:hidden;
-  background:repeating-linear-gradient(45deg, rgba(255,255,255,.014) 0 12px, transparent 12px 24px), var(--panel);
-  display:grid;place-items:center;text-align:center;padding:26px;min-height:230px}
-.photo-ph .ph-ico{width:32px;height:32px;margin:0 auto 12px;opacity:.45;stroke:var(--steel);fill:none}
-.photo-ph .ph-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
-.photo-ph .ph-cap{font-size:13px;color:var(--muted);margin-top:8px;max-width:280px;line-height:1.5}
+/* ---- HARDWARE PHOTOGRAPHY ---- */
+.ab-hw-shot{position:relative;overflow:hidden;border:1px solid var(--line-2);border-radius:16px;
+  background:var(--bg-2);transition:transform .3s var(--ease),border-color .3s}
+.ab-hw-shot:hover{transform:translateY(-3px);border-color:var(--line)}
+.ab-hw-shot img{width:100%;height:100%;object-fit:cover;display:block}
+.ab-hw-shot figcaption{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:26px 16px 13px;
+  font-size:12.5px;line-height:1.45;color:var(--steel);
+  background:linear-gradient(0deg,rgba(8,10,17,.94) 22%,rgba(8,10,17,.55) 62%,transparent)}
 
 /* ---- HARDWARE GALLERY ---- */
 .ab-hardware{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;grid-auto-rows:200px}
-.ab-hardware .photo-ph{min-height:0}
 .hw-a{grid-column:span 4;grid-row:span 2}
 .hw-b{grid-column:span 2}
 .hw-c{grid-column:span 2}
 .hw-d{grid-column:span 3}
 .hw-e{grid-column:span 3}
 @media(max-width:900px){.ab-hardware{grid-template-columns:1fr 1fr;grid-auto-rows:180px}
-  .hw-a{grid-column:span 2;grid-row:span 1}.hw-b,.hw-c,.hw-d,.hw-e{grid-column:span 1}}
+  /* two rows so the bench shot keeps its label and the storage the caption names */
+  .hw-a{grid-column:span 2;grid-row:span 2}.hw-b,.hw-c,.hw-d,.hw-e{grid-column:span 1}}
 @media(max-width:560px){.ab-hardware{grid-template-columns:1fr}
-  .hw-a,.hw-b,.hw-c,.hw-d,.hw-e{grid-column:span 1}}
+  .hw-a,.hw-b,.hw-c,.hw-d,.hw-e{grid-column:span 1}.hw-a{grid-row:span 1}}
 
 /* ---- QA TEAM ---- */
 .ab-qa{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
