@@ -186,12 +186,25 @@
 .sn-tier ul{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:30px;flex:1}
 .sn-tier li{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:var(--muted);line-height:1.4}
 .sn-tier li svg{flex:none;margin-top:2px}
+.sn-tier li>span{flex:1;min-width:0}
 .sn-tier li.off{color:var(--faint)}
 
 /* single-offering pricing card (DIY download) — one centered .sn-tier */
 .sn-pricing{max-width:440px;margin:0 auto}
 .sn-pricing .sn-tier{margin:0}
 .sn-pricing .sn-tier .btn{margin-top:auto}
+
+
+/* struck-through regular price beside the launch price */
+.sn-tier-price .was{font-family:var(--disp);font-weight:600;font-size:18px;color:var(--faint);
+  text-decoration:line-through;margin-left:8px}
+/* promotional band - restrained, matches the Watchtower treatment */
+.sn-promo{display:flex;align-items:center;justify-content:center;gap:10px;width:fit-content;
+  margin:0 auto clamp(24px,3vw,34px);font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--sn);border:1px dashed rgba(0,230,118,.36);
+  background:rgba(0,230,118,.06);border-radius:100px;padding:9px 20px}
+.sn-promo i{width:6px;height:6px;border-radius:50%;background:var(--sn);box-shadow:0 0 8px var(--sn);flex:none}
+.sn-tier li b{color:var(--ink);font-weight:600}
 
 /* ============ RECOMMENDED HARDWARE ============ */
 .sn-hardware{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;max-width:1040px;margin:0 auto}
@@ -206,10 +219,18 @@
 .sn-hw-tag.opt{background:rgba(255,255,255,.04);border-color:var(--line-2);color:var(--faint)}
 .sn-hw-card h3{font-family:var(--disp);font-weight:600;font-size:15.5px;margin-bottom:9px;letter-spacing:-.005em}
 .sn-hw-card p{font-size:13px;color:var(--muted);line-height:1.55;flex:1;margin-bottom:16px}
-.sn-hw-link{font-family:var(--disp);font-weight:600;font-size:13px;color:var(--sn);
-  display:inline-flex;align-items:center;gap:6px;transition:gap .2s}
-.sn-hw-link:hover{gap:9px}
-.sn-hw-link svg{width:14px;height:14px;stroke:currentColor;fill:none}
+/* factual status line at the foot of a hardware card - deliberately not a link:
+   we recommend hardware, we don't sell it, and two of these are not supported yet */
+.sn-hw-state{align-self:flex-start;font-family:var(--mono);font-size:10.5px;font-weight:500;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--sn);
+  display:inline-flex;align-items:center;gap:8px}
+.sn-hw-state::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--sn);
+  box-shadow:0 0 7px var(--sn);flex:none}
+.sn-demo-note .link-arrow{color:var(--sn)}
+/* a.inline is scoped to .doc in styles.css, so give it affordance out here too */
+.sn-demo-note a.inline{color:var(--sn);border-bottom:1px solid rgba(0,230,118,.32)}
+.sn-hw-state.off{color:var(--faint)}
+.sn-hw-state.off::before{background:var(--faint);box-shadow:none}
 
 /* ============ CTA ============ */
 .sn-cta{position:relative;overflow:hidden;text-align:center;border-top:1px solid var(--line-2)}

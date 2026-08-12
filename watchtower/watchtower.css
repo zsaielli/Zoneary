@@ -164,6 +164,86 @@ section[id]{scroll-margin-top:114px}
 .wt-plat-status.dev i{background:var(--amber);box-shadow:0 0 8px var(--amber)}
 .wt-plat p{font-size:13.5px;color:var(--muted);line-height:1.6}
 
+/* ============ HARDWARE & SYSTEM REQUIREMENTS ============ */
+/* clarifier under a .wt-head lede - used to stop "Windows / macOS" in the desktop
+   section reading as if the recording server runs there too */
+.wt-head-note{font-size:14px;color:var(--faint);margin-top:14px}
+.wt-head-note b{color:var(--steel);font-weight:600}
+.wt-head-note a.inline{color:var(--wt);border-bottom:1px solid var(--wt-line)}
+
+/* the two platform facts, stated once, before any spec table */
+.wt-osbar{display:grid;grid-template-columns:1fr 1fr;gap:1px;max-width:860px;margin:0 auto;
+  background:var(--line-2);border:1px solid var(--line-2);border-radius:16px;overflow:hidden}
+.wt-os{background:var(--panel);padding:clamp(20px,2.2vw,26px) clamp(20px,2.2vw,28px);
+  display:flex;flex-direction:column;gap:9px}
+.wt-os .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--faint)}
+.wt-os .v{font-family:var(--disp);font-weight:600;font-size:clamp(19px,2vw,24px);letter-spacing:-.015em;color:var(--ink)}
+.wt-os .v em{display:block;font-family:var(--mono);font-style:normal;font-weight:400;
+  font-size:11.5px;letter-spacing:.06em;color:var(--wt);margin-top:6px}
+.wt-osnote{text-align:center;max-width:660px;margin:20px auto 0;font-size:14.5px;color:var(--muted);line-height:1.6}
+.wt-osnote b{color:var(--ink);font-weight:600}
+
+/* minimum vs recommended, side by side */
+.wt-specs{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1060px;
+  margin:clamp(34px,4vw,48px) auto 0;align-items:stretch}
+.wt-spec{background:var(--panel);border:1px solid var(--line-2);border-radius:18px;
+  padding:clamp(24px,2.4vw,32px) clamp(20px,2.2vw,28px);position:relative}
+.wt-spec.featured{border-color:var(--wt-line);background:linear-gradient(180deg,rgba(0,212,255,.045),transparent 46%),var(--panel)}
+.wt-spec h3{font-family:var(--disp);font-weight:600;font-size:20px;letter-spacing:-.015em;margin:12px 0 10px}
+.wt-spec-lede{font-size:13.8px;color:var(--muted);line-height:1.6;margin-bottom:20px}
+.wt-spec-tag{display:inline-flex;align-items:center;font-family:var(--mono);font-size:10px;
+  letter-spacing:.15em;text-transform:uppercase;border-radius:100px;padding:5px 12px;
+  color:var(--faint);border:1px dashed var(--line);background:rgba(255,255,255,.03)}
+.wt-spec-tag.on{color:var(--wt);border:1px solid var(--wt-line);background:rgba(0,212,255,.07)}
+.wt-spec-tag.test{color:var(--green);border:1px solid rgba(62,224,138,.32);background:rgba(62,224,138,.08)}
+
+/* one spec row: label left, value right, wrapping to stacked on narrow cards */
+.wt-sr{display:grid;grid-template-columns:132px 1fr;gap:6px 18px;padding:11px 0;
+  border-top:1px solid var(--line-2);align-items:baseline}
+.wt-sr:first-of-type{border-top:0}
+.wt-sr .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--faint);padding-top:2px}
+.wt-sr .v{font-size:14.2px;color:var(--ink);line-height:1.55}
+
+/* the machine we actually run */
+.wt-rig{max-width:1060px;margin:clamp(34px,4vw,48px) auto 0;background:var(--panel);
+  border:1px solid var(--line-2);border-radius:20px;overflow:hidden}
+.wt-rig-head{display:flex;align-items:flex-start;justify-content:space-between;gap:26px;
+  padding:clamp(26px,2.6vw,34px) clamp(22px,2.4vw,32px) clamp(20px,2vw,26px);
+  border-bottom:1px solid var(--line-2);background:linear-gradient(180deg,rgba(62,224,138,.05),transparent)}
+.wt-rig-head h3{font-family:var(--disp);font-weight:600;font-size:clamp(22px,2.4vw,28px);
+  letter-spacing:-.02em;margin:13px 0 11px}
+.wt-rig-head p{font-size:14.5px;color:var(--muted);line-height:1.62;max-width:60ch}
+.wt-rig-badge{flex:none;text-align:right;font-family:var(--mono)}
+.wt-rig-badge .n{display:block;font-size:clamp(24px,2.6vw,32px);font-weight:500;color:var(--green);letter-spacing:.04em}
+.wt-rig-badge .s{display:block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-top:5px}
+.wt-rig-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(26px,3vw,44px);
+  padding:clamp(12px,1.6vw,20px) clamp(22px,2.4vw,32px) clamp(22px,2.4vw,30px)}
+.wt-rig-note{font-size:13.5px;color:var(--muted);line-height:1.62;
+  padding:clamp(18px,2vw,22px) clamp(22px,2.4vw,32px);border-top:1px solid var(--line-2);
+  background:rgba(255,180,84,.045)}
+.wt-rig-note b{color:var(--ink);font-weight:600}
+
+/* the three qualifying notes under the whole section */
+.wt-notes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1060px;
+  margin:clamp(30px,3.4vw,42px) auto 0}
+.wt-note{background:var(--panel);border:1px solid var(--line-2);border-radius:14px;padding:20px 22px}
+.wt-note h4{font-family:var(--mono);font-weight:500;font-size:10.5px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--wt);margin-bottom:11px}
+.wt-note p{font-size:13.4px;color:var(--muted);line-height:1.62}
+
+@media(max-width:900px){
+  .wt-specs,.wt-notes,.wt-rig-grid{grid-template-columns:1fr}
+  .wt-rig-grid{padding-bottom:8px}
+}
+@media(max-width:640px){
+  .wt-osbar{grid-template-columns:1fr}
+  .wt-rig-head{flex-direction:column;gap:0}
+  .wt-rig-badge{text-align:left;margin-top:18px}
+  .wt-sr{grid-template-columns:1fr;gap:3px}
+  .wt-sr .k{padding-top:0}
+}
+
 /* ============ CHECK GRID (storage / health signals) ============ */
 .wt-checklist{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .wt-check{display:flex;align-items:center;gap:11px;background:var(--panel);border:1px solid var(--line-2);border-radius:11px;
@@ -184,6 +264,47 @@ section[id]{scroll-margin-top:114px}
 .wt-arch b{font-family:var(--disp);font-weight:600;font-size:16px;display:block;margin-bottom:8px}
 .wt-arch p{font-size:13.5px;color:var(--muted);line-height:1.6;margin:0;max-width:none;text-align:left}
 
+
+/* ============ EDITIONS (Community / Founder) ============ */
+.wt-promo{display:flex;align-items:center;justify-content:center;gap:10px;width:fit-content;
+  margin:0 auto clamp(24px,3vw,34px);font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--wt);border:1px dashed var(--wt-line);
+  background:rgba(0,212,255,.06);border-radius:100px;padding:9px 20px}
+.wt-promo i{width:6px;height:6px;border-radius:50%;background:var(--wt);box-shadow:0 0 8px var(--wt);flex:none}
+.wt-editions{display:grid;grid-template-columns:1fr 1.06fr;gap:16px;max-width:1060px;margin:0 auto;align-items:stretch}
+.wt-ed{position:relative;overflow:hidden;background:var(--panel);border:1px solid var(--line-2);border-radius:20px;
+  padding:clamp(28px,2.6vw,38px);display:flex;flex-direction:column;
+  transition:border-color .25s,transform .25s}
+.wt-ed:hover{border-color:var(--wt-line);transform:translateY(-3px)}
+.wt-ed.featured{border-color:var(--wt-line);
+  background:radial-gradient(ellipse 70% 120% at 12% 0%, rgba(0,150,255,.12), transparent 58%), var(--panel)}
+.wt-ed.featured::before{content:'';position:absolute;left:0;top:0;width:100%;height:3px;
+  background:linear-gradient(90deg,var(--cyan),var(--blue) 62%,transparent)}
+.wt-ed-flag{align-self:flex-start;font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--wt);border:1px solid var(--wt-line);background:rgba(0,212,255,.09);
+  border-radius:100px;padding:5px 12px;margin-bottom:16px}
+.wt-ed-name{font-family:var(--disp);font-weight:600;font-size:clamp(19px,2vw,24px);letter-spacing:-.01em;margin-bottom:5px}
+.wt-ed-role{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--faint);margin-bottom:22px}
+.wt-ed-price{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:7px}
+.wt-ed-price .amt{font-family:var(--disp);font-weight:700;font-size:clamp(36px,4.4vw,52px);
+  letter-spacing:-.03em;line-height:1;color:var(--ink)}
+.wt-ed-price .was{font-family:var(--disp);font-weight:600;font-size:19px;color:var(--faint);text-decoration:line-through}
+.wt-ed-price .once{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--steel)}
+.wt-ed-when{font-family:var(--mono);font-size:11px;letter-spacing:.02em;color:var(--wt);margin-bottom:20px}
+.wt-ed-lede{color:var(--muted);font-size:14.5px;line-height:1.65;margin-bottom:22px}
+.wt-ed ul{list-style:none;display:flex;flex-direction:column;gap:11px;margin:0 0 22px;flex:1}
+.wt-ed li{display:flex;gap:11px;align-items:flex-start;font-size:14px;color:var(--muted);line-height:1.55}
+.wt-ed li svg{width:16px;height:16px;flex:none;margin-top:3px;stroke:var(--wt);fill:none}
+.wt-ed li>span{flex:1;min-width:0}
+.wt-ed li b{color:var(--ink);font-weight:600}
+.wt-ed-badges{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:24px}
+.wt-ed-badges span{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--wt-soft);background:rgba(0,212,255,.07);border:1px solid rgba(0,212,255,.18);
+  border-radius:100px;padding:4px 10px}
+.wt-ed .btn{margin-top:auto;justify-content:center}
+@media(max-width:860px){.wt-editions{grid-template-columns:1fr}}
+
 /* ============ LICENSING / EDITIONS ============ */
 .wt-lic{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1060px;margin:0 auto}
 .wt-lic-card{position:relative;background:var(--panel);border:1px solid var(--line-2);border-radius:18px;
@@ -199,6 +320,8 @@ section[id]{scroll-margin-top:114px}
 .wt-lic-card li svg{width:16px;height:16px;flex:none;margin-top:2px;stroke:var(--wt);fill:none}
 .wt-lic-note{text-align:center;max-width:660px;margin:clamp(28px,3.5vw,40px) auto 0;font-family:var(--mono);font-size:12px;
   line-height:1.7;color:var(--faint);letter-spacing:.02em}
+/* a.inline is scoped to .doc in styles.css, so give it affordance out here too */
+.wt-lic-note a.inline{color:var(--wt);border-bottom:1px solid var(--wt-line)}
 
 /* ============ SCREENSHOT GALLERY ============ */
 .wt-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:1160px;margin:0 auto}

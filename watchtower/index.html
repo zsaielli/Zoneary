@@ -114,6 +114,7 @@
     <a href="#health">Health</a>
     <a href="#cameras">Cameras</a>
     <a href="#desktop">Desktop</a>
+    <a href="#requirements">Requirements</a>
     <a href="#licensing">Licensing</a>
     <a href="#faq">FAQ</a>
   </div>
@@ -447,6 +448,7 @@
       <span class="eyebrow"><i></i>Watchtower Desktop</span>
       <h2>Your VMS. <span class="wt-warm">On your desktop.</span></h2>
       <p>Watchtower isn't limited to a browser. The Watchtower desktop client brings the monitoring experience into a dedicated native application while connecting directly to the Watchtower system.</p>
+      <p class="wt-head-note">These are <b>client</b> platforms. Watchtower Server itself runs on Linux — see <a class="inline" href="#requirements">hardware &amp; system requirements</a>.</p>
     </div>
 
     <div class="wt-platforms">
@@ -504,7 +506,103 @@
       </div>
       <div class="a">
         <b>Owned, not rented</b>
-        <p>Watchtower does not charge per camera. Final ownership and update terms will be published before launch.</p>
+        <p>Watchtower does not charge per camera. One license covers one Watchtower system, bought once — no mandatory subscription.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HARDWARE & SYSTEM REQUIREMENTS ============ -->
+<section class="pad" id="requirements">
+  <div class="wrap">
+    <div class="wt-head">
+      <span class="eyebrow"><i></i>Hardware &amp; system requirements</span>
+      <h2>Real requirements.<br>From a <span class="wt-warm">real server.</span></h2>
+      <p>Watchtower Server runs on Linux. Below is our initial supported baseline for launch, and the machine we actually run Watchtower on every day — kept clearly apart, because they are not the same thing.</p>
+    </div>
+
+    <div class="wt-osbar reveal">
+      <div class="wt-os">
+        <span class="k">Supported server platform</span>
+        <span class="v">Linux x86-64</span>
+      </div>
+      <div class="wt-os">
+        <span class="k">Tested operating system</span>
+        <span class="v">Linux Mint 22.x <em>Ubuntu 24.04 LTS base</em></span>
+      </div>
+    </div>
+    <p class="wt-osnote reveal"><b>Watchtower Server runs on Linux.</b> Windows, macOS and Linux desktop clients can connect to your Watchtower system.</p>
+
+    <div class="wt-specs">
+
+      <div class="wt-spec reveal">
+        <span class="wt-spec-tag">Initial minimum</span>
+        <h3>Initial minimum requirements</h3>
+        <p class="wt-spec-lede">Our initial supported baseline for launch. Formal capacity characterization is still in progress, so treat these as a starting point rather than a permanently validated floor.</p>
+        <div class="wt-sr"><span class="k">Architecture</span><span class="v">x86-64 / AMD64</span></div>
+        <div class="wt-sr"><span class="k">CPU</span><span class="v">Intel Core i5 10th generation or newer, or a comparable modern x86-64 processor · 4+ physical cores</span></div>
+        <div class="wt-sr"><span class="k">Memory</span><span class="v">16 GB RAM</span></div>
+        <div class="wt-sr"><span class="k">System storage</span><span class="v">256 GB SSD · NVMe recommended</span></div>
+        <div class="wt-sr"><span class="k">Recording storage</span><span class="v">Dedicated recording storage strongly recommended. Capacity depends on camera count, bitrate, resolution, frame rate, recording schedule and the retention you want.</span></div>
+        <div class="wt-sr"><span class="k">Network</span><span class="v">1 Gigabit Ethernet · wired Ethernet strongly recommended</span></div>
+        <div class="wt-sr"><span class="k">Operating system</span><span class="v">Linux x86-64</span></div>
+        <div class="wt-sr"><span class="k">Graphics</span><span class="v">No dedicated GPU requirement. Watchtower does not currently require a discrete graphics card for normal server operation.</span></div>
+      </div>
+
+      <div class="wt-spec featured reveal rd1">
+        <span class="wt-spec-tag on">Recommended</span>
+        <h3>Recommended baseline</h3>
+        <p class="wt-spec-lede">For customers building a new Watchtower server rather than repurposing hardware they already own.</p>
+        <div class="wt-sr"><span class="k">CPU</span><span class="v">Modern Intel Core i5 / i7 class processor · 6+ cores</span></div>
+        <div class="wt-sr"><span class="k">Memory</span><span class="v">32 GB RAM</span></div>
+        <div class="wt-sr"><span class="k">System storage</span><span class="v">256 GB or larger NVMe SSD</span></div>
+        <div class="wt-sr"><span class="k">Recording storage</span><span class="v">A separate, dedicated surveillance or enterprise storage volume</span></div>
+        <div class="wt-sr"><span class="k">Network</span><span class="v">Gigabit Ethernet or faster</span></div>
+        <div class="wt-sr"><span class="k">Operating system</span><span class="v">Linux Mint 22.x, or a compatible Ubuntu 24.04 LTS-based Linux environment</span></div>
+      </div>
+
+    </div>
+
+    <div class="wt-rig reveal">
+      <div class="wt-rig-head">
+        <div>
+          <span class="wt-spec-tag test">Tested configuration</span>
+          <h3>Watchtower01</h3>
+          <p>Watchtower isn't developed against a theoretical server specification. Our primary Watchtower appliance runs the same recording, playback, motion and operations workloads used throughout development and field testing.</p>
+        </div>
+        <div class="wt-rig-badge">
+          <span class="n">WT01</span>
+          <span class="s">Primary test appliance</span>
+        </div>
+      </div>
+      <div class="wt-rig-grid">
+        <div class="wt-sr"><span class="k">System</span><span class="v">Dell Precision 3650 Tower</span></div>
+        <div class="wt-sr"><span class="k">Processor</span><span class="v">Intel Core i5-11500 · 11th generation · 6 cores / 12 threads · up to 4.6 GHz</span></div>
+        <div class="wt-sr"><span class="k">Memory</span><span class="v">16 GB DDR4-3200</span></div>
+        <div class="wt-sr"><span class="k">System drive</span><span class="v">256 GB Western Digital SN730 NVMe SSD</span></div>
+        <div class="wt-sr"><span class="k">Recording storage</span><span class="v">2 × Seagate 12 TB enterprise drives · 24 TB raw · ~21.8 TiB usable recording volume</span></div>
+        <div class="wt-sr"><span class="k">Filesystem</span><span class="v">XFS</span></div>
+        <div class="wt-sr"><span class="k">Network</span><span class="v">Intel Ethernet · Gigabit production connection · secondary Intel 2.5 GbE interface available</span></div>
+        <div class="wt-sr"><span class="k">Graphics</span><span class="v">Intel UHD Graphics 750 · NVIDIA T600 installed</span></div>
+        <div class="wt-sr"><span class="k">Operating system</span><span class="v">Linux Mint 22.3 · x86-64</span></div>
+        <div class="wt-sr"><span class="k">Watchtower version</span><span class="v">v1.26.0810-2</span></div>
+        <div class="wt-sr"><span class="k">Workload at audit</span><span class="v">4 actively recording cameras · continuous real-world operation</span></div>
+      </div>
+      <p class="wt-rig-note"><b>This is what we run, not what you need.</b> WT01's recording array and installed graphics card are not Watchtower requirements — the NVIDIA T600 is present in this machine, but we have not established that Watchtower depends on it for normal server operation. WT01's two drives are configured as RAID0: a test configuration chosen for capacity and throughput, which provides <b>no disk redundancy</b>.</p>
+    </div>
+
+    <div class="wt-notes">
+      <div class="wt-note reveal">
+        <h4>Storage</h4>
+        <p>Watchtower supports dedicated recording storage. Capacity and redundancy should be selected for the installation's own retention and resilience requirements — not copied from our test bench.</p>
+      </div>
+      <div class="wt-note reveal rd1">
+        <h4>Capacity</h4>
+        <p>Watchtower capacity depends on the complete workload, including camera count, resolution, codec, bitrate, frame rate, recording mode, motion processing, audio, concurrent live viewing, playback activity and storage performance. Our initial supported target of up to 32 cameras per system is an engineering specification we are still characterizing — the four-camera WT01 workload is not evidence that this hardware has been validated at that figure. Licensing does not meter camera count.</p>
+      </div>
+      <div class="wt-note reveal rd2">
+        <h4>Software environment</h4>
+        <p>Watchtower Server runs in a standard Linux software environment, including FFmpeg, a Python backend runtime, PostgreSQL, systemd service management and a validated Linux filesystem such as XFS or ext4. Exact supported package versions and installation steps will be published with the installation documentation.</p>
       </div>
     </div>
   </div>
@@ -514,43 +612,60 @@
 <section class="pad wt-band" id="licensing">
   <div class="wrap">
     <div class="wt-head">
-      <span class="eyebrow"><i></i>Licensing</span>
-      <h2>Pay for value.<br>Not for dependency.</h2>
-      <p>One commercial commitment is settled: Watchtower does not charge per camera. The rest of the structure is still being finalised, and we would rather say so than publish an offer we might have to change.</p>
+      <span class="eyebrow"><i></i>Editions &amp; licensing</span>
+      <h2>Buy the system.<br>Then add <span class="wt-warm">cameras.</span></h2>
+      <p>Watchtower doesn't meter cameras. A license covers one Watchtower system — what you connect to it is your business, not another line item.</p>
     </div>
-    <div class="wt-lic">
-      <div class="wt-lic-card featured reveal">
-        <span class="flagline"></span>
-        <div class="wt-lic-name">No per-camera fees</div>
-        <div class="wt-lic-role">Confirmed</div>
+
+    <div class="wt-promo reveal"><i></i>Founder launch pricing — through December 31, 2026</div>
+
+    <div class="wt-editions">
+
+      <div class="wt-ed reveal">
+        <div class="wt-ed-name">Watchtower Community</div>
+        <div class="wt-ed-role">Free · no subscription</div>
+        <div class="wt-ed-price"><span class="amt">$0</span></div>
+        <div class="wt-ed-when">4 cameras · 7-day retention</div>
+        <p class="wt-ed-lede">A real Watchtower system, free to use. Connect up to four cameras with up to seven days of recording retention and run the core Watchtower VMS platform without a subscription.</p>
         <ul>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Watchtower does not charge per camera</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Adding a camera is not a licence purchase</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>The same software at small and large installations</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg><span>Up to <b>4 cameras</b></span></li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg><span>Up to <b>7 days</b> of recording retention</span></li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg><span>The core Watchtower experience — live monitoring, recording, playback, investigations, operations and health</span></li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg><span>No subscription, no per-camera fees</span></li>
         </ul>
+        <div class="wt-ed-badges"><span>Free</span><span>Homes · labs · evaluation</span></div>
+        <a class="btn btn-ghost" href="../early-access.html?product=Watchtower">Request early access</a>
       </div>
-      <div class="wt-lic-card reveal rd1">
-        <span class="flagline"></span>
-        <div class="wt-lic-name">Owned, not rented</div>
-        <div class="wt-lic-role">The direction we're building to</div>
+
+      <div class="wt-ed featured reveal rd1">
+        <span class="wt-ed-flag">Founder Edition · First 500</span>
+        <div class="wt-ed-name">Watchtower Founder Edition</div>
+        <div class="wt-ed-role">One-time purchase</div>
+        <div class="wt-ed-price">
+          <span class="amt">$349</span>
+          <span class="was">$399</span>
+          <span class="once">one-time</span>
+        </div>
+        <div class="wt-ed-when">Launch price through December 31, 2026 · $399 regular</div>
+        <p class="wt-ed-lede">Removes the Community camera and retention limits. One license, one Watchtower system, bought once — and no licence to buy again every time you mount a camera.</p>
         <ul>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Software you own rather than rent</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Runs on your hardware, under your control</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg>Pay for value, not for dependency</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg><span><b>No per-camera licensing.</b> Build the Watchtower system your hardware can support</span></li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg><span><b>One license, one Watchtower system.</b> Replacing or migrating a system is supported</span></li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg><span>Community camera and retention limits removed</span></li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M8.5 12l2.5 2.5 4.5-4.5"/></svg><span>One-time purchase — no mandatory subscription</span></li>
         </ul>
+        <div class="wt-ed-badges">
+          <span>One-time purchase</span><span>No per-camera fees</span>
+          <span>One license · one system</span><span>First 500</span><span>30-day refund on deactivation</span>
+        </div>
+        <a class="btn btn-primary" href="../early-access.html?product=Watchtower">Request early access <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
-      <div class="wt-lic-card reveal rd2">
-        <span class="flagline"></span>
-        <div class="wt-lic-name">Still to be published</div>
-        <div class="wt-lic-role">Before launch</div>
-        <ul>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>Editions and pricing</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>Ownership and update options</li>
-          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16h.01"/></svg>Support terms</li>
-        </ul>
-      </div>
+
     </div>
-    <p class="wt-lic-note">Watchtower is pre-launch. Final editions, ownership terms, and update options will be published before launch — nothing above is a completed offer.<br>Questions about a specific deployment? <a class="link-arrow" href="mailto:info@zoneary.com?subject=Watchtower%20licensing" style="font-size:12px">info@zoneary.com</a></p>
+
+    <p class="wt-punch" style="font-size:clamp(18px,2vw,24px)">Buy the system. Add cameras. <b>Don't buy another license every time you mount one.</b></p>
+
+    <p class="wt-lic-note">Founder Edition is the first 500 paid Watchtower licenses, and it stays a Founder license for good — the designation is separate from the launch price. December 31, 2026 ends the launch price for new customers; a license already bought is unaffected. Licensing does not meter your camera count. Supported capacity depends on your Watchtower hardware and workload; our initial supported target is up to 32 cameras per Watchtower system, which is a system-capacity guideline rather than a licensing limit. A license activates one Watchtower system at a time. Paid licenses are covered by a <a class="inline" href="../terms.html#refunds">30-day refund</a>, available upon license deactivation.<br>Questions about a specific deployment? <a class="link-arrow" href="mailto:info@zoneary.com?subject=Watchtower%20licensing" style="font-size:12px">info@zoneary.com</a></p>
   </div>
 </section>
 
@@ -614,11 +729,11 @@
       </details>
       <details class="wt-q">
         <summary>Is there a per-camera fee?</summary>
-        <div class="a"><p>No — Watchtower does not charge per camera. Adding a camera is not a licence purchase. The wider commercial structure is not final; editions and ownership terms will be published before launch.</p></div>
+        <div class="a"><p>No — Watchtower does not charge per camera. Adding a camera is not a licence purchase. Watchtower Community is free for up to 4 cameras with up to 7-day retention; the Founder Edition removes those limits for a one-time $349 (through December 31, 2026; $399 regular).</p></div>
       </details>
       <details class="wt-q">
         <summary>What are the commercial terms?</summary>
-        <div class="a"><p>Only one is settled today: Watchtower does not charge per camera. The direction we're building to is software you own rather than rent — but final editions, ownership terms, update options and support terms have not been decided, and we won't publish them until they are.</p></div>
+        <div class="a"><p>Two editions. <b>Community</b> is free — up to 4 cameras, up to 7-day retention, the core Watchtower experience, no subscription. <b>Founder Edition</b> is a one-time $349 launch price through December 31, 2026 ($399 regular), which removes those limits.</p><p>No per-camera licensing either way. A license activates one Watchtower system at a time, and replacing or migrating a system is supported. Founder Edition is the first 500 paid licenses; that designation is separate from the launch price.</p></div>
       </details>
       <details class="wt-q">
         <summary>Which cameras work with Watchtower?</summary>
@@ -630,7 +745,7 @@
       </details>
       <details class="wt-q">
         <summary>Can I buy Watchtower today?</summary>
-        <div class="a"><p>Not yet — Watchtower is pre-launch. Request early access and we'll bring you in as it rolls out, along with editions and pricing when they're published.</p></div>
+        <div class="a"><p>Not yet — Watchtower is pre-launch, so nothing is on sale today. Editions and pricing are published above so you can plan: Community free, Founder Edition $349 through December 31, 2026. Request early access and we'll bring you in as it rolls out.</p></div>
       </details>
     </div>
   </div>
