@@ -114,6 +114,7 @@
     <a href="#health">Health</a>
     <a href="#cameras">Cameras</a>
     <a href="#desktop">Desktop</a>
+    <a href="#requirements">Requirements</a>
     <a href="#licensing">Licensing</a>
     <a href="#faq">FAQ</a>
   </div>
@@ -447,6 +448,7 @@
       <span class="eyebrow"><i></i>Watchtower Desktop</span>
       <h2>Your VMS. <span class="wt-warm">On your desktop.</span></h2>
       <p>Watchtower isn't limited to a browser. The Watchtower desktop client brings the monitoring experience into a dedicated native application while connecting directly to the Watchtower system.</p>
+      <p class="wt-head-note">These are <b>client</b> platforms. Watchtower Server itself runs on Linux — see <a class="inline" href="#requirements">hardware &amp; system requirements</a>.</p>
     </div>
 
     <div class="wt-platforms">
@@ -505,6 +507,102 @@
       <div class="a">
         <b>Owned, not rented</b>
         <p>Watchtower does not charge per camera. One license covers one Watchtower system, bought once — no mandatory subscription.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HARDWARE & SYSTEM REQUIREMENTS ============ -->
+<section class="pad" id="requirements">
+  <div class="wrap">
+    <div class="wt-head">
+      <span class="eyebrow"><i></i>Hardware &amp; system requirements</span>
+      <h2>Real requirements.<br>From a <span class="wt-warm">real server.</span></h2>
+      <p>Watchtower Server runs on Linux. Below is our initial supported baseline for launch, and the machine we actually run Watchtower on every day — kept clearly apart, because they are not the same thing.</p>
+    </div>
+
+    <div class="wt-osbar reveal">
+      <div class="wt-os">
+        <span class="k">Supported server platform</span>
+        <span class="v">Linux x86-64</span>
+      </div>
+      <div class="wt-os">
+        <span class="k">Tested operating system</span>
+        <span class="v">Linux Mint 22.x <em>Ubuntu 24.04 LTS base</em></span>
+      </div>
+    </div>
+    <p class="wt-osnote reveal"><b>Watchtower Server runs on Linux.</b> Windows, macOS and Linux desktop clients can connect to your Watchtower system.</p>
+
+    <div class="wt-specs">
+
+      <div class="wt-spec reveal">
+        <span class="wt-spec-tag">Initial minimum</span>
+        <h3>Initial minimum requirements</h3>
+        <p class="wt-spec-lede">Our initial supported baseline for launch. Formal capacity characterization is still in progress, so treat these as a starting point rather than a permanently validated floor.</p>
+        <div class="wt-sr"><span class="k">Architecture</span><span class="v">x86-64 / AMD64</span></div>
+        <div class="wt-sr"><span class="k">CPU</span><span class="v">Intel Core i5 10th generation or newer, or a comparable modern x86-64 processor · 4+ physical cores</span></div>
+        <div class="wt-sr"><span class="k">Memory</span><span class="v">16 GB RAM</span></div>
+        <div class="wt-sr"><span class="k">System storage</span><span class="v">256 GB SSD · NVMe recommended</span></div>
+        <div class="wt-sr"><span class="k">Recording storage</span><span class="v">Dedicated recording storage strongly recommended. Capacity depends on camera count, bitrate, resolution, frame rate, recording schedule and the retention you want.</span></div>
+        <div class="wt-sr"><span class="k">Network</span><span class="v">1 Gigabit Ethernet · wired Ethernet strongly recommended</span></div>
+        <div class="wt-sr"><span class="k">Operating system</span><span class="v">Linux x86-64</span></div>
+        <div class="wt-sr"><span class="k">Graphics</span><span class="v">No dedicated GPU requirement. Watchtower does not currently require a discrete graphics card for normal server operation.</span></div>
+      </div>
+
+      <div class="wt-spec featured reveal rd1">
+        <span class="wt-spec-tag on">Recommended</span>
+        <h3>Recommended baseline</h3>
+        <p class="wt-spec-lede">For customers building a new Watchtower server rather than repurposing hardware they already own.</p>
+        <div class="wt-sr"><span class="k">CPU</span><span class="v">Modern Intel Core i5 / i7 class processor · 6+ cores</span></div>
+        <div class="wt-sr"><span class="k">Memory</span><span class="v">32 GB RAM</span></div>
+        <div class="wt-sr"><span class="k">System storage</span><span class="v">256 GB or larger NVMe SSD</span></div>
+        <div class="wt-sr"><span class="k">Recording storage</span><span class="v">A separate, dedicated surveillance or enterprise storage volume</span></div>
+        <div class="wt-sr"><span class="k">Network</span><span class="v">Gigabit Ethernet or faster</span></div>
+        <div class="wt-sr"><span class="k">Operating system</span><span class="v">Linux Mint 22.x, or a compatible Ubuntu 24.04 LTS-based Linux environment</span></div>
+      </div>
+
+    </div>
+
+    <div class="wt-rig reveal">
+      <div class="wt-rig-head">
+        <div>
+          <span class="wt-spec-tag test">Tested configuration</span>
+          <h3>Watchtower01</h3>
+          <p>Watchtower isn't developed against a theoretical server specification. Our primary Watchtower appliance runs the same recording, playback, motion and operations workloads used throughout development and field testing.</p>
+        </div>
+        <div class="wt-rig-badge">
+          <span class="n">WT01</span>
+          <span class="s">Primary test appliance</span>
+        </div>
+      </div>
+      <div class="wt-rig-grid">
+        <div class="wt-sr"><span class="k">System</span><span class="v">Dell Precision 3650 Tower</span></div>
+        <div class="wt-sr"><span class="k">Processor</span><span class="v">Intel Core i5-11500 · 11th generation · 6 cores / 12 threads · up to 4.6 GHz</span></div>
+        <div class="wt-sr"><span class="k">Memory</span><span class="v">16 GB DDR4-3200</span></div>
+        <div class="wt-sr"><span class="k">System drive</span><span class="v">256 GB Western Digital SN730 NVMe SSD</span></div>
+        <div class="wt-sr"><span class="k">Recording storage</span><span class="v">2 × Seagate 12 TB enterprise drives · 24 TB raw · ~21.8 TiB usable recording volume</span></div>
+        <div class="wt-sr"><span class="k">Filesystem</span><span class="v">XFS</span></div>
+        <div class="wt-sr"><span class="k">Network</span><span class="v">Intel Ethernet · Gigabit production connection · secondary Intel 2.5 GbE interface available</span></div>
+        <div class="wt-sr"><span class="k">Graphics</span><span class="v">Intel UHD Graphics 750 · NVIDIA T600 installed</span></div>
+        <div class="wt-sr"><span class="k">Operating system</span><span class="v">Linux Mint 22.3 · x86-64</span></div>
+        <div class="wt-sr"><span class="k">Watchtower version</span><span class="v">v1.26.0810-2</span></div>
+        <div class="wt-sr"><span class="k">Workload at audit</span><span class="v">4 actively recording cameras · continuous real-world operation</span></div>
+      </div>
+      <p class="wt-rig-note"><b>This is what we run, not what you need.</b> WT01's recording array and installed graphics card are not Watchtower requirements — the NVIDIA T600 is present in this machine, but we have not established that Watchtower depends on it for normal server operation. WT01's two drives are configured as RAID0: a test configuration chosen for capacity and throughput, which provides <b>no disk redundancy</b>.</p>
+    </div>
+
+    <div class="wt-notes">
+      <div class="wt-note reveal">
+        <h4>Storage</h4>
+        <p>Watchtower supports dedicated recording storage. Capacity and redundancy should be selected for the installation's own retention and resilience requirements — not copied from our test bench.</p>
+      </div>
+      <div class="wt-note reveal rd1">
+        <h4>Capacity</h4>
+        <p>Watchtower capacity depends on the complete workload, including camera count, resolution, codec, bitrate, frame rate, recording mode, motion processing, audio, concurrent live viewing, playback activity and storage performance. Our initial supported target of up to 32 cameras per system is an engineering specification we are still characterizing — the four-camera WT01 workload is not evidence that this hardware has been validated at that figure. Licensing does not meter camera count.</p>
+      </div>
+      <div class="wt-note reveal rd2">
+        <h4>Software environment</h4>
+        <p>Watchtower Server runs in a standard Linux software environment, including FFmpeg, a Python backend runtime, PostgreSQL, systemd service management and a validated Linux filesystem such as XFS or ext4. Exact supported package versions and installation steps will be published with the installation documentation.</p>
       </div>
     </div>
   </div>
