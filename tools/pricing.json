@@ -10,6 +10,8 @@
   "promo_ends": "December 31, 2026",
   "promo_end_note": "December 31, 2026 ends the promotional purchase price for NEW customers only. A license already bought at the launch price is unaffected on January 1, 2027.",
   "refund_days": 30,
+  "refund_condition": "upon license deactivation",
+  "refund_note": "The refund is NOT unconditional. It requires the entitlement to be relinquished to Zoneary, with a support-assisted path when the system is unreachable. Every page stating the refund must also state the condition - check_site.py enforces the pair.",
   "bundle": null,
 
   "watchtower": {

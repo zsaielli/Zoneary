@@ -24,3 +24,6 @@ secret*
 # Dependencies / logs / temporary files
 node_modules/
 *.log
+
+# Internal working notes - kept locally, not published to this repository
+docs/licensing-decisions.md

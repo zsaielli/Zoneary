@@ -189,10 +189,15 @@ def main():
             (sn_txt, "sentinel/index.html", snf["launch_price"]),
             (sn_txt, "sentinel/index.html", snf["regular_price"]),
             (sn_txt, "sentinel/index.html", cfg["promo_ends"]),
-            # the refund policy: on both paid product pages and spelled out in Terms
+            # the refund policy: on both paid product pages and spelled out in Terms.
+            # The condition is asserted alongside the offer on every page that makes
+            # it - the refund is not unconditional and must never read as if it is.
             (wt_txt, "watchtower/index.html", refund),
+            (wt_txt, "watchtower/index.html", cfg["refund_condition"]),
             (sn_txt, "sentinel/index.html", refund),
+            (sn_txt, "sentinel/index.html", cfg["refund_condition"]),
             (tm_txt, "terms.html", refund),
+            (tm_txt, "terms.html", cfg["refund_condition"]),
             (tm_txt, "terms.html", 'id="refunds"'),
         ]
         for txt, name, value in must:
