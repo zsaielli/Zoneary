@@ -184,6 +184,47 @@ section[id]{scroll-margin-top:114px}
 .wt-arch b{font-family:var(--disp);font-weight:600;font-size:16px;display:block;margin-bottom:8px}
 .wt-arch p{font-size:13.5px;color:var(--muted);line-height:1.6;margin:0;max-width:none;text-align:left}
 
+
+/* ============ EDITIONS (Community / Founder) ============ */
+.wt-promo{display:flex;align-items:center;justify-content:center;gap:10px;width:fit-content;
+  margin:0 auto clamp(24px,3vw,34px);font-family:var(--mono);font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--wt);border:1px dashed var(--wt-line);
+  background:rgba(0,212,255,.06);border-radius:100px;padding:9px 20px}
+.wt-promo i{width:6px;height:6px;border-radius:50%;background:var(--wt);box-shadow:0 0 8px var(--wt);flex:none}
+.wt-editions{display:grid;grid-template-columns:1fr 1.06fr;gap:16px;max-width:1060px;margin:0 auto;align-items:stretch}
+.wt-ed{position:relative;overflow:hidden;background:var(--panel);border:1px solid var(--line-2);border-radius:20px;
+  padding:clamp(28px,2.6vw,38px);display:flex;flex-direction:column;
+  transition:border-color .25s,transform .25s}
+.wt-ed:hover{border-color:var(--wt-line);transform:translateY(-3px)}
+.wt-ed.featured{border-color:var(--wt-line);
+  background:radial-gradient(ellipse 70% 120% at 12% 0%, rgba(0,150,255,.12), transparent 58%), var(--panel)}
+.wt-ed.featured::before{content:'';position:absolute;left:0;top:0;width:100%;height:3px;
+  background:linear-gradient(90deg,var(--cyan),var(--blue) 62%,transparent)}
+.wt-ed-flag{align-self:flex-start;font-family:var(--mono);font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--wt);border:1px solid var(--wt-line);background:rgba(0,212,255,.09);
+  border-radius:100px;padding:5px 12px;margin-bottom:16px}
+.wt-ed-name{font-family:var(--disp);font-weight:600;font-size:clamp(19px,2vw,24px);letter-spacing:-.01em;margin-bottom:5px}
+.wt-ed-role{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--faint);margin-bottom:22px}
+.wt-ed-price{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:7px}
+.wt-ed-price .amt{font-family:var(--disp);font-weight:700;font-size:clamp(36px,4.4vw,52px);
+  letter-spacing:-.03em;line-height:1;color:var(--ink)}
+.wt-ed-price .was{font-family:var(--disp);font-weight:600;font-size:19px;color:var(--faint);text-decoration:line-through}
+.wt-ed-price .once{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--steel)}
+.wt-ed-when{font-family:var(--mono);font-size:11px;letter-spacing:.02em;color:var(--wt);margin-bottom:20px}
+.wt-ed-lede{color:var(--muted);font-size:14.5px;line-height:1.65;margin-bottom:22px}
+.wt-ed ul{list-style:none;display:flex;flex-direction:column;gap:11px;margin:0 0 22px;flex:1}
+.wt-ed li{display:flex;gap:11px;align-items:flex-start;font-size:14px;color:var(--muted);line-height:1.55}
+.wt-ed li svg{width:16px;height:16px;flex:none;margin-top:3px;stroke:var(--wt);fill:none}
+.wt-ed li>span{flex:1;min-width:0}
+.wt-ed li b{color:var(--ink);font-weight:600}
+.wt-ed-badges{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:24px}
+.wt-ed-badges span{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--wt-soft);background:rgba(0,212,255,.07);border:1px solid rgba(0,212,255,.18);
+  border-radius:100px;padding:4px 10px}
+.wt-ed .btn{margin-top:auto;justify-content:center}
+@media(max-width:860px){.wt-editions{grid-template-columns:1fr}}
+
 /* ============ LICENSING / EDITIONS ============ */
 .wt-lic{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1060px;margin:0 auto}
 .wt-lic-card{position:relative;background:var(--panel);border:1px solid var(--line-2);border-radius:18px;
@@ -199,6 +240,8 @@ section[id]{scroll-margin-top:114px}
 .wt-lic-card li svg{width:16px;height:16px;flex:none;margin-top:2px;stroke:var(--wt);fill:none}
 .wt-lic-note{text-align:center;max-width:660px;margin:clamp(28px,3.5vw,40px) auto 0;font-family:var(--mono);font-size:12px;
   line-height:1.7;color:var(--faint);letter-spacing:.02em}
+/* a.inline is scoped to .doc in styles.css, so give it affordance out here too */
+.wt-lic-note a.inline{color:var(--wt);border-bottom:1px solid var(--wt-line)}
 
 /* ============ SCREENSHOT GALLERY ============ */
 .wt-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:1160px;margin:0 auto}

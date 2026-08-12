@@ -162,8 +162,55 @@ def main():
             if n not in listed:
                 problems.append("sitemap.xml: %s is not listed" % n)
 
+    # ---- commercial terms: pages must agree with tools/pricing.json ----
+    pj = os.path.join(os.path.dirname(os.path.abspath(__file__)), "pricing.json")
+    priced = 0
+    if os.path.isfile(pj):
+        cfg = json.load(open(pj, encoding="utf-8"))
+        wt = os.path.join(root, "watchtower", "index.html")
+        sn = os.path.join(root, "sentinel", "index.html")
+        tm = os.path.join(root, "terms.html")
+        wt_txt = open(wt, encoding="utf-8").read() if os.path.isfile(wt) else ""
+        sn_txt = open(sn, encoding="utf-8").read() if os.path.isfile(sn) else ""
+        tm_txt = open(tm, encoding="utf-8").read() if os.path.isfile(tm) else ""
+
+        wtf, wtc = cfg["watchtower"]["founder"], cfg["watchtower"]["community"]
+        snf = cfg["sentinel"]["founder"]
+        refund = "%d-day refund" % cfg["refund_days"]
+
+        must = [
+            (wt_txt, "watchtower/index.html", wtf["launch_price"]),
+            (wt_txt, "watchtower/index.html", wtf["regular_price"]),
+            (wt_txt, "watchtower/index.html", cfg["promo_ends"]),
+            # Community limits must be stated, not merely implied
+            (wt_txt, "watchtower/index.html", wtc["price"]),
+            (wt_txt, "watchtower/index.html", "%d cameras" % wtc["max_cameras"]),
+            (wt_txt, "watchtower/index.html", "%d days" % wtc["max_retention_days"]),
+            (sn_txt, "sentinel/index.html", snf["launch_price"]),
+            (sn_txt, "sentinel/index.html", snf["regular_price"]),
+            (sn_txt, "sentinel/index.html", cfg["promo_ends"]),
+            # the refund policy: on both paid product pages and spelled out in Terms
+            (wt_txt, "watchtower/index.html", refund),
+            (sn_txt, "sentinel/index.html", refund),
+            (tm_txt, "terms.html", refund),
+            (tm_txt, "terms.html", 'id="refunds"'),
+        ]
+        for txt, name, value in must:
+            priced += 1
+            if txt and value not in txt:
+                problems.append("%s: pricing.json says %r but the page does not contain it"
+                                % (name, value))
+
+        # guardrails: claims we have explicitly ruled out, anywhere on the site
+        for f in html:
+            low = open(f, encoding="utf-8", errors="replace").read().lower()
+            for bad in cfg.get("forbidden_claims", []):
+                if bad.lower() in low:
+                    problems.append("%s: forbidden claim %r appears" % (rel(f, root), bad))
+
     if not args.quiet:
-        print("checked %d files, %d internal references" % (len(files), checked_refs))
+        print("checked %d files, %d internal references, %d commercial constants"
+              % (len(files), checked_refs, priced))
 
     if problems:
         print("\nFAILED - %d problem(s):" % len(problems))

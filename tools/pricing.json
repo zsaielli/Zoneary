@@ -1,0 +1,69 @@
+{
+  "_README": [
+    "SINGLE SOURCE OF TRUTH for published commercial terms.",
+    "tools/check_site.py asserts the live pages match these values and that none",
+    "of the forbidden claims appear anywhere. Change a price here, update the",
+    "pages, then run: python tools/check_site.py",
+    "This file lives outside site/ so it is never deployed."
+  ],
+
+  "promo_ends": "December 31, 2026",
+  "promo_end_note": "December 31, 2026 ends the promotional purchase price for NEW customers only. A license already bought at the launch price is unaffected on January 1, 2027.",
+  "refund_days": 30,
+  "bundle": null,
+
+  "watchtower": {
+    "community": {
+      "name": "Watchtower Community",
+      "price": "$0",
+      "max_cameras": 4,
+      "max_retention_days": 7
+    },
+    "founder": {
+      "name": "Watchtower Founder Edition",
+      "launch_price": "$349",
+      "regular_price": "$399",
+      "founder_allocation": 500,
+      "founder_designation": "permanent badge/designation for the first 500 paid licenses. NOT tied to the launch price. Carries NO defined benefits - do not promise lifetime updates, special support, or anything else undefined.",
+      "system_capacity_target": 32,
+      "licensing": "one active Watchtower system per license; no per-camera licensing"
+    }
+  },
+
+  "sentinel": {
+    "founder": {
+      "name": "Sentinel Founder Edition",
+      "launch_price": "$99",
+      "regular_price": "$149",
+      "licensing": "one active Sentinel system per license; no per-sensor licensing"
+    }
+  },
+
+  "forbidden_claims": [
+    "unlimited camera",
+    "unlimited cameras",
+    "unlimited sensors",
+    "per-camera tier",
+    "per-sensor tier",
+    "monthly subscription",
+    "annual license",
+    "annual subscription",
+    "enterprise pricing",
+    "per seat",
+    "per-seat",
+
+    "lifetime update",
+    "lifetime support",
+    "lifetime access",
+    "free upgrades forever",
+    "priority support",
+
+    "bundle price",
+    "bundle discount"
+  ],
+
+  "_forbidden_notes": {
+    "lifetime*/priority support": "Founder status carries no benefits we have defined. Never imply otherwise.",
+    "bundle*": "No Watchtower + Sentinel bundle at launch. Entitlements stay simple."
+  }
+}
