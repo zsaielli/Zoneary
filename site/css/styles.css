@@ -335,7 +335,13 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:600;letter-spacing:-.02em;line-h
   background:linear-gradient(180deg, transparent, var(--bg) 86%)}
 
 /* proof — the real product emerging just below the hero */
-.proof{position:relative;z-index:2;padding:clamp(6px,2vh,30px) 0 clamp(24px,4vh,52px)}
+/* The ambient bloom above is 140% wide and .hero-shot::after is 128%, so both
+   reach ~230px past the viewport and the page scrolled ~174px sideways at 1280px.
+   Clip on x HERE rather than on .hero-shot: this section is full-bleed, so its box
+   is the viewport - the only thing removed is the part that was already off-screen.
+   Clipping on .hero-shot instead would eat visible halo. y stays visible so the
+   shot can still bleed below the section. */
+.proof{position:relative;z-index:2;padding:clamp(6px,2vh,30px) 0 clamp(24px,4vh,52px);overflow-x:clip}
 .proof .hero-shot{margin-top:0}
 
 /* ============ APP WINDOW FRAME (reusable) ============ */
@@ -398,7 +404,13 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:600;letter-spacing:-.02em;line-h
 .sc-list{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:26px}
 .sc-list li{display:flex;gap:11px;align-items:flex-start;font-size:14.5px;color:var(--muted)}
 .sc-list svg{width:17px;height:17px;flex:none;margin-top:2px;stroke:var(--cyan);fill:none}
-.sc-media{position:relative}
+/* The beam bleeds 6% past .sc-media on each side. Below ~1100px the showcase goes
+   full width and that bleed becomes real horizontal page scroll. Clip it on the x
+   axis only - y stays visible so nothing above/below is touched. The 30px margin
+   is deliberate: .app-window sits flush with .sc-media and its drop shadow reaches
+   ~25px sideways, so a bare `clip` would slice the shadow flat. 30px clears the
+   shadow and still lands inside the 34px page gutter at the tightest breakpoint. */
+.sc-media{position:relative;overflow-x:clip;overflow-clip-margin:30px}
 .sc-media .beam-accent{position:absolute;inset:-10% -6% -16%;z-index:-1;pointer-events:none;
   background:radial-gradient(ellipse 60% 55% at 50% 40%, rgba(0,212,255,.16), transparent 72%);filter:blur(26px)}
 
