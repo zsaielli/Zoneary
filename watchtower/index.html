@@ -8,7 +8,7 @@
   if (!location.hash) { window.scrollTo(0, 0); }
 </script>
 <title>Watchtower — A real VMS, for the rest of us | Zoneary</title>
-<meta name="description" content="Watchtower is Zoneary's flagship local-first video management system — live monitoring, recording, playback, investigations, operations and system health, running on your own hardware. In active development; Watchtower does not charge per camera." />
+<meta name="description" content="Watchtower is Zoneary's flagship local-first video management system — live monitoring, video and audio recording, playback, investigations, operations and system health, running on your own hardware. In active development; Watchtower does not charge per camera." />
 <link rel="canonical" href="https://zoneary.com/watchtower/" />
 <link rel="icon" type="image/png" href="../assets/watchtower/watchtower_logo.png" />
 <link rel="apple-touch-icon" href="../assets/watchtower/watchtower_logo.png" />
@@ -77,7 +77,7 @@
           <span class="wm">WATCHTOWER</span>
         </div>
         <h1>A modern VMS built around <span class="wt-warm">the tools operators use every day.</span></h1>
-        <p class="wt-hero-body">Watchtower is Zoneary's flagship video management system — live monitoring, recording, playback and investigations, designed for responsive multi-camera monitoring, honest about system state, and built to grow with the installation. It runs on your own hardware, and Watchtower does not charge per camera.</p>
+        <p class="wt-hero-body">Watchtower is Zoneary's flagship video management system — live monitoring, video and audio recording, playback and investigations, designed for responsive multi-camera monitoring, honest about system state, and built to grow with the installation. It runs on your own hardware, and Watchtower does not charge per camera.</p>
         <div class="wt-hero-actions">
           <a class="btn btn-primary btn-lg" href="../early-access.html?product=Watchtower">Request early access <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           <a class="btn btn-ghost btn-lg" href="#overview">See how it works</a>
@@ -210,6 +210,7 @@
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 7c0-2 4-3 8-3s8 1 8 3-4 3-8 3-8-1-8-3z"/><path d="M4 7v10c0 2 4 3 8 3s8-1 8-3V7"/></svg>Retention estimates in days, not just "disk full"</li>
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg>Designed to protect recording continuity</li>
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 4h16v6H4zM4 14h16v6H4z"/></svg>Storage composition, broken out honestly</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 010 7"/></svg>Supported camera audio recorded alongside the video</li>
         </ul>
       </div>
       <div class="sc-media">
@@ -242,6 +243,7 @@
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Precise scrubbing with motion markers</li>
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M3 12h4l2-6 4 12 2-6h6"/></svg>Skip gaps and jump straight to activity</li>
           <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Precise timeline navigation across recorded footage</li>
+          <li><svg viewBox="0 0 24 24" stroke-width="1.7"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 010 7"/></svg>Synchronized audio on supported cameras, with mute and volume</li>
         </ul>
       </div>
       <div class="sc-media">
@@ -251,6 +253,25 @@
           <div class="aw-media"><img src="../assets/watchtower/playback.webp" alt="Watchtower Playback with recording timeline and investigation tools" width="1920" height="945" loading="lazy" /></div>
         </figure>
       </div>
+    </div>
+
+    <div class="wt-audio reveal" id="audio">
+      <div class="wt-audio-copy">
+        <span class="eyebrow"><i></i>Audio</span>
+        <h3>Video tells you what happened.<br>Audio helps tell you <span class="wt-warm">why.</span></h3>
+        <p>Watchtower records supported camera audio alongside the video and carries it through playback in sync with the picture — with mute and volume sitting in the same transport bar as the scrub controls. Where a stream needs it, audio is normalized to AAC.</p>
+        <div class="wt-audio-badges">
+          <span>Recorded with video</span><span>Synchronized playback</span>
+          <span>AAC normalization</span><span>Mute &amp; volume</span>
+        </div>
+      </div>
+      <div class="wt-audio-shot">
+        <figure>
+          <img src="../assets/watchtower/playback-audio-controls.webp" alt="Watchtower playback transport controls: skip, rewind, play, speed, and the mute button beside a volume slider" width="487" height="74" loading="lazy" />
+        </figure>
+        <p class="wt-cap" style="margin-top:14px">Mute and volume, in the playback transport.</p>
+      </div>
+      <p class="wt-audio-note"><b>Audio depends on the camera, the selected stream profile and the codec it exposes</b> — not every camera or profile provides a usable audio stream. Where audio isn't available, Watchtower records the video and carries on. This is inbound camera audio: Watchtower does not provide two-way talk.</p>
     </div>
   </div>
 </section>
@@ -403,7 +424,7 @@
     <div class="wt-head">
       <span class="eyebrow"><i></i>Cameras &amp; compatibility</span>
       <h2>Built on open standards.</h2>
-      <p>Watchtower is built around protocols the industry already agreed on, so cameras can be chosen on merit — price, optics, the mount that fits. Compatibility details will be published before release.</p>
+      <p>Watchtower is built around protocols the industry already agreed on, so cameras can be chosen on merit — price, optics, the mount that fits. Audio support depends on the camera, stream profile and available codec. Compatibility details will be published before release.</p>
     </div>
     <div class="wt-feats">
       <div class="wt-feat reveal">
@@ -415,8 +436,8 @@
       <div class="wt-feat reveal rd1">
         <div class="wt-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M4 6h11v12H4z"/><path d="M15 10l5-3v10l-5-3z"/></svg></div>
         <h3>RTSP video ingestion</h3>
-        <p>Standards-based RTSP video ingestion — the streaming standard widely implemented across IP cameras, including ones already mounted on your building.</p>
-        <div class="wt-tags"><span>RTSP</span><span>Main &amp; sub streams</span></div>
+        <p>Standards-based RTSP video ingestion — the streaming standard widely implemented across IP cameras, including ones already mounted on your building. Where a stream carries usable audio, Watchtower ingests that too.</p>
+        <div class="wt-tags"><span>RTSP</span><span>Main &amp; sub streams</span><span>Audio where available</span></div>
       </div>
       <div class="wt-feat reveal rd2">
         <div class="wt-ico"><svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>

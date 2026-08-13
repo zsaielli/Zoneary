@@ -164,6 +164,44 @@ section[id]{scroll-margin-top:114px}
 .wt-plat-status.dev i{background:var(--amber);box-shadow:0 0 8px var(--amber)}
 .wt-plat p{font-size:13.5px;color:var(--muted);line-height:1.6}
 
+/* ============ AUDIO ============ */
+/* Sits inside #playback under the showcase - audio is an attribute of recording
+   AND playback rather than a sixth workflow step, so it gets a panel, not a
+   number in the 01-05 sequence. */
+.wt-audio{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(26px,3.4vw,48px);
+  align-items:center;max-width:1060px;margin:clamp(44px,5.5vw,68px) auto 0;
+  background:radial-gradient(ellipse 70% 140% at 4% 0%, rgba(0,212,255,.07), transparent 60%),var(--panel);
+  border:1px solid var(--line-2);border-radius:20px;
+  padding:clamp(28px,3vw,40px) clamp(24px,2.8vw,36px)}
+.wt-audio .eyebrow{margin-bottom:18px}
+.wt-audio h3{font-family:var(--disp);font-weight:600;font-size:clamp(23px,2.6vw,32px);
+  line-height:1.12;letter-spacing:-.02em;margin-bottom:14px}
+.wt-audio-copy p{color:var(--muted);font-size:15.5px;line-height:1.68}
+.wt-audio-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.wt-audio-badges span{font-family:var(--mono);font-size:10px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--wt);border:1px solid var(--wt-line);
+  background:rgba(0,212,255,.06);border-radius:100px;padding:5px 11px}
+/* the control strip is a crop of the real playback capture, so it is framed like
+   a UI detail rather than dropped in as loose artwork */
+/* capped at the crop's native 487px - the source capture has no more detail than
+   that, so letting it stretch wider on stacked layouts just renders it soft */
+.wt-audio-shot figure{border:1px solid var(--line);border-radius:12px;overflow:hidden;
+  background:var(--panel-2);box-shadow:0 24px 60px -30px rgba(0,0,0,.9);
+  max-width:487px;margin:0 auto}
+.wt-audio-shot img{width:100%;height:auto;display:block}
+.wt-audio-note{grid-column:1/-1;margin-top:clamp(20px,2.4vw,28px);
+  padding-top:clamp(18px,2vw,22px);border-top:1px solid var(--line-2);
+  font-size:13.6px;line-height:1.65;color:var(--faint)}
+.wt-audio-note b{color:var(--steel);font-weight:600}
+@media(max-width:820px){
+  .wt-audio{grid-template-columns:1fr;gap:26px}
+  /* stacked, the note is a grid child too, so without explicit order it lands
+     between the copy and the screenshot - caveat first, evidence orphaned after */
+  .wt-audio-copy{order:1}
+  .wt-audio-shot{order:2}
+  .wt-audio-note{order:3;margin-top:4px}
+}
+
 /* ============ HARDWARE & SYSTEM REQUIREMENTS ============ */
 /* clarifier under a .wt-head lede - used to stop "Windows / macOS" in the desktop
    section reading as if the recording server runs there too */
