@@ -148,6 +148,16 @@
 .ab-lead-tags{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
   color:var(--steel);line-height:1.8}
 .ab-lead-bio{color:var(--muted);font-size:15.5px;line-height:1.72}
+/* .ab-lead is a 2-column grid, so a card carrying both a bio and a closing line
+   must wrap them - a third in-flow child would land in column 1 of a new row.
+   (.bar is absolutely positioned, so it never takes a cell.) */
+.ab-lead-body{display:flex;flex-direction:column;gap:clamp(14px,1.5vw,18px)}
+/* closing line under a biography. Display face at 16px against 15.5px body text:
+   marginally larger on paper, but the accent rule and the weight change are what
+   separate it - it reads as a closing remark, not a second paragraph. */
+.ab-lead-quote{font-family:var(--disp);font-weight:500;font-size:16px;line-height:1.45;
+  letter-spacing:-.008em;color:var(--steel);border-left:2px solid var(--cyan);
+  padding-left:15px;text-wrap:balance}
 @media(max-width:820px){.ab-lead{grid-template-columns:1fr;gap:20px}}
 
 /* ---- ZONEARY LABS — compact profile cards, siblings of .principle ---- */
