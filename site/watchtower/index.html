@@ -457,7 +457,7 @@
         <span>MOBOTIX MOVE</span>
         <span>MOBOTIX MOVE U2VC-series</span>
       </div>
-      <p class="wt-tested-note">Active interoperability testing runs across several manufacturers. This is the hardware on our bench today — not a formal or universal compatibility guarantee. Checking a specific model? <a href="mailto:info@zoneary.com?subject=Watchtower%20camera%20compatibility">Ask us</a>.</p>
+      <p class="wt-tested-note"><b>Currently tested with 6 ONVIF devices</b> — discovered on our lab network across several manufacturers. This is the hardware on our bench today — not a formal or universal compatibility guarantee. Checking a specific model? <a href="mailto:info@zoneary.com?subject=Watchtower%20camera%20compatibility">Ask us</a>.</p>
     </div>
   </div>
 </section>
@@ -538,8 +538,8 @@
   <div class="wrap">
     <div class="wt-head">
       <span class="eyebrow"><i></i>Hardware &amp; system requirements</span>
-      <h2>Real requirements.<br>From a <span class="wt-warm">real server.</span></h2>
-      <p>Watchtower Server runs on Linux. Below is our initial supported baseline for launch, and the machine we actually run Watchtower on every day — kept clearly apart, because they are not the same thing.</p>
+      <h2>Real requirements.<br>From <span class="wt-warm">real hardware.</span></h2>
+      <p>Watchtower Server runs on Linux. Below is our initial supported baseline for launch, and the two machines we actually run Watchtower on every day — kept clearly apart, because they are not the same thing. Both are commercial Dell platforms that reached us through the professional video-security industry; that is where the hardware came from, not an endorsement of Watchtower by anyone who sold it.</p>
     </div>
 
     <div class="wt-osbar reveal">
@@ -597,7 +597,7 @@
         </div>
       </div>
       <div class="wt-rig-grid">
-        <div class="wt-sr"><span class="k">System</span><span class="v">Dell Precision 3650 Tower</span></div>
+        <div class="wt-sr"><span class="k">System</span><span class="v">Velasea system · Dell Precision 3650 Tower platform</span></div>
         <div class="wt-sr"><span class="k">Processor</span><span class="v">Intel Core i5-11500 · 11th generation · 6 cores / 12 threads · up to 4.6 GHz</span></div>
         <div class="wt-sr"><span class="k">Memory</span><span class="v">16 GB DDR4-3200</span></div>
         <div class="wt-sr"><span class="k">System drive</span><span class="v">256 GB Western Digital SN730 NVMe SSD</span></div>
@@ -607,9 +607,36 @@
         <div class="wt-sr"><span class="k">Graphics</span><span class="v">Intel UHD Graphics 750 · NVIDIA T600 installed</span></div>
         <div class="wt-sr"><span class="k">Operating system</span><span class="v">Linux Mint 22.3 · x86-64</span></div>
         <div class="wt-sr"><span class="k">Watchtower version</span><span class="v">v1.26.0810-2</span></div>
-        <div class="wt-sr"><span class="k">Workload at audit</span><span class="v">4 actively recording cameras · continuous real-world operation</span></div>
+        <div class="wt-sr"><span class="k">Lab environment</span><span class="v">Tested with up to 6 ONVIF cameras/devices in our current lab environment · continuous real-world operation</span></div>
       </div>
       <p class="wt-rig-note"><b>This is what we run, not what you need.</b> WT01's recording array and installed graphics card are not Watchtower requirements — the NVIDIA T600 is present in this machine, but we have not established that Watchtower depends on it for normal server operation. WT01's two drives are configured as RAID0: a test configuration chosen for capacity and throughput, which provides <b>no disk redundancy</b>.</p>
+    </div>
+
+    <!-- The second machine, deliberately the modest one: WT01 alone would read as
+         "Watchtower needs an appliance". DEV01 is ordinary desktop hardware. -->
+    <div class="wt-rig dev reveal">
+      <div class="wt-rig-head">
+        <div>
+          <span class="wt-spec-tag test">Tested configuration</span>
+          <h3>Development workstation</h3>
+          <p>Watchtower is also built and exercised daily on ordinary desktop hardware. DEV01 is our development and QA machine — a small-form-factor office desktop, running the same Watchtower server build against the same lab cameras, without an appliance-class recording array behind it.</p>
+        </div>
+        <div class="wt-rig-badge">
+          <span class="n">DEV01</span>
+          <span class="s">Development &amp; test system</span>
+        </div>
+      </div>
+      <div class="wt-rig-grid">
+        <div class="wt-sr"><span class="k">System</span><span class="v">ISS-supplied Dell OptiPlex 3080 platform</span></div>
+        <div class="wt-sr"><span class="k">Processor</span><span class="v">Intel Core i5-10500 · 10th generation · 6 cores / 12 threads · 3.10 GHz base, up to 4.5 GHz</span></div>
+        <div class="wt-sr"><span class="k">Memory</span><span class="v">16 GB DDR4-2666</span></div>
+        <div class="wt-sr"><span class="k">System drive</span><span class="v">256 GB NVMe SSD</span></div>
+        <div class="wt-sr"><span class="k">Network</span><span class="v">Gigabit Ethernet</span></div>
+        <div class="wt-sr"><span class="k">Graphics</span><span class="v">Intel UHD Graphics 630 · NVIDIA GeForce GT 1030 installed, running the open-source nouveau driver</span></div>
+        <div class="wt-sr"><span class="k">Operating system</span><span class="v">Linux Mint 22.3 · Linux kernel 6.14 · x86-64</span></div>
+        <div class="wt-sr"><span class="k">Role</span><span class="v">Watchtower development and QA · same lab environment of up to 6 ONVIF cameras/devices</span></div>
+      </div>
+      <p class="wt-rig-note"><b>A real development machine, not a minimum specification.</b> DEV01 is shown because it is modest, not because it defines a floor — we have not characterized its capacity, and it carries no dedicated recording volume. The GeForce GT 1030 is installed but currently runs on the open-source nouveau driver, so <b>this machine does not validate NVIDIA or NVENC accelerated encoding</b>, and Watchtower does not require a discrete graphics card for normal server operation.</p>
     </div>
 
     <div class="wt-notes">
@@ -619,7 +646,7 @@
       </div>
       <div class="wt-note reveal rd1">
         <h4>Capacity</h4>
-        <p>Watchtower capacity depends on the complete workload, including camera count, resolution, codec, bitrate, frame rate, recording mode, motion processing, audio, concurrent live viewing, playback activity and storage performance. Our initial supported target of up to 32 cameras per system is an engineering specification we are still characterizing — the four-camera WT01 workload is not evidence that this hardware has been validated at that figure. Licensing does not meter camera count.</p>
+        <p>Watchtower capacity depends on the complete workload, including camera count, resolution, codec, bitrate, frame rate, recording mode, motion processing, audio, concurrent live viewing, playback activity and storage performance. Our initial supported target of up to 32 cameras per system is an engineering specification we are still characterizing — our current lab environment of 6 ONVIF cameras/devices is not evidence that either machine above has been validated at that figure. Licensing does not meter camera count.</p>
       </div>
       <div class="wt-note reveal rd2">
         <h4>Software environment</h4>
@@ -758,7 +785,7 @@
       </details>
       <details class="wt-q">
         <summary>Which cameras work with Watchtower?</summary>
-        <div class="a"><p>Watchtower uses ONVIF-based discovery and setup with standards-based RTSP video ingestion, rather than a per-brand integration list. ONVIF devices on the local network are discovered rather than added one address at a time.</p><p>Hardware used during development and interoperability testing currently includes i-PRO, MOBOTIX Q71 and MOBOTIX MOVE / MOVE U2VC-series equipment. That is a test bench, not a supported-device list. Compatibility details will be published before release; until then, ask us about a specific model and we'll tell you what we know.</p></div>
+        <div class="a"><p>Watchtower uses ONVIF-based discovery and setup with standards-based RTSP video ingestion, rather than a per-brand integration list. ONVIF devices on the local network are discovered rather than added one address at a time.</p><p>Hardware used during development and interoperability testing currently includes i-PRO, MOBOTIX Q71 and MOBOTIX MOVE / MOVE U2VC-series equipment — tested with up to 6 ONVIF cameras/devices in our current lab environment. That is a test bench, not a supported-device list. Compatibility details will be published before release; until then, ask us about a specific model and we'll tell you what we know.</p></div>
       </details>
       <details class="wt-q">
         <summary>How does Watchtower relate to PulseGrid and Sentinel?</summary>
