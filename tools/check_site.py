@@ -14,6 +14,7 @@ Checks
   6. every page declares a canonical URL
   7. sitemap.xml URLs map to real files, and every page is listed
   8. no page requests a third-party host (fonts, CDNs, trackers)
+  9. FAQPage structured data matches the visible FAQ, question for question
 
 Usage
   python tools/check_site.py [--site site] [--quiet]
@@ -24,6 +25,8 @@ import json
 import os
 import re
 import sys
+# not "import html": main() already binds `html` to the list of HTML files
+from html import unescape
 from urllib.parse import urlparse, unquote
 
 ATTR = re.compile(r'(?:href|src)\s*=\s*"([^"]+)"', re.I)
@@ -35,6 +38,12 @@ LDRE = re.compile(
 CANON = re.compile(r'<link[^>]+rel=["\']canonical["\'][^>]*href=["\']([^"\']+)["\']', re.I)
 LOC = re.compile(r"<loc>\s*([^<]+?)\s*</loc>", re.I)
 
+# Visible FAQ entries: <details class="wt-q"><summary>Q</summary><div class="a"><p>A</p>…</div></details>
+FAQ_ITEM = re.compile(
+    r'<details class="wt-q">\s*<summary>(.*?)</summary>\s*<div class="a">(.*?)</div>\s*</details>',
+    re.S)
+FAQ_PARA = re.compile(r"<p>(.*?)</p>", re.S)
+
 SKIP_SCHEMES = ("http://", "https://", "mailto:", "data:", "tel:", "//", "#")
 ALLOWED_EXTERNAL_LINK_HOSTS = {
     # plain hyperlinks a visitor may click; these do not fire on page load
@@ -44,6 +53,33 @@ ALLOWED_EXTERNAL_LINK_HOSTS = {
 
 def rel(path, root):
     return os.path.relpath(path, root).replace("\\", "/")
+
+
+def plain(fragment):
+    """Visible text of an HTML fragment, whitespace-normalised."""
+    return re.sub(r"\s+", " ", unescape(re.sub(r"<[^>]+>", "", fragment))).strip()
+
+
+def visible_faq(text):
+    """[(question, answer)] as a reader sees them, in document order."""
+    return [(plain(q), " ".join(plain(p) for p in FAQ_PARA.findall(a)))
+            for q, a in FAQ_ITEM.findall(text)]
+
+
+def schema_faq(text):
+    """[(question, answer)] as declared by FAQPage JSON-LD, in document order."""
+    out = []
+    for block in LDRE.findall(text):
+        try:
+            doc = json.loads(block)
+        except Exception:
+            continue  # a broken block is already reported by the JSON-LD check
+        if doc.get("@type") != "FAQPage":
+            continue
+        for q in doc.get("mainEntity", []):
+            out.append((plain(str(q.get("name", ""))),
+                        plain(str(q.get("acceptedAnswer", {}).get("text", "")))))
+    return out
 
 
 def collect(root):
@@ -138,6 +174,35 @@ def main():
         if name != "sentinel/demo.html" and not CANON.search(text):
             problems.append("%s: no canonical URL declared" % name)
 
+    # ---- FAQ structured data must describe the FAQ a reader actually sees ----
+    # Schema that drifts from the page stops being a description and becomes a
+    # claim about content that isn't there. Both directions are failures: markup
+    # without schema is only a missed opportunity, but schema without matching
+    # visible copy is misrepresentation.
+    faq_checked = 0
+    for f in html:
+        text = open(f, encoding="utf-8", errors="replace").read()
+        name = rel(f, root)
+        seen, declared = visible_faq(text), schema_faq(text)
+        if not seen and not declared:
+            continue
+        if declared and not seen:
+            problems.append("%s: FAQPage schema declares questions but the page shows no FAQ" % name)
+            continue
+        if not declared:
+            continue  # visible FAQ with no schema: allowed, nothing is misstated
+        faq_checked += 1
+        if len(seen) != len(declared):
+            problems.append("%s: FAQPage declares %d question(s) but %d are visible"
+                            % (name, len(declared), len(seen)))
+        for i, (want, got) in enumerate(zip(seen, declared), 1):
+            if want[0] != got[0]:
+                problems.append("%s: FAQ #%d question text differs\n      visible: %s\n      schema:  %s"
+                                % (name, i, want[0], got[0]))
+            elif want[1] != got[1]:
+                problems.append("%s: FAQ #%d (%s) answer text differs from the visible answer"
+                                % (name, i, want[0]))
+
     # sitemap
     sm = os.path.join(root, "sitemap.xml")
     if not os.path.isfile(sm):
@@ -214,8 +279,8 @@ def main():
                     problems.append("%s: forbidden claim %r appears" % (rel(f, root), bad))
 
     if not args.quiet:
-        print("checked %d files, %d internal references, %d commercial constants"
-              % (len(files), checked_refs, priced))
+        print("checked %d files, %d internal references, %d commercial constants, "
+              "%d FAQ page(s)" % (len(files), checked_refs, priced, faq_checked))
 
     if problems:
         print("\nFAILED - %d problem(s):" % len(problems))
