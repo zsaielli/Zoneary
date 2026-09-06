@@ -192,7 +192,7 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:600;letter-spacing:-.02em;line-h
 
 /* the supplied matte-painting artwork IS the environment */
 .hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:url('../assets/hero-bg.png') center 44% / cover no-repeat;
+  background:url('../assets/hero-bg.webp') center 44% / cover no-repeat;
   opacity:0;animation:atmosIn 1.5s var(--ease) 1s forwards}
 @keyframes atmosIn{to{opacity:1}}
 /* minimum dark scrim for readability — the artwork must stay visible */

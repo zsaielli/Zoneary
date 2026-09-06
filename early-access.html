@@ -13,7 +13,7 @@
 <meta property="og:url" content="https://zoneary.com/early-access.html" />
 <meta property="og:title" content="Early Access | Zoneary" />
 <meta property="og:description" content="Join the early-access list for Watchtower, PulseGrid and Sentinel, part of the local-first Zoneary ecosystem." />
-<meta property="og:image" content="https://zoneary.com/assets/hero-bg.png" />
+<meta property="og:image" content="https://zoneary.com/assets/hero-bg.webp" />
 <link rel="stylesheet" href="css/fonts.css" />
 <link rel="stylesheet" href="css/styles.css" />
 </head>
@@ -23,7 +23,7 @@
 
 <header class="nav scrolled" id="nav">
   <a class="nav-logo" href="index.html" aria-label="Zoneary home"><img src="assets/brand/zoneary_wordmark_key.png" alt="Zoneary" /></a>
-  <div class="nav-right"><a class="nav-ghost" href="index.html">← Back to Zoneary</a></div>
+  <div class="nav-right"><a class="nav-ghost" id="ea-back" href="index.html">← Back to Zoneary</a></div>
 </header>
 
 <main class="wrap">
@@ -111,6 +111,20 @@
       for (var i = 0; i < sel.options.length; i++) {
         if (sel.options[i].value.toLowerCase() === product.toLowerCase()) { sel.selectedIndex = i; break; }
       }
+    }
+
+    /* Send visitors back where they came from. The markup default is
+       "← Back to Zoneary" → index.html, so crawlers and no-JS visitors keep a
+       working link; only a recognised ?product= narrows it to that page. */
+    var HOME = { watchtower: ['watchtower/', 'Watchtower'],
+                 sentinel:   ['sentinel/',   'Sentinel'],
+                 pulsegrid:  ['pulsegrid/',  'PulseGrid'] };
+    var key = (product || '').toLowerCase();
+    var back = Object.prototype.hasOwnProperty.call(HOME, key) ? HOME[key] : null;
+    var backLink = document.getElementById('ea-back');
+    if (back && backLink) {
+      backLink.href = back[0];
+      backLink.textContent = '← Back to ' + back[1];
     }
     /* No backend yet: compose a pre-filled email the user sends from their own mail app. */
     var form = document.getElementById('eaForm');

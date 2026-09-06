@@ -10,8 +10,8 @@
 <title>Watchtower — A real VMS, for the rest of us | Zoneary</title>
 <meta name="description" content="Watchtower is Zoneary's flagship local-first video management system — live monitoring, video and audio recording, playback, investigations, operations and system health, running on your own hardware. In active development; Watchtower does not charge per camera." />
 <link rel="canonical" href="https://zoneary.com/watchtower/" />
-<link rel="icon" type="image/png" href="../assets/watchtower/watchtower_logo.png" />
-<link rel="apple-touch-icon" href="../assets/watchtower/watchtower_logo.png" />
+<link rel="icon" type="image/png" href="../assets/watchtower/watchtower_icon_128.png" />
+<link rel="apple-touch-icon" href="../assets/watchtower/watchtower_icon_128.png" />
 <!-- Open Graph -->
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Zoneary" />
@@ -33,11 +33,111 @@
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
+  "@id": "https://zoneary.com/watchtower/#software",
   "name": "Watchtower",
+  "alternateName": "Zoneary Watchtower",
   "applicationCategory": "SecurityApplication",
+  "applicationSubCategory": "Video Management System",
+  "operatingSystem": "Linux (Watchtower Server); Windows and macOS (desktop client)",
   "url": "https://zoneary.com/watchtower/",
-  "description": "Watchtower is Zoneary's local-first video management system for live monitoring, recording, playback, investigations and system health, running on your own hardware.",
-  "publisher": { "@type": "Organization", "name": "Zoneary", "url": "https://zoneary.com/" }
+  "description": "Watchtower is Zoneary's local-first video management system for live monitoring, recording, playback, investigations and system health, running on your own hardware. Watchtower connects to ONVIF cameras and does not license by camera count.",
+  "featureList": [
+    "Live monitoring",
+    "Video and audio recording",
+    "Playback and investigations",
+    "Browser-based fisheye dewarping",
+    "ONVIF camera support",
+    "Operations and system health",
+    "Local-first operation on hardware you own"
+  ],
+  "publisher": { "@id": "https://zoneary.com/#organization" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://zoneary.com/#organization",
+  "name": "Zoneary",
+  "url": "https://zoneary.com/",
+  "logo": "https://zoneary.com/assets/brand/zoneary_wordmark_key.png",
+  "email": "info@zoneary.com"
+}
+</script>
+<!-- Mirrors the visible FAQ at #faq, generated from that markup. If a question
+     or answer changes there, this must change with it - check_site.py enforces
+     the pair. Added for accurate semantic representation of content already on
+     the page, not in expectation of FAQ rich results. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": "https://zoneary.com/watchtower/#faq",
+  "url": "https://zoneary.com/watchtower/#faq",
+  "about": {
+    "@id": "https://zoneary.com/watchtower/#software"
+  },
+  "publisher": {
+    "@id": "https://zoneary.com/#organization"
+  },
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does Watchtower need an internet connection?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Watchtower runs on your own hardware, and live view, recording and playback are designed to work on your local network with the uplink down. Internet access is for the things that genuinely need it, not for watching your own cameras."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where is my footage stored?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On storage you chose, in the building you chose. Core local operation does not require cloud video storage, and does not upload your recordings to Zoneary. Sharing a clip is an action you take, not a default you have to opt out of."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a per-camera fee?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No — Watchtower does not charge per camera. Adding a camera is not a licence purchase. Watchtower Community is free for up to 4 cameras with up to 7-day retention; the Founder Edition removes those limits for a one-time $349 (through December 31, 2026; $399 regular)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What are the commercial terms?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Two editions. Community is free — up to 4 cameras, up to 7-day retention, the core Watchtower experience, no subscription. Founder Edition is a one-time $349 launch price through December 31, 2026 ($399 regular), which removes those limits. No per-camera licensing either way. A license activates one Watchtower system at a time, and replacing or migrating a system is supported. Founder Edition is the first 500 paid licenses; that designation is separate from the launch price."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which cameras work with Watchtower?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Watchtower uses ONVIF-based discovery and setup with standards-based RTSP video ingestion, rather than a per-brand integration list. ONVIF devices on the local network are discovered rather than added one address at a time. Hardware used during development and interoperability testing currently includes i-PRO, MOBOTIX Q71 and MOBOTIX MOVE / MOVE U2VC-series equipment — tested with up to 6 ONVIF cameras/devices in our current lab environment. That is a test bench, not a supported-device list. Compatibility details will be published before release; until then, ask us about a specific model and we'll tell you what we know."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Watchtower relate to PulseGrid and Sentinel?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Watchtower manages the video. PulseGrid monitors the infrastructure behind it — servers, storage, network, power and environment. Sentinel modernizes and controls the home security system. Each stands on its own; together they're the Zoneary ecosystem."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I buy Watchtower today?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not yet — Watchtower is pre-launch, so nothing is on sale today. Editions and pricing are published above so you can plan: Community free, Founder Edition $349 through December 31, 2026. Request early access and we'll bring you in as it rolls out."
+      }
+    }
+  ]
 }
 </script>
 </head>
@@ -73,7 +173,7 @@
     <div class="wt-hero-grid">
       <div class="wt-hero-content">
         <div class="wt-hero-brand">
-          <img src="../assets/watchtower/watchtower_logo.png" alt="Watchtower" width="240" height="279" />
+          <img src="../assets/watchtower/watchtower_logo.webp" alt="Watchtower" width="240" height="279" />
           <span class="wm">WATCHTOWER</span>
         </div>
         <h1>A modern VMS built around <span class="wt-warm">the tools operators use every day.</span></h1>
@@ -92,7 +192,7 @@
         <figure class="app-window">
           <div class="aw-bar">
             <span class="aw-dots"><i></i><i></i><i></i></span>
-            <span class="aw-title"><img src="../assets/watchtower/watchtower_logo.png" alt="" /> watchtower · live view</span>
+            <span class="aw-title"><img src="../assets/watchtower/watchtower_logo.webp" alt="" /> watchtower · live view</span>
             <span class="aw-live"><i></i>LIVE</span>
           </div>
           <div class="aw-media"><img src="../assets/watchtower/live-view.webp" alt="Watchtower Live View — a four-pane wall including two fisheye cameras" width="1920" height="945" /></div>
@@ -333,7 +433,7 @@
       <div class="sc-media">
         <div class="beam-accent"></div>
         <figure class="app-window">
-          <div class="aw-bar"><span class="aw-dots"><i></i><i></i><i></i></span><span class="aw-title"><img src="../assets/watchtower/watchtower_logo.png" alt="" /> watchtower · operations</span><span class="aw-live"><i></i>LIVE</span></div>
+          <div class="aw-bar"><span class="aw-dots"><i></i><i></i><i></i></span><span class="aw-title"><img src="../assets/watchtower/watchtower_logo.webp" alt="" /> watchtower · operations</span><span class="aw-live"><i></i>LIVE</span></div>
           <div class="aw-media"><img src="../assets/watchtower/operations.webp" alt="Watchtower Operations dashboard showing sites, cameras online, recording status and a live activity feed" width="1920" height="945" loading="lazy" /></div>
         </figure>
       </div>
@@ -457,7 +557,7 @@
         <span>MOBOTIX MOVE</span>
         <span>MOBOTIX MOVE U2VC-series</span>
       </div>
-      <p class="wt-tested-note">Active interoperability testing runs across several manufacturers. This is the hardware on our bench today — not a formal or universal compatibility guarantee. Checking a specific model? <a href="mailto:info@zoneary.com?subject=Watchtower%20camera%20compatibility">Ask us</a>.</p>
+      <p class="wt-tested-note"><b>Currently tested with 6 ONVIF devices</b> — discovered on our lab network across several manufacturers. This is the hardware on our bench today — not a formal or universal compatibility guarantee. Checking a specific model? <a href="mailto:info@zoneary.com?subject=Watchtower%20camera%20compatibility">Ask us</a>.</p>
     </div>
   </div>
 </section>
@@ -538,8 +638,8 @@
   <div class="wrap">
     <div class="wt-head">
       <span class="eyebrow"><i></i>Hardware &amp; system requirements</span>
-      <h2>Real requirements.<br>From a <span class="wt-warm">real server.</span></h2>
-      <p>Watchtower Server runs on Linux. Below is our initial supported baseline for launch, and the machine we actually run Watchtower on every day — kept clearly apart, because they are not the same thing.</p>
+      <h2>Real requirements.<br>From <span class="wt-warm">real hardware.</span></h2>
+      <p>Watchtower Server runs on Linux. Below is our initial supported baseline for launch, and the two machines we actually run Watchtower on every day — kept clearly apart, because they are not the same thing. Both are commercial Dell platforms that reached us through the professional video-security industry; that is where the hardware came from, not an endorsement of Watchtower by anyone who sold it.</p>
     </div>
 
     <div class="wt-osbar reveal">
@@ -597,7 +697,7 @@
         </div>
       </div>
       <div class="wt-rig-grid">
-        <div class="wt-sr"><span class="k">System</span><span class="v">Dell Precision 3650 Tower</span></div>
+        <div class="wt-sr"><span class="k">System</span><span class="v">Velasea system · Dell Precision 3650 Tower platform</span></div>
         <div class="wt-sr"><span class="k">Processor</span><span class="v">Intel Core i5-11500 · 11th generation · 6 cores / 12 threads · up to 4.6 GHz</span></div>
         <div class="wt-sr"><span class="k">Memory</span><span class="v">16 GB DDR4-3200</span></div>
         <div class="wt-sr"><span class="k">System drive</span><span class="v">256 GB Western Digital SN730 NVMe SSD</span></div>
@@ -607,9 +707,36 @@
         <div class="wt-sr"><span class="k">Graphics</span><span class="v">Intel UHD Graphics 750 · NVIDIA T600 installed</span></div>
         <div class="wt-sr"><span class="k">Operating system</span><span class="v">Linux Mint 22.3 · x86-64</span></div>
         <div class="wt-sr"><span class="k">Watchtower version</span><span class="v">v1.26.0810-2</span></div>
-        <div class="wt-sr"><span class="k">Workload at audit</span><span class="v">4 actively recording cameras · continuous real-world operation</span></div>
+        <div class="wt-sr"><span class="k">Lab environment</span><span class="v">Tested with up to 6 ONVIF cameras/devices in our current lab environment · continuous real-world operation</span></div>
       </div>
       <p class="wt-rig-note"><b>This is what we run, not what you need.</b> WT01's recording array and installed graphics card are not Watchtower requirements — the NVIDIA T600 is present in this machine, but we have not established that Watchtower depends on it for normal server operation. WT01's two drives are configured as RAID0: a test configuration chosen for capacity and throughput, which provides <b>no disk redundancy</b>.</p>
+    </div>
+
+    <!-- The second machine, deliberately the modest one: WT01 alone would read as
+         "Watchtower needs an appliance". DEV01 is ordinary desktop hardware. -->
+    <div class="wt-rig dev reveal">
+      <div class="wt-rig-head">
+        <div>
+          <span class="wt-spec-tag test">Tested configuration</span>
+          <h3>Development workstation</h3>
+          <p>Watchtower is also built and exercised daily on ordinary desktop hardware. DEV01 is our development and QA machine — a small-form-factor office desktop, running the same Watchtower server build against the same lab cameras, without an appliance-class recording array behind it.</p>
+        </div>
+        <div class="wt-rig-badge">
+          <span class="n">DEV01</span>
+          <span class="s">Development &amp; test system</span>
+        </div>
+      </div>
+      <div class="wt-rig-grid">
+        <div class="wt-sr"><span class="k">System</span><span class="v">ISS-supplied Dell OptiPlex 3080 platform</span></div>
+        <div class="wt-sr"><span class="k">Processor</span><span class="v">Intel Core i5-10500 · 10th generation · 6 cores / 12 threads · 3.10 GHz base, up to 4.5 GHz</span></div>
+        <div class="wt-sr"><span class="k">Memory</span><span class="v">16 GB DDR4-2666</span></div>
+        <div class="wt-sr"><span class="k">System drive</span><span class="v">256 GB NVMe SSD</span></div>
+        <div class="wt-sr"><span class="k">Network</span><span class="v">Gigabit Ethernet</span></div>
+        <div class="wt-sr"><span class="k">Graphics</span><span class="v">Intel UHD Graphics 630 · NVIDIA GeForce GT 1030 installed, running the open-source nouveau driver</span></div>
+        <div class="wt-sr"><span class="k">Operating system</span><span class="v">Linux Mint 22.3 · Linux kernel 6.14 · x86-64</span></div>
+        <div class="wt-sr"><span class="k">Role</span><span class="v">Watchtower development and QA · same lab environment of up to 6 ONVIF cameras/devices</span></div>
+      </div>
+      <p class="wt-rig-note"><b>A real development machine, not a minimum specification.</b> DEV01 is shown because it is modest, not because it defines a floor — we have not characterized its capacity, and it carries no dedicated recording volume. The GeForce GT 1030 is installed but currently runs on the open-source nouveau driver, so <b>this machine does not validate NVIDIA or NVENC accelerated encoding</b>, and Watchtower does not require a discrete graphics card for normal server operation.</p>
     </div>
 
     <div class="wt-notes">
@@ -619,7 +746,7 @@
       </div>
       <div class="wt-note reveal rd1">
         <h4>Capacity</h4>
-        <p>Watchtower capacity depends on the complete workload, including camera count, resolution, codec, bitrate, frame rate, recording mode, motion processing, audio, concurrent live viewing, playback activity and storage performance. Our initial supported target of up to 32 cameras per system is an engineering specification we are still characterizing — the four-camera WT01 workload is not evidence that this hardware has been validated at that figure. Licensing does not meter camera count.</p>
+        <p>Watchtower capacity depends on the complete workload, including camera count, resolution, codec, bitrate, frame rate, recording mode, motion processing, audio, concurrent live viewing, playback activity and storage performance. Our initial supported target of up to 32 cameras per system is an engineering specification we are still characterizing — our current lab environment of 6 ONVIF cameras/devices is not evidence that either machine above has been validated at that figure. Licensing does not meter camera count.</p>
       </div>
       <div class="wt-note reveal rd2">
         <h4>Software environment</h4>
@@ -758,7 +885,7 @@
       </details>
       <details class="wt-q">
         <summary>Which cameras work with Watchtower?</summary>
-        <div class="a"><p>Watchtower uses ONVIF-based discovery and setup with standards-based RTSP video ingestion, rather than a per-brand integration list. ONVIF devices on the local network are discovered rather than added one address at a time.</p><p>Hardware used during development and interoperability testing currently includes i-PRO, MOBOTIX Q71 and MOBOTIX MOVE / MOVE U2VC-series equipment. That is a test bench, not a supported-device list. Compatibility details will be published before release; until then, ask us about a specific model and we'll tell you what we know.</p></div>
+        <div class="a"><p>Watchtower uses ONVIF-based discovery and setup with standards-based RTSP video ingestion, rather than a per-brand integration list. ONVIF devices on the local network are discovered rather than added one address at a time.</p><p>Hardware used during development and interoperability testing currently includes i-PRO, MOBOTIX Q71 and MOBOTIX MOVE / MOVE U2VC-series equipment — tested with up to 6 ONVIF cameras/devices in our current lab environment. That is a test bench, not a supported-device list. Compatibility details will be published before release; until then, ask us about a specific model and we'll tell you what we know.</p></div>
       </details>
       <details class="wt-q">
         <summary>How does Watchtower relate to PulseGrid and Sentinel?</summary>
@@ -782,7 +909,7 @@
     </div>
     <div class="wt-eco">
       <a class="wt-eco-row wt" href="#top">
-        <span class="wt-eco-ico wt"><img src="../assets/watchtower/watchtower_logo.png" alt="" /></span>
+        <span class="wt-eco-ico wt"><img src="../assets/watchtower/watchtower_logo.webp" alt="" /></span>
         <span class="wt-eco-txt"><b>Watchtower</b><span class="role">Video management</span><p>Live monitoring, recording, playback and investigations — the flagship VMS.</p></span>
         <span class="lbl">You are here</span>
       </a>
