@@ -874,6 +874,66 @@ T::contains(file_get_contents($siteRoot . '/privacy.html'), 'mailto:info@zoneary
 T::contains($page, 'mailto:info@zoneary.com?subject=Early%20access',
     'the form keeps an email fallback for when it cannot be used');
 
+// ---- commercial CTAs terminate at the form, not at another CTA ------------
+// PulseGrid's header and hero "Request early access" buttons scrolled to a
+// section whose only content was a third "Request early access" button. A CTA
+// with commercial intent must reach the form in one hop.
+$INTENT = '/(request early access|join[^<]*early[- ]access|early[- ]access|contact sales|contact zoneary|contact|talk to us|get in touch|request access)/i';
+$PRODUCT_DIRS = ['watchtower' => 'Watchtower', 'pulsegrid' => 'PulseGrid', 'sentinel' => 'Sentinel'];
+$ctaCount = 0;
+$productCtas = 0;
+
+foreach ($pages as $f) {
+    $text = file_get_contents($f);
+    $name = str_replace(DIRECTORY_SEPARATOR, '/', substr($f, strlen($siteRoot) + 1));
+    $dir  = strpos($name, '/') !== false ? substr($name, 0, strpos($name, '/')) : '';
+    $product = $PRODUCT_DIRS[$dir] ?? null;
+
+    preg_match_all('/<a\b([^>]*)>(.*?)<\/a>/is', $text, $anchors, PREG_SET_ORDER);
+    foreach ($anchors as $a) {
+        $label = trim(preg_replace('/\s+/', ' ', html_entity_decode(strip_tags($a[2]))));
+        if ($label === '' || !preg_match('/href="([^"]*)"/', $a[1], $h)) {
+            continue;
+        }
+        $href = $h[1];
+        if (!preg_match($INTENT, $label) || strncmp($href, 'mailto:', 7) === 0) {
+            continue;
+        }
+        $ctaCount++;
+
+        T::ok(strncmp($href, '#', 1) !== 0,
+            "$name: CTA '$label' is not an in-page fragment");
+        T::contains($href, 'early-access.html',
+            "$name: CTA '$label' terminates at the contact form");
+
+        if ($product !== null && preg_match('/early[- ]access|request access/i', $label)) {
+            $productCtas++;
+            T::contains($href, 'product=' . $product,
+                "$name: CTA '$label' preserves product=$product");
+        }
+    }
+}
+T::ok($ctaCount >= 25, "the CTA sweep actually examined the site (found $ctaCount)");
+T::ok($productCtas >= 10, "product-page early-access CTAs were checked (found $productCtas)");
+
+// the three PulseGrid defects specifically
+$pg = file_get_contents($siteRoot . '/pulsegrid/index.html');
+T::ok(substr_count($pg, 'href="#access"') === 0, 'no PulseGrid CTA scrolls to the #access section');
+T::ok(substr_count($pg, 'early-access.html?product=PulseGrid') >= 4,
+    'all four PulseGrid early-access CTAs carry the product context');
+// the destination section and its own direct CTA survive
+T::contains($pg, 'id="access"', 'the bottom access section is still present');
+T::contains($pg, '<a class="btn btn-pg btn-lg" href="../early-access.html?product=PulseGrid">',
+    'the bottom CTA still links straight to the form');
+// informational anchors are untouched
+foreach (['#what', '#features', '#health'] as $frag) {
+    T::contains($pg, 'href="' . $frag . '"', "the informational anchor $frag is left alone");
+}
+$sn = file_get_contents($siteRoot . '/sentinel/index.html');
+T::contains($sn, 'href="#demo"', 'Sentinel\'s "See the live demo" anchor is left alone');
+$wt = file_get_contents($siteRoot . '/watchtower/index.html');
+T::contains($wt, 'href="#overview"', 'Watchtower\'s "See how it works" anchor is left alone');
+
 // the page reads as a contact destination, not only a waitlist
 T::contains($page, 'Get in touch with Zoneary', 'the heading works for any enquiry');
 T::missing($page, 'Be first, as the ecosystem rolls out.', 'the waitlist-only heading is gone');

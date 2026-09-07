@@ -399,6 +399,67 @@ def main():
     if routed and routed < 9:
         problems.append("only %d page(s) route Contact to the form; expected every page with a footer" % routed)
 
+    # ---- commercial CTAs must terminate at the form --------------------------
+    # A CTA that says "Request early access" and scrolls to another section
+    # containing a second "Request early access" button costs the visitor a hop
+    # for nothing. PulseGrid shipped three of these. The previous contact audit
+    # missed them because it searched for mailto: - a different failure mode -
+    # so this checks the destination itself, whatever scheme it uses.
+    #
+    # Informational anchors (Features, What it is, See the live demo, See how it
+    # works) are deliberately out of scope: they lead somewhere a reader wants to
+    # go, not to another button.
+    ANCHOR = re.compile(r"<a\b([^>]*)>(.*?)</a>", re.S | re.I)
+    HREF_A = re.compile(r'href="([^"]*)"')
+    INTENT = re.compile(
+        r"(request early access|join[^<]*early[- ]access|early[- ]access|"
+        r"contact sales|contact zoneary|contact|talk to us|get in touch|"
+        r"send to zoneary|request access)", re.I)
+    EARLY_ACCESS_LABEL = re.compile(r"early[- ]access|request access", re.I)
+    PRODUCT_DIRS = {"watchtower": "Watchtower", "pulsegrid": "PulseGrid", "sentinel": "Sentinel"}
+
+    ctas_checked = 0
+    for f in html:
+        text = open(f, encoding="utf-8", errors="replace").read()
+        name = rel(f, root)
+        product = PRODUCT_DIRS.get(name.split("/")[0]) if "/" in name else None
+
+        for m in ANCHOR.finditer(text):
+            attrs, inner = m.group(1), m.group(2)
+            label = plain(inner)
+            href_m = HREF_A.search(attrs)
+            if not label or not href_m or not INTENT.search(label):
+                continue
+            href = href_m.group(1)
+
+            # mailto is handled by the Contact-link check above; the remaining
+            # informational addresses are labelled with the address itself.
+            if href.startswith("mailto:"):
+                continue
+
+            ctas_checked += 1
+
+            if href.startswith("#"):
+                problems.append(
+                    "%s: CTA %r points at the in-page fragment %s instead of the contact form"
+                    % (name, label, href))
+                continue
+
+            if "early-access.html" not in urlparse(href).path:
+                problems.append(
+                    "%s: CTA %r goes to %s instead of terminating at the contact form"
+                    % (name, label, href))
+                continue
+
+            # On a product page, an early-access CTA must carry that product.
+            # A general "Contact" link may stay general.
+            if product and EARLY_ACCESS_LABEL.search(label):
+                want = "product=%s" % product
+                if want not in href:
+                    problems.append(
+                        "%s: CTA %r loses product context (want %s, got %s)"
+                        % (name, label, want, href))
+
     # ---- long-cached stylesheets must be cache-busted ------------------------
     # css/ is served with max-age=604800 while the HTML that references it is
     # not cached at all, so a deploy lands new markup against a week-old
