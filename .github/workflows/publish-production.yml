@@ -67,6 +67,28 @@ jobs:
       - name: Run website checks
         run: python tools/check_site.py --site site
 
+      # The contact endpoint is server-side code going to a live host, so it is
+      # gated like everything else. The suite uses a fake transport and sends no
+      # mail; PHP is preinstalled on the runner, so there is nothing to set up.
+      - name: Run contact endpoint tests
+        run: |
+          php --version
+          php tools/test_contact.php
+
+      # A literal value, not a mention: the endpoint's own code necessarily
+      # refers to smtp_password by name, so only an assignment of a quoted
+      # string to it is a finding.
+      - name: Guard - no SMTP credential in the deployable tree
+        run: |
+          set -euo pipefail
+          if grep -rniE "(smtp_password|password|passwd)[[:space:]]*(=>|=|:)[[:space:]]*['\"][^'\"]{4,}['\"]" site/; then
+            echo "::error::a literal credential appears under site/"; exit 1
+          fi
+          if find site -name 'contact-config.php' -o -name '.env*' | grep -q .; then
+            echo "::error::a secrets file is inside the deployable tree"; exit 1
+          fi
+          echo "no credential material under site/"
+
       - name: Build production branch (dry run, no push)
         env:
           DRY_RUN: "1"

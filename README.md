@@ -25,6 +25,7 @@ commit made to it directly will be overwritten by the next publish. See
 ## Structure
 
 - `site/` — the deployable website (all HTML, CSS, JS, and image assets)
+- `site/api/` — the contact / early-access endpoint (PHP; runs on Hostinger only)
 - `assets/` — brand and screenshot source material
 - `tools/` — repository tooling (site checks, production publish script)
 
@@ -62,10 +63,15 @@ python -m http.server 8000
 # then open http://127.0.0.1:8000/
 ```
 
-Run the website checks before publishing:
+Run the checks before publishing:
 
 ```
 python tools/check_site.py
+php tools/test_contact.php
 ```
+
+The second exercises the contact endpoint against a fake mail transport and
+sends nothing. The form itself can only run on Hostinger — see
+[docs/contact-form.md](docs/contact-form.md).
 
 Canonical URLs point to the production domain (`zoneary.com`); the Pages mirror is not listed as canonical.

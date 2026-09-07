@@ -59,7 +59,9 @@ The workflow will:
 2. check out the revision you selected
 3. verify `site/index.html` exists
 4. run `tools/check_site.py` (links, anchors, CSS `url()`, JSON-LD, canonicals,
-   sitemap coverage, third-party requests) — **a failure here stops the deploy**
+   sitemap coverage, third-party requests, contact-form wiring, credential
+   scan) and `tools/test_contact.php` (the contact endpoint, with a fake mail
+   transport — no mail is sent) — **a failure in either stops the deploy**
 5. build the branch in dry-run mode and verify the root
 6. build it again and push
 7. re-fetch `origin/production` and confirm `index.html` really is at the root
@@ -84,11 +86,25 @@ In hPanel → **Website → Git**:
 Because `production`’s root is already the website, `public_html/index.html`
 lands in the right place with no sub-path configuration.
 
+### The contact form needs one manual step
+
+`site/api/contact.php` sends the early-access form to `info@zoneary.com` over
+authenticated SMTP. Its password is **not** in this repository and is not
+deployed — it lives in a file above the web root that you create once by hand.
+Until you do, the form returns a generic failure.
+
+Full instructions: **[docs/contact-form.md](docs/contact-form.md)**.
+
 **After the first deploy, confirm `https://www.zoneary.com/.git/` is not
 readable.** Some git-based hosts leave the clone metadata inside the web root.
 If it is reachable, block it in Hostinger (file manager or an `.htaccess` deny
-rule) — this repository deliberately does not ship an `.htaccess`, so that
-choice stays with you.
+rule) — the repository ships no site-wide `.htaccess`, so that choice stays with
+you.
+
+The one `.htaccess` this repository does ship is
+[`site/api/lib/.htaccess`](site/api/lib/.htaccess), which denies direct web
+access to the contact endpoint's internal library. It is scoped to that one
+directory and affects nothing else.
 
 ---
 
@@ -143,10 +159,14 @@ worktree and cleans up after itself.
 - **Only `site/` ships.** `tools/`, `assets/` source material, `.github/`, the
   zip archives and every note or report live outside `site/` and therefore
   cannot leak into production.
-- **Checks gate the deploy.** `tools/check_site.py` runs before anything is
-  pushed.
+- **Checks gate the deploy.** `tools/check_site.py` and `tools/test_contact.php`
+  both run before anything is pushed, along with a scan that refuses to publish
+  a tree containing credential material.
 - **Staging is untouched.** `.github/workflows/pages.yml` still publishes `site/`
-  from `main` to GitHub Pages exactly as before.
+  from `main` to GitHub Pages, minus `site/api/` — Pages is static and cannot
+  execute the contact endpoint, so the review mirror omits it rather than
+  serving it as readable source. The form is therefore verified end to end on
+  production only.
 
 ## Files involved
 
@@ -156,3 +176,6 @@ worktree and cleans up after itself.
 | `.github/workflows/publish-production.yml` | Production — manual workflow that generates the `production` branch |
 | `tools/publish-production.sh` | The publish logic (used by CI and usable locally) |
 | `tools/check_site.py` | Pre-publish website checks |
+| `tools/test_contact.php` | Contact endpoint tests (fake transport; sends no mail) |
+| `site/api/contact.php` | The contact / early-access endpoint that ships to `public_html` |
+| `docs/contact-form.md` | How the form works and where its SMTP password lives |

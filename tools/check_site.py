@@ -15,6 +15,8 @@ Checks
   7. sitemap.xml URLs map to real files, and every page is listed
   8. no page requests a third-party host (fonts, CDNs, trackers)
   9. FAQPage structured data matches the visible FAQ, question for question
+ 10. the early-access form posts to its server endpoint and no longer uses mailto
+ 11. no credential material is present anywhere in the deployable site
 
 Usage
   python tools/check_site.py [--site site] [--quiet]
@@ -80,6 +82,18 @@ def schema_faq(text):
             out.append((plain(str(q.get("name", ""))),
                         plain(str(q.get("acceptedAnswer", {}).get("text", "")))))
     return out
+
+
+def php_const_list(text, name):
+    """The single-quoted string entries of a `const NAME = [...]` array.
+
+    Used to read the endpoint's own allowlists rather than restating them here,
+    so the form and the server cannot drift apart without this check noticing.
+    """
+    match = re.search(r"const\s+%s\s*=\s*\[(.*?)\];" % re.escape(name), text, re.S)
+    if not match:
+        return set()
+    return set(re.findall(r"'([^']*)'", match.group(1)))
 
 
 def collect(root):
@@ -278,9 +292,88 @@ def main():
                 if bad.lower() in low:
                     problems.append("%s: forbidden claim %r appears" % (rel(f, root), bad))
 
+    # ---- the contact form must be server-side, and stay server-side ----------
+    # The form used to open the visitor's mail client. It now posts to a PHP
+    # endpoint that authenticates to SMTP on the server. Both halves of that are
+    # checked here: that the endpoint is actually shipping, and that no part of
+    # the old mailto submission has crept back in.
+    ea = os.path.join(root, "early-access.html")
+    endpoint = os.path.join(root, "api", "contact.php")
+    if os.path.isfile(ea):
+        ea_txt = open(ea, encoding="utf-8", errors="replace").read()
+
+        if not os.path.isfile(endpoint):
+            problems.append("early-access.html expects api/contact.php, which is not in the site tree")
+        if 'action="api/contact.php"' not in ea_txt:
+            problems.append("early-access.html: the form does not post to api/contact.php")
+        if "fetch(" not in ea_txt:
+            problems.append("early-access.html: the form is not submitted asynchronously")
+
+        # A plain "email us" link is fine. A mailto carrying the form's contents
+        # is the old flow, whatever it is dressed up as.
+        if re.search(r"mailto:[^\"']*[?&]body=", ea_txt, re.I):
+            problems.append("early-access.html: a mailto: link carries a prefilled body")
+        if "window.location.href" in ea_txt:
+            problems.append("early-access.html: the page still navigates by assigning location.href")
+        if "nothing is submitted or stored on this site" in ea_txt:
+            problems.append("early-access.html: the explanatory copy still describes the old mailto flow")
+
+        # The library directory is denied at the web-server level. Losing this
+        # file would not break anything visibly, which is exactly why it is
+        # checked rather than trusted.
+        if os.path.isfile(endpoint):
+            deny = os.path.join(root, "api", "lib", ".htaccess")
+            if not os.path.isfile(deny):
+                problems.append("api/lib/.htaccess is missing - the library directory would be web-readable")
+            elif "Require all denied" not in open(deny, encoding="utf-8", errors="replace").read():
+                problems.append("api/lib/.htaccess no longer denies access")
+
+        # Every field the form posts must be one the endpoint accepts, and every
+        # product option must survive its allowlist - a mismatch is a form that
+        # looks fine and is rejected at the server.
+        if os.path.isfile(endpoint):
+            val = os.path.join(root, "api", "lib", "validate.php")
+            val_txt = open(val, encoding="utf-8", errors="replace").read() if os.path.isfile(val) else ""
+            known = php_const_list(val_txt, "KNOWN_FIELDS")
+            products = php_const_list(val_txt, "PRODUCTS")
+            if known:
+                for field in set(re.findall(r'<(?:input|select|textarea)[^>]*\bname="([^"]+)"', ea_txt, re.I)):
+                    if field not in known:
+                        problems.append("early-access.html: form field %r is not accepted by the endpoint" % field)
+            if products:
+                for value in re.findall(r'<option value="([^"]+)"', ea_txt):
+                    if value not in products:
+                        problems.append("early-access.html: product option %r is not in the server allowlist" % value)
+
+    # ---- no credential material in anything we deploy ------------------------
+    # The SMTP password lives in a file above the web root, created by hand on
+    # the server. Nothing under site/ may ever contain one, so this fails the
+    # publish rather than discovering it in production.
+    SECRET_PATTERNS = [
+        (re.compile(r"smtp_password\s*=>\s*['\"][^'\"]+['\"]"), "a literal smtp_password"),
+        (re.compile(r"(?:password|passwd|pwd)\s*=\s*['\"][^'\"]{4,}['\"]", re.I), "a literal password assignment"),
+        (re.compile(r"AUTH\s+LOGIN\s+[A-Za-z0-9+/]{12,}={0,2}"), "an inline SMTP credential"),
+        (re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----"), "a private key"),
+    ]
+    scanned = 0
+    for dirpath, _dirs, filenames in os.walk(root):
+        for fn in filenames:
+            if not fn.lower().endswith((".php", ".js", ".html", ".json", ".css", ".txt", ".env")):
+                continue
+            path = os.path.join(dirpath, fn)
+            scanned += 1
+            text = open(path, encoding="utf-8", errors="replace").read()
+            for pattern, label in SECRET_PATTERNS:
+                if pattern.search(text):
+                    problems.append("%s: contains %s" % (rel(path, root), label))
+            # the deployed tree must not carry a config file at all
+            if fn in ("contact-config.php", ".env") or fn.startswith(".env."):
+                problems.append("%s: a configuration/secrets file is inside the deployable site" % rel(path, root))
+
     if not args.quiet:
         print("checked %d files, %d internal references, %d commercial constants, "
-              "%d FAQ page(s)" % (len(files), checked_refs, priced, faq_checked))
+              "%d FAQ page(s), %d file(s) scanned for credentials"
+              % (len(files), checked_refs, priced, faq_checked, scanned))
 
     if problems:
         print("\nFAILED - %d problem(s):" % len(problems))

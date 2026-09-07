@@ -21,6 +21,11 @@ desktop.ini
 credentials*
 secret*
 
+# Contact-form SMTP credentials. These live above the web root on the server and
+# are created by hand there - see docs/contact-form.md. Never in this repository.
+contact-config.php
+zoneary-private/
+
 # Dependencies / logs / temporary files
 node_modules/
 *.log

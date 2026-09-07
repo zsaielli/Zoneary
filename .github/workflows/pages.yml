@@ -38,6 +38,16 @@ jobs:
           # Auto-enable Pages (build type: GitHub Actions) on first run.
           enablement: true
 
+      # GitHub Pages serves static files only - it cannot execute PHP, so the
+      # contact endpoint would be delivered to visitors as readable source
+      # instead of running. It is stripped from the review mirror; the page's
+      # script recognises the mirror and says the form only works on
+      # zoneary.com. Production (Hostinger) ships site/ intact.
+      - name: Remove the server-side endpoint from the static mirror
+        run: |
+          rm -rf site/api
+          test ! -e site/api && echo "site/api excluded from the Pages artifact"
+
       - name: Upload artifact (contents of /site only)
         uses: actions/upload-pages-artifact@v3
         with:

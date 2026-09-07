@@ -34,7 +34,7 @@
       <p>Watchtower, PulseGrid and Sentinel are all in active development. Tell us a little about your setup and we'll bring you in as they become available — no spam, no obligation.</p>
     </div>
 
-    <form class="ea-form" id="eaForm" novalidate>
+    <form class="ea-form" id="eaForm" action="api/contact.php" method="post" novalidate>
       <div class="ea-row">
         <div class="ea-field">
           <label for="ea-name">Name</label>
@@ -74,11 +74,24 @@
         <label for="ea-notes">Notes <span style="text-transform:none;letter-spacing:0">(optional)</span></label>
         <textarea id="ea-notes" name="notes" placeholder="Anything you'd like us to know. Please don't include sensitive security-system details."></textarea>
       </div>
+      <!-- Not a real field. Hidden from people and from screen readers; only an
+           automated submitter fills it in, and the server discards anything that does. -->
+      <div class="ea-trap" aria-hidden="true">
+        <label for="ea-company-website">Company website</label>
+        <input id="ea-company-website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+      <input type="hidden" id="ea-ts" name="ts" value="" />
       <div class="ea-field full">
-        <button class="btn btn-primary btn-lg" type="submit" style="justify-content:center;width:100%">Join early access</button>
+        <button class="btn btn-primary btn-lg" id="eaSubmit" type="submit" style="justify-content:center;width:100%">Join early access</button>
       </div>
     </form>
-    <p class="ea-note" id="eaNote">This opens a pre-filled email to <b>info@zoneary.com</b> in your mail app — nothing is submitted or stored on this site. Prefer to write us directly? <a class="inline" href="mailto:info@zoneary.com?subject=Early%20access">info@zoneary.com</a></p>
+
+    <div class="ea-done" id="eaDone" hidden>
+      <h2>Thanks — we have your details.</h2>
+      <p>Your message is on its way to the Zoneary team. We'll reply to the address you gave us.</p>
+    </div>
+
+    <p class="ea-note" id="eaNote" role="status" aria-live="polite">Submitted directly to Zoneary — no mail app required. We only use what you send here to reply to you. Prefer to write us yourself? <a class="inline" href="mailto:info@zoneary.com?subject=Early%20access">info@zoneary.com</a></p>
   </div>
 </main>
 
@@ -126,32 +139,90 @@
       backLink.href = back[0];
       backLink.textContent = '← Back to ' + back[1];
     }
-    /* No backend yet: compose a pre-filled email the user sends from their own mail app. */
-    var form = document.getElementById('eaForm');
+    /* ---- Submission -------------------------------------------------------
+       The form posts to our own endpoint and stays on the page. No mail client
+       is involved, and the entered values are never cleared until the server
+       has actually accepted the submission. */
+    var form   = document.getElementById('eaForm');
+    var note   = document.getElementById('eaNote');
+    var button = document.getElementById('eaSubmit');
+    var done   = document.getElementById('eaDone');
+    var stamp  = document.getElementById('ea-ts');
+    var DEFAULT_NOTE = note.innerHTML;
+    var sending = false;
+
+    /* When the page was opened. The server treats an impossibly fast
+       submission as automated; a missing value simply skips that check. */
+    if (stamp) stamp.value = String(Date.now());
+
+    function setNote(html, state) {
+      note.innerHTML = html;
+      note.classList.remove('is-error', 'is-busy');
+      if (state) note.classList.add(state);
+    }
+
+    function busy(on) {
+      sending = on;
+      button.disabled = on;
+      button.textContent = on ? 'Sending…' : 'Join early access';
+      form.setAttribute('aria-busy', on ? 'true' : 'false');
+    }
+
+    var v = function (id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var v = function (id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
-      var name = v('ea-name'), email = v('ea-email');
-      if (!name || !email) {
-        document.getElementById('eaNote').innerHTML = 'Please add your name and email so we can reach you.';
+      if (sending) return; /* a second click while in flight is not a second submission */
+
+      /* Fast feedback only. The server validates all of this again, and its
+         answer is the one that decides whether anything was sent. */
+      if (!v('ea-name') || !v('ea-email')) {
+        setNote('Please add your name and email so we can reach you.', 'is-error');
         return;
       }
-      var lines = [
-        'Name: ' + name,
-        'Email: ' + email,
-        'Organization: ' + (v('ea-org') || '—'),
-        'Product interest: ' + v('ea-product'),
-        'Approx. sites/devices: ' + (v('ea-count') || '—'),
-        'Current platform: ' + (v('ea-platform') || '—'),
-        '',
-        'Notes:',
-        (v('ea-notes') || '—')
-      ];
-      var subject = 'Early access — ' + v('ea-product');
-      var href = 'mailto:info@zoneary.com?subject=' + encodeURIComponent(subject) +
-                 '&body=' + encodeURIComponent(lines.join('\n'));
-      window.location.href = href;
-      document.getElementById('eaNote').innerHTML = 'Opening your email app… if nothing happens, email us at <b>info@zoneary.com</b>.';
+
+      /* The endpoint is PHP and only exists on zoneary.com. The GitHub Pages
+         review mirror is static, so say so rather than fail mysteriously. */
+      if (/\.github\.io$/i.test(location.hostname)) {
+        setNote('This is the review mirror, which cannot send mail. The form works on <b>zoneary.com</b> — or email <a class="inline" href="mailto:info@zoneary.com?subject=Early%20access">info@zoneary.com</a>.', 'is-error');
+        return;
+      }
+
+      busy(true);
+      setNote('Sending…', 'is-busy');
+
+      fetch(form.getAttribute('action'), {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'X-Requested-With': 'fetch' },
+        body: new FormData(form)
+      }).then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          return { status: res.status, data: data };
+        });
+      }).then(function (r) {
+        if (r.data && r.data.ok) {
+          form.reset();
+          form.hidden = true;
+          done.hidden = false;
+          setNote('We only use what you send here to reply to you. Need to add something? <a class="inline" href="mailto:info@zoneary.com?subject=Early%20access">info@zoneary.com</a>');
+          done.scrollIntoView({ block: 'nearest' });
+          return;
+        }
+        /* Failure: the fields stay exactly as they were typed. */
+        busy(false);
+        var msg = (r.data && r.data.error)
+          ? r.data.error
+          : 'Something went wrong on our end and the message was not sent. Please try again in a moment, or email info@zoneary.com directly.';
+        setNote(msg, 'is-error');
+      }).catch(function () {
+        busy(false);
+        setNote('We could not reach the server. Please check your connection and try again, or email <a class="inline" href="mailto:info@zoneary.com?subject=Early%20access">info@zoneary.com</a>.', 'is-error');
+      });
+    });
+
+    /* Typing after a failure clears the error and restores the standing note. */
+    form.addEventListener('input', function () {
+      if (!sending && note.classList.contains('is-error')) setNote(DEFAULT_NOTE);
     });
   })();
 </script>

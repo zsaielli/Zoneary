@@ -670,6 +670,19 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:600;letter-spacing:-.02em;line-h
 .ea-field input:focus,.ea-field select:focus,.ea-field textarea:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,212,255,.14)}
 .ea-field textarea{resize:vertical;min-height:90px}
 .ea-note{font-family:var(--mono);font-size:12px;color:var(--faint);line-height:1.6;text-align:center;margin-top:18px}
+.ea-note.is-error{color:#ff9b9b}
+.ea-note.is-busy{color:var(--muted)}
+/* Honeypot: off-screen rather than display:none, which some bots skip. */
+.ea-trap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+/* .ea-form sets display:flex, which would otherwise beat the hidden attribute
+   and leave the form on screen after a successful submission. */
+.ea-form[hidden]{display:none}
+.ea-form[aria-busy="true"]{opacity:.72}
+.ea-form button[disabled]{opacity:.6;cursor:progress}
+.ea-done{border:1px solid var(--line);border-radius:20px;background:var(--panel);
+  padding:clamp(28px,4vw,44px);text-align:center}
+.ea-done h2{font-size:clamp(20px,2.4vw,26px);letter-spacing:-.01em;margin-bottom:10px}
+.ea-done p{color:var(--muted);font-size:15px;line-height:1.6;max-width:420px;margin:0 auto}
 @media(max-width:620px){.ea-row{grid-template-columns:1fr}}
 
 /* ============ RESPONSIVE ============ */
