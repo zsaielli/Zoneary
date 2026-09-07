@@ -33,12 +33,12 @@ interface ContactTransport
     public function send(ContactMessage $message): void;
 }
 
-final class SmtpTransport implements ContactTransport
+class SmtpTransport implements ContactTransport
 {
-    private ContactConfig $config;
-    private int $timeout;
+    protected ContactConfig $config;
+    protected int $timeout;
     /** @var resource|null */
-    private $socket = null;
+    protected $socket = null;
 
     public function __construct(ContactConfig $config, int $timeout = 15)
     {
@@ -54,31 +54,69 @@ final class SmtpTransport implements ContactTransport
 
         try {
             $this->connect();
-            $this->expect($this->read(), 220, 'greeting');
-
-            $this->command('EHLO ' . $this->heloName(), 250, 'EHLO');
-
-            // AUTH LOGIN: the two base64 blobs are the credential. They are
-            // never logged, never echoed, and the command strings are not
-            // included in any exception message.
-            $this->command('AUTH LOGIN', 334, 'AUTH');
-            $this->commandQuiet(base64_encode($this->config->smtpUser()), 334, 'AUTH username');
-            $this->commandQuiet(base64_encode($this->config->smtpPassword()), 235, 'AUTH password');
-
-            $this->command('MAIL FROM:<' . $message->envelopeSender() . '>', 250, 'MAIL FROM');
-            $this->command('RCPT TO:<' . $message->envelopeRecipient() . '>', 250, 'RCPT TO');
-            $this->command('DATA', 354, 'DATA');
-
-            $this->write($this->dotStuff($message->toString()) . "\r\n.\r\n");
-            $this->expect($this->read(), 250, 'message body');
-
-            $this->write("QUIT\r\n");
+            $this->runConversation($message);
         } finally {
             $this->close();
         }
     }
 
-    private function connect(): void
+    /**
+     * The SMTP conversation itself, on an already-open connection.
+     *
+     * Separated from send() so the protocol can be exercised against a scripted
+     * server without opening a socket - see tools/test_contact.php. The
+     * acceptance boundary below is the reason this is worth testing directly.
+     */
+    protected function runConversation(ContactMessage $message): void
+    {
+        $this->expect($this->read(), 220, 'greeting');
+
+        $this->command('EHLO ' . $this->heloName(), 250, 'EHLO');
+
+        // AUTH LOGIN: the two base64 blobs are the credential. They are
+        // never logged, never echoed, and the command strings are not
+        // included in any exception message.
+        $this->command('AUTH LOGIN', 334, 'AUTH');
+        $this->commandQuiet(base64_encode($this->config->smtpUser()), 334, 'AUTH username');
+        $this->commandQuiet(base64_encode($this->config->smtpPassword()), 235, 'AUTH password');
+
+        $this->command('MAIL FROM:<' . $message->envelopeSender() . '>', 250, 'MAIL FROM');
+        $this->command('RCPT TO:<' . $message->envelopeRecipient() . '>', 250, 'RCPT TO');
+        $this->command('DATA', 354, 'DATA');
+
+        $this->write($this->dotStuff($message->toString()) . "\r\n.\r\n");
+        $this->expect($this->read(), 250, 'message body');
+
+        // ---- the message is ACCEPTED from here on ---------------------------
+        // That final 250 is the acceptance point: the server has taken
+        // responsibility for the message. Nothing after it may turn a
+        // successful send into a client-visible failure.
+        //
+        // QUIT is still sent, because closing without it is an abrupt session
+        // end that a mail server may hold against the sender. But a server that
+        // has already accepted the message is entitled to close the socket
+        // immediately, and then this write fails. Swallowing that is the
+        // difference between "delivered" and telling the visitor nothing was
+        // sent - which would invite a duplicate submission.
+        $this->quitQuietly();
+    }
+
+    /**
+     * Say goodbye, and never let saying goodbye fail the send.
+     *
+     * Called only after the message has been accepted. Any error here is about
+     * the teardown of a connection whose work is already done.
+     */
+    protected function quitQuietly(): void
+    {
+        try {
+            $this->write("QUIT\r\n");
+        } catch (Throwable $e) {
+            // Deliberately ignored: the message was accepted before this ran.
+        }
+    }
+
+    protected function connect(): void
     {
         $context = stream_context_create([
             'ssl' => [
@@ -117,7 +155,7 @@ final class SmtpTransport implements ContactTransport
         return $at === false ? 'zoneary.com' : substr($this->config->fromEmail(), $at + 1);
     }
 
-    private function command(string $line, int $expected, string $label): string
+    protected function command(string $line, int $expected, string $label): string
     {
         $this->write($line . "\r\n");
         return $this->expect($this->read(), $expected, $label);
@@ -128,7 +166,7 @@ final class SmtpTransport implements ContactTransport
      * used for the AUTH exchange so a credential cannot reach an exception,
      * a log file or an error page.
      */
-    private function commandQuiet(string $line, int $expected, string $label): void
+    protected function commandQuiet(string $line, int $expected, string $label): void
     {
         $this->write($line . "\r\n");
         $response = $this->read();
@@ -137,7 +175,7 @@ final class SmtpTransport implements ContactTransport
         }
     }
 
-    private function write(string $data): void
+    protected function write(string $data): void
     {
         if ($this->socket === null) {
             throw new ContactTransportException('not connected');
@@ -148,7 +186,7 @@ final class SmtpTransport implements ContactTransport
     }
 
     /** Read one (possibly multi-line) SMTP reply. */
-    private function read(): string
+    protected function read(): string
     {
         if ($this->socket === null) {
             throw new ContactTransportException('not connected');
@@ -172,7 +210,7 @@ final class SmtpTransport implements ContactTransport
         return $reply;
     }
 
-    private function expect(string $response, int $expected, string $label): string
+    protected function expect(string $response, int $expected, string $label): string
     {
         if ((int) substr($response, 0, 3) !== $expected) {
             throw new ContactTransportException(sprintf(

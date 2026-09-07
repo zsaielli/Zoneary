@@ -41,11 +41,22 @@ final class ContactValidator
     public const KNOWN_FIELDS = [
         'name', 'email', 'organization', 'product', 'count', 'platform', 'notes',
         // abuse controls; never used in the message body
-        'company_website', 'ts',
+        'homepage_url', 'company_website', 'ts',
     ];
 
-    /** The honeypot: present in the markup, hidden from people, empty when honest. */
-    public const HONEYPOT_FIELD = 'company_website';
+    /**
+     * The honeypots: present in the markup, hidden from people, empty when honest.
+     *
+     * Two names are accepted. 'homepage_url' is what the form posts now;
+     * 'company_website' was the previous name and is still treated as a trap,
+     * so a visitor holding a cached copy of the old page gets the same quiet
+     * handling rather than a confusing "could not be read" rejection. Both are
+     * traps, so a bot filling either is caught.
+     */
+    public const HONEYPOT_FIELDS = ['homepage_url', 'company_website'];
+
+    /** The name the current form posts. */
+    public const HONEYPOT_FIELD = 'homepage_url';
 
     /** A person cannot meaningfully complete this form faster than this. */
     public const MIN_FILL_SECONDS = 3;
@@ -76,8 +87,10 @@ final class ContactValidator
         // ---- honeypot -------------------------------------------------------
         // A filled honeypot is answered with the success message a bot expects,
         // so the operator learns nothing from the response. Nothing is sent.
-        if (self::clean((string) ($raw[self::HONEYPOT_FIELD] ?? '')) !== '') {
-            return self::silent('honeypot filled');
+        foreach (self::HONEYPOT_FIELDS as $trap) {
+            if (self::clean((string) ($raw[$trap] ?? '')) !== '') {
+                return self::silent('honeypot filled: ' . $trap);
+            }
         }
 
         // ---- fill time ------------------------------------------------------

@@ -15,7 +15,7 @@
 <meta property="og:description" content="Join the early-access list for Watchtower, PulseGrid and Sentinel, part of the local-first Zoneary ecosystem." />
 <meta property="og:image" content="https://zoneary.com/assets/hero-bg.webp" />
 <link rel="stylesheet" href="css/fonts.css" />
-<link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="css/styles.css?v=a7c97b20" />
 </head>
 <body>
 <div class="atmos"><div class="top-glow"></div><div class="grid"></div></div>
@@ -74,11 +74,24 @@
         <label for="ea-notes">Notes <span style="text-transform:none;letter-spacing:0">(optional)</span></label>
         <textarea id="ea-notes" name="notes" placeholder="Anything you'd like us to know. Please don't include sensitive security-system details."></textarea>
       </div>
-      <!-- Not a real field. Hidden from people and from screen readers; only an
-           automated submitter fills it in, and the server discards anything that does. -->
-      <div class="ea-trap" aria-hidden="true">
-        <label for="ea-company-website">Company website</label>
-        <input id="ea-company-website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
+      <!-- Not a real field. Only an automated submitter fills it in, and the
+           server discards anything that does.
+
+           The concealment is inline and does not depend on styles.css being
+           current. On 2026-09-06 a visitor's cached stylesheet lacked .ea-trap,
+           this rendered as an ordinary "Company website" field, a real person
+           filled it in, and their submission was silently dropped as bot
+           traffic. Hiding a control that changes behaviour must not depend on a
+           separate file arriving. .ea-trap remains as a second layer.
+
+           Deliberately NOT type="hidden": bots skip those, which would defeat
+           the point. It stays in the DOM, stays submitted, and stays invisible
+           and unfocusable. -->
+      <div class="ea-trap" aria-hidden="true"
+           style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden">
+        <label for="ea-homepage-url">Homepage URL</label>
+        <input id="ea-homepage-url" name="homepage_url" type="text" tabindex="-1"
+               autocomplete="off" aria-hidden="true" />
       </div>
       <input type="hidden" id="ea-ts" name="ts" value="" />
       <div class="ea-field full">
@@ -201,9 +214,19 @@
         });
       }).then(function (r) {
         if (r.data && r.data.ok) {
+          /* Restore the button before anything else. The success state used to
+             rely on the form disappearing to take the "Sending…" label with it,
+             so a stale stylesheet left the button stranded mid-send. */
+          busy(false);
           form.reset();
+          /* Belt and braces: the attribute is correct, but .ea-form sets
+             display:flex, and an out-of-date stylesheet may not carry the
+             .ea-form[hidden] rule that overrides it. The inline style does not
+             depend on any stylesheet being current. */
           form.hidden = true;
+          form.style.display = 'none';
           done.hidden = false;
+          done.style.display = 'block';
           setNote('We only use what you send here to reply to you. Need to add something? <a class="inline" href="mailto:info@zoneary.com?subject=Early%20access">info@zoneary.com</a>');
           done.scrollIntoView({ block: 'nearest' });
           return;
