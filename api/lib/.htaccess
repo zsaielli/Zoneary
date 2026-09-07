@@ -1,0 +1,19 @@
+# public_html/api/lib/ — internal includes only. No direct HTTP access.
+#
+# This costs the endpoint nothing. contact.php loads these files from the
+# filesystem with `require __DIR__ . '/lib/...'`, and .htaccess governs HTTP
+# requests, not PHP's include path — the two never meet. What it removes is the
+# library's presence on the web surface.
+#
+# Defence in depth, not the only defence: each file here also refuses to run
+# unless contact.php has defined ZONEARY_CONTACT, and answers a direct request
+# with 404 and an empty body. This denies the request earlier, before PHP is
+# invoked at all.
+#
+# Written for Apache 2.4 semantics, which is what Hostinger's LiteSpeed
+# implements. Deliberately unconditional rather than wrapped in <IfModule
+# mod_authz_core.c>: LiteSpeed does not report every Apache module, so a guarded
+# block risks silently matching nothing and permitting access. If a server ever
+# did reject this directive, direct requests to this directory would error
+# rather than succeed — still a denial, and still not a path to these files.
+Require all denied
