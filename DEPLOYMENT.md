@@ -88,7 +88,7 @@ lands in the right place with no sub-path configuration.
 
 ### The contact form needs one manual step
 
-`site/api/contact.php` sends the early-access form to `info@zoneary.com` over
+`site/api/contact.php` sends the contact form at `/contact/` to `info@zoneary.com` over
 authenticated SMTP. Its password is **not** in this repository and is not
 deployed — it lives in a file above the web root that you create once by hand.
 Until you do, the form returns a generic failure.
@@ -177,5 +177,5 @@ worktree and cleans up after itself.
 | `tools/publish-production.sh` | The publish logic (used by CI and usable locally) |
 | `tools/check_site.py` | Pre-publish website checks |
 | `tools/test_contact.php` | Contact endpoint tests (fake transport; sends no mail) |
-| `site/api/contact.php` | The contact / early-access endpoint that ships to `public_html` |
+| `site/api/contact.php` | The contact endpoint that ships to `public_html` |
 | `docs/contact-form.md` | How the form works and where its SMTP password lives |

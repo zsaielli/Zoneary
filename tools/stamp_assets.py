@@ -7,7 +7,7 @@ Why this exists
 Hostinger serves css/ with `Cache-Control: public, max-age=604800`, and the
 HTML that references it is not cached at all. A deploy therefore lands new
 markup against a visitor's week-old stylesheet. That is not merely a cosmetic
-risk: on 2026-09-06 it rendered the early-access honeypot as a visible field,
+risk: on 2026-09-06 it rendered the contact form's honeypot as a visible field,
 and real submissions were silently discarded as bot traffic.
 
 The version is a hash of the stylesheet's own contents, not the source commit.

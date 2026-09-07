@@ -25,7 +25,7 @@ commit made to it directly will be overwritten by the next publish. See
 ## Structure
 
 - `site/` — the deployable website (all HTML, CSS, JS, and image assets)
-- `site/api/` — the contact / early-access endpoint (PHP; runs on Hostinger only)
+- `site/api/` — the contact endpoint (PHP; runs on Hostinger only)
 - `assets/` — brand and screenshot source material
 - `tools/` — repository tooling (site checks, production publish script)
 
@@ -35,6 +35,7 @@ The homepage introduces Zoneary and its flagship; each product owns a dedicated 
 
 ```
 /                 Zoneary — company + flagship introduction + ecosystem
+/contact/         Contact — the single contact / early-access form
 /watchtower/      Watchtower (flagship) — the complete product story
 /pulsegrid/       PulseGrid
 /sentinel/        Sentinel

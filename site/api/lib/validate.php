@@ -1,6 +1,6 @@
 <?php
 /**
- * Server-side validation for the contact / early-access form.
+ * Server-side validation for the contact form.
  *
  * This is the only validation that matters. The browser does its own checks so
  * people get fast feedback, but nothing here trusts them: every field is

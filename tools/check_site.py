@@ -15,7 +15,7 @@ Checks
   7. sitemap.xml URLs map to real files, and every page is listed
   8. no page requests a third-party host (fonts, CDNs, trackers)
   9. FAQPage structured data matches the visible FAQ, question for question
- 10. the early-access form posts to its server endpoint and no longer uses mailto
+ 10. the contact form posts to its server endpoint and no longer uses mailto
  11. no credential material is present anywhere in the deployable site
 
 Usage
@@ -304,26 +304,26 @@ def main():
     # endpoint that authenticates to SMTP on the server. Both halves of that are
     # checked here: that the endpoint is actually shipping, and that no part of
     # the old mailto submission has crept back in.
-    ea = os.path.join(root, "early-access.html")
+    ea = os.path.join(root, "contact", "index.html")
     endpoint = os.path.join(root, "api", "contact.php")
     if os.path.isfile(ea):
         ea_txt = open(ea, encoding="utf-8", errors="replace").read()
 
         if not os.path.isfile(endpoint):
-            problems.append("early-access.html expects api/contact.php, which is not in the site tree")
-        if 'action="api/contact.php"' not in ea_txt:
-            problems.append("early-access.html: the form does not post to api/contact.php")
+            problems.append("contact/index.html expects api/contact.php, which is not in the site tree")
+        if 'action="../api/contact.php"' not in ea_txt:
+            problems.append("contact/index.html: the form does not post to ../api/contact.php")
         if "fetch(" not in ea_txt:
-            problems.append("early-access.html: the form is not submitted asynchronously")
+            problems.append("contact/index.html: the form is not submitted asynchronously")
 
         # A plain "email us" link is fine. A mailto carrying the form's contents
         # is the old flow, whatever it is dressed up as.
         if re.search(r"mailto:[^\"']*[?&]body=", ea_txt, re.I):
-            problems.append("early-access.html: a mailto: link carries a prefilled body")
+            problems.append("contact/index.html: a mailto: link carries a prefilled body")
         if "window.location.href" in ea_txt:
-            problems.append("early-access.html: the page still navigates by assigning location.href")
+            problems.append("contact/index.html: the page still navigates by assigning location.href")
         if "nothing is submitted or stored on this site" in ea_txt:
-            problems.append("early-access.html: the explanatory copy still describes the old mailto flow")
+            problems.append("contact/index.html: the explanatory copy still describes the old mailto flow")
 
         # ---- the honeypot must hide itself -------------------------------
         # It was concealed only by a class in styles.css. A visitor holding a
@@ -333,24 +333,24 @@ def main():
         # arriving, so the concealment is now inline - and asserted here.
         trap = re.search(r'<div[^>]*class="ea-trap"[^>]*>(.*?)</div>', ea_txt, re.S)
         if not trap:
-            problems.append("early-access.html: the honeypot wrapper (.ea-trap) is missing")
+            problems.append("contact/index.html: the honeypot wrapper (.ea-trap) is missing")
         else:
             wrapper = trap.group(0)[:trap.group(0).find(">") + 1]
             inline = re.search(r'style="([^"]*)"', wrapper)
             if not inline:
-                problems.append("early-access.html: the honeypot has no inline style - "
+                problems.append("contact/index.html: the honeypot has no inline style - "
                                 "it would be visible if styles.css were stale")
             else:
                 css = inline.group(1).replace(" ", "").lower()
                 if "position:absolute" not in css or "left:-" not in css:
-                    problems.append("early-access.html: the honeypot's inline style does not "
+                    problems.append("contact/index.html: the honeypot's inline style does not "
                                     "move it off-screen (want position:absolute + a negative left)")
             if 'tabindex="-1"' not in trap.group(1):
-                problems.append("early-access.html: the honeypot input is still keyboard-focusable")
+                problems.append("contact/index.html: the honeypot input is still keyboard-focusable")
             if 'aria-hidden="true"' not in wrapper:
-                problems.append("early-access.html: the honeypot wrapper is not aria-hidden")
+                problems.append("contact/index.html: the honeypot wrapper is not aria-hidden")
             if 'type="hidden"' in trap.group(1):
-                problems.append("early-access.html: the honeypot uses type=\"hidden\", "
+                problems.append("contact/index.html: the honeypot uses type=\"hidden\", "
                                 "which automated submitters skip - it would stop detecting anything")
 
         # The library directory is denied at the web-server level. Losing this
@@ -374,11 +374,11 @@ def main():
             if known:
                 for field in set(re.findall(r'<(?:input|select|textarea)[^>]*\bname="([^"]+)"', ea_txt, re.I)):
                     if field not in known:
-                        problems.append("early-access.html: form field %r is not accepted by the endpoint" % field)
+                        problems.append("contact/index.html: form field %r is not accepted by the endpoint" % field)
             if products:
                 for value in re.findall(r'<option value="([^"]+)"', ea_txt):
                     if value not in products:
-                        problems.append("early-access.html: product option %r is not in the server allowlist" % value)
+                        problems.append("contact/index.html: product option %r is not in the server allowlist" % value)
 
     # ---- Contact routes to the form, not to a mail client --------------------
     # The site has one contact destination. A link labelled "Contact" that opens
@@ -387,7 +387,7 @@ def main():
     # Informational "email us at ..." links in body copy are deliberately left
     # alone - only links whose visible label is Contact are covered here.
     CONTACT_MAILTO = re.compile(r'<a[^>]*href="mailto:[^"]*"[^>]*>\s*Contact\s*</a>', re.I)
-    CONTACT_FORM = re.compile(r'<a[^>]*href="[^"]*early-access\.html[^"]*"[^>]*>\s*Contact\s*</a>', re.I)
+    CONTACT_FORM = re.compile(r'<a[^>]*href="[^"]*contact/[^"]*"[^>]*>\s*Contact\s*</a>', re.I)
     routed = 0
     for f in html:
         text = open(f, encoding="utf-8", errors="replace").read()
@@ -445,9 +445,9 @@ def main():
                     % (name, label, href))
                 continue
 
-            if "early-access.html" not in urlparse(href).path:
+            if not re.search(r"(^|/)contact/$", urlparse(href).path):
                 problems.append(
-                    "%s: CTA %r goes to %s instead of terminating at the contact form"
+                    "%s: CTA %r goes to %s instead of terminating at /contact/"
                     % (name, label, href))
                 continue
 
@@ -459,6 +459,24 @@ def main():
                     problems.append(
                         "%s: CTA %r loses product context (want %s, got %s)"
                         % (name, label, want, href))
+
+    # ---- the old early-access URL is gone, not redirected --------------------
+    # /contact/ is the only Contact destination. early-access.html was a
+    # launch-period URL and was deliberately retired without a redirect, so a
+    # surviving reference to it is a dead link rather than an extra hop.
+    for f in files:
+        text = open(f, encoding="utf-8", errors="replace").read()
+        name = rel(f, root)
+        if "early-access.html" in text:
+            for line_no, line in enumerate(text.splitlines(), 1):
+                if "early-access.html" in line:
+                    problems.append(
+                        "%s:%d: still references early-access.html, which no longer exists "
+                        "(the contact page is /contact/)" % (name, line_no))
+    if os.path.exists(os.path.join(root, "early-access.html")):
+        problems.append("early-access.html still exists; /contact/ is the only contact page")
+    if not os.path.isfile(os.path.join(root, "contact", "index.html")):
+        problems.append("contact/index.html is missing")
 
     # ---- long-cached stylesheets must be cache-busted ------------------------
     # css/ is served with max-age=604800 while the HTML that references it is

@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for the contact / early-access endpoint.
+ * Tests for the contact endpoint.
  *
  *   php tools/test_contact.php
  *
@@ -711,9 +711,9 @@ T::contains($pages, 'rm -rf site/api', 'the Pages mirror drops the whole api dir
 // ============================================================================
 T::group('14. The page still works, and the mailto flow is gone');
 
-$page = file_get_contents($root . '/site/early-access.html');
+$page = file_get_contents($root . '/site/contact/index.html');
 
-T::contains($page, 'action="api/contact.php"', 'the form posts to the endpoint');
+T::contains($page, 'action="../api/contact.php"', 'the form posts to the endpoint');
 T::contains($page, 'method="post"', 'the form uses POST');
 T::contains($page, 'fetch(form.getAttribute(\'action\')', 'submission goes through fetch');
 T::missing($page, "window.location.href = href", 'the mailto redirect is gone');
@@ -813,7 +813,7 @@ T::ok(
     strpos($privacy, 'The Zoneary marketing website is a static site. It does not run analytics') === false,
     'the unqualified static-site claim has been updated'
 );
-T::contains($privacy, 'early-access form, which posts to a Zoneary endpoint', 'the privacy notice describes the endpoint');
+T::contains($privacy, 'contact form, which posts to a Zoneary endpoint', 'the privacy notice describes the endpoint');
 
 // ============================================================================
 T::group('15. One form for contact, early access and product interest');
@@ -851,7 +851,7 @@ foreach ($pages as $f) {
         preg_match('/<a[^>]*href="mailto:[^"]*"[^>]*>\s*Contact\s*<\/a>/i', $text) !== 1,
         "$name: no mailto: link labelled Contact"
     );
-    if (preg_match('/<a[^>]*href="([^"]*early-access\.html[^"]*)"[^>]*>\s*Contact\s*<\/a>/i', $text)) {
+    if (preg_match('/<a[^>]*href="([^"]*contact\/[^"]*)"[^>]*>\s*Contact\s*<\/a>/i', $text)) {
         $footerContact++;
     }
 }
@@ -860,7 +860,7 @@ T::ok($footerContact >= 9, "every page routes Contact to the form (found $footer
 // the homepage nav specifically - the link that started this
 $home = file_get_contents($siteRoot . '/index.html');
 T::ok(
-    preg_match('/<a href="early-access\.html">Contact<\/a>/', $home) === 1,
+    preg_match('/<a href="contact\/">Contact<\/a>/', $home) === 1,
     'the homepage nav Contact link points at the form'
 );
 T::missing($home, '<a href="mailto:info@zoneary.com">Contact</a>', 'the homepage nav mailto is gone');
@@ -903,8 +903,8 @@ foreach ($pages as $f) {
 
         T::ok(strncmp($href, '#', 1) !== 0,
             "$name: CTA '$label' is not an in-page fragment");
-        T::contains($href, 'early-access.html',
-            "$name: CTA '$label' terminates at the contact form");
+        T::ok((bool) preg_match('/(^|\\/)contact\\/$/', (string) parse_url($href, PHP_URL_PATH)),
+            "$name: CTA '$label' terminates at /contact/");
 
         if ($product !== null && preg_match('/early[- ]access|request access/i', $label)) {
             $productCtas++;
@@ -919,11 +919,11 @@ T::ok($productCtas >= 10, "product-page early-access CTAs were checked (found $p
 // the three PulseGrid defects specifically
 $pg = file_get_contents($siteRoot . '/pulsegrid/index.html');
 T::ok(substr_count($pg, 'href="#access"') === 0, 'no PulseGrid CTA scrolls to the #access section');
-T::ok(substr_count($pg, 'early-access.html?product=PulseGrid') >= 4,
+T::ok(substr_count($pg, 'contact/?product=PulseGrid') >= 4,
     'all four PulseGrid early-access CTAs carry the product context');
 // the destination section and its own direct CTA survive
 T::contains($pg, 'id="access"', 'the bottom access section is still present');
-T::contains($pg, '<a class="btn btn-pg btn-lg" href="../early-access.html?product=PulseGrid">',
+T::contains($pg, '<a class="btn btn-pg btn-lg" href="../contact/?product=PulseGrid">',
     'the bottom CTA still links straight to the form');
 // informational anchors are untouched
 foreach (['#what', '#features', '#health'] as $frag) {

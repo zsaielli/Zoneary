@@ -1,6 +1,6 @@
-# Contact / early-access form
+# Contact form
 
-The early-access form submits to a Zoneary endpoint and is delivered by
+The contact form at `/contact/` submits to a Zoneary endpoint and is delivered by
 authenticated SMTP. It does not open the visitor's mail client, and there is no
 database — the email in `info@zoneary.com` is the record.
 
@@ -79,7 +79,7 @@ it never discloses why to the visitor.
 
 ### Checking it worked
 
-Submit the form on <https://zoneary.com/early-access.html>. A success message
+Submit the form on <https://zoneary.com/contact/>. A success message
 appears in the page and the mail arrives at `info@zoneary.com` with the visitor
 in `Reply-To`.
 
@@ -107,7 +107,7 @@ would cost every legitimate visitor something real.
 | Control | Where |
 |---|---|
 | Honeypot field, answered with a fake success so bots learn nothing | `lib/validate.php` |
-| Honeypot concealed **inline**, so a stale stylesheet cannot expose it | `early-access.html` |
+| Honeypot concealed **inline**, so a stale stylesheet cannot expose it | `contact/index.html` |
 | Minimum fill time (3s), skipped when absent so no-JS still works | `lib/validate.php` |
 | 16 KB request body cap | `contact.php` |
 | Per-field length limits, character-counted | `lib/validate.php` |
