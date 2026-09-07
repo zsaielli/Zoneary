@@ -24,6 +24,10 @@ final class ContactValidator
         'PulseGrid',
         'Sentinel',
         'The whole ecosystem',
+        // The page is the site's single contact destination, reached from the
+        // Contact nav as well as the product CTAs, so a visitor with a general
+        // question needs somewhere to land that is not a product.
+        'Something else',
     ];
 
     /** Character (not byte) limits, per field. */
@@ -121,7 +125,7 @@ final class ContactValidator
             return self::fail('Please add your email address.', 'email missing');
         }
         if ($fields['product'] === '') {
-            return self::fail('Please choose which product you are interested in.', 'product missing');
+            return self::fail('Please choose what your message is about.', 'product missing');
         }
 
         // ---- lengths --------------------------------------------------------
@@ -141,7 +145,7 @@ final class ContactValidator
 
         // ---- product allowlist ----------------------------------------------
         if (!in_array($fields['product'], self::PRODUCTS, true)) {
-            return self::fail('Please choose which product you are interested in.', 'product not in allowlist');
+            return self::fail('Please choose what your message is about.', 'product not in allowlist');
         }
 
         return ['ok' => true, 'fields' => $fields];
@@ -152,7 +156,7 @@ final class ContactValidator
         'name'         => 'Your name',
         'email'        => 'Your email address',
         'organization' => 'Organization',
-        'product'      => 'Product interest',
+        'product'      => 'What this is about',
         'count'        => 'Approx. sites / devices',
         'platform'     => 'Current platform',
         'notes'        => 'Notes',

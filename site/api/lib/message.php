@@ -52,7 +52,12 @@ final class ContactMessage
         $product = $fields['product'];
         // The subject interpolates the product, which is allowlisted, so there
         // is nothing attacker-controlled in it. Sanitised anyway, on principle.
-        $subject = self::headerValue('Zoneary early access - ' . $product);
+        //
+        // Deliberately not "early access": this form is the site's single
+        // contact destination, so most of what arrives through it is a question
+        // rather than a waitlist signup, and the subject has to read correctly
+        // in the mailbox either way.
+        $subject = self::headerValue('Zoneary enquiry - ' . $product);
 
         $replyTo = self::mailbox($fields['name'], $fields['email']);
 

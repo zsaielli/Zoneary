@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Early Access | Zoneary</title>
-<meta name="description" content="Join the early-access list for Zoneary products — Watchtower video management, PulseGrid infrastructure health monitoring and Sentinel home security control. Be first as they roll out." />
+<title>Contact | Zoneary</title>
+<meta name="description" content="Get in touch with Zoneary — questions about Watchtower, PulseGrid or Sentinel, deployment sizing, or early access as they roll out. Sent straight to us, no mail app required." />
 <link rel="canonical" href="https://zoneary.com/early-access.html" />
 <link rel="icon" type="image/png" href="assets/brand/z_icon_square.png" />
 <link rel="apple-touch-icon" href="assets/brand/z_icon_square.png" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Zoneary" />
 <meta property="og:url" content="https://zoneary.com/early-access.html" />
-<meta property="og:title" content="Early Access | Zoneary" />
-<meta property="og:description" content="Join the early-access list for Watchtower, PulseGrid and Sentinel, part of the local-first Zoneary ecosystem." />
+<meta property="og:title" content="Contact | Zoneary" />
+<meta property="og:description" content="Questions, deployment sizing, or early access for Watchtower, PulseGrid and Sentinel — the local-first Zoneary ecosystem." />
 <meta property="og:image" content="https://zoneary.com/assets/hero-bg.webp" />
 <link rel="stylesheet" href="css/fonts.css" />
 <link rel="stylesheet" href="css/styles.css?v=a7c97b20" />
@@ -29,9 +29,9 @@
 <main class="wrap">
   <div class="ea-wrap">
     <div class="ea-head">
-      <span class="eyebrow"><i></i>Early access</span>
-      <h1>Be first, as the ecosystem rolls out.</h1>
-      <p>Watchtower, PulseGrid and Sentinel are all in active development. Tell us a little about your setup and we'll bring you in as they become available — no spam, no obligation.</p>
+      <span class="eyebrow"><i></i>Get in touch</span>
+      <h1>Get in touch with Zoneary.</h1>
+      <p>Whether you have a question, you're sizing up a deployment, or you want in early as things roll out — tell us a little about your setup and we'll come back to you. No spam, no obligation.</p>
     </div>
 
     <form class="ea-form" id="eaForm" action="api/contact.php" method="post" novalidate>
@@ -51,12 +51,13 @@
           <input id="ea-org" name="organization" type="text" autocomplete="organization" />
         </div>
         <div class="ea-field">
-          <label for="ea-product">Product interest</label>
+          <label for="ea-product">What is this about</label>
           <select id="ea-product" name="product">
             <option value="Watchtower">Watchtower — video management</option>
             <option value="PulseGrid">PulseGrid — infrastructure health monitoring</option>
             <option value="Sentinel">Sentinel — home security control</option>
             <option value="The whole ecosystem">The whole Zoneary ecosystem</option>
+            <option value="Something else">Something else — a general question</option>
           </select>
         </div>
       </div>
@@ -95,13 +96,13 @@
       </div>
       <input type="hidden" id="ea-ts" name="ts" value="" />
       <div class="ea-field full">
-        <button class="btn btn-primary btn-lg" id="eaSubmit" type="submit" style="justify-content:center;width:100%">Join early access</button>
+        <button class="btn btn-primary btn-lg" id="eaSubmit" type="submit" style="justify-content:center;width:100%">Send to Zoneary</button>
       </div>
     </form>
 
     <div class="ea-done" id="eaDone" hidden>
-      <h2>Thanks — we have your details.</h2>
-      <p>Your message is on its way to the Zoneary team. We'll reply to the address you gave us.</p>
+      <h2>Thanks — we have your message.</h2>
+      <p>It's on its way to the Zoneary team, and we'll reply to the address you gave us.</p>
     </div>
 
     <p class="ea-note" id="eaNote" role="status" aria-live="polite">Submitted directly to Zoneary — no mail app required. We only use what you send here to reply to you. Prefer to write us yourself? <a class="inline" href="mailto:info@zoneary.com?subject=Early%20access">info@zoneary.com</a></p>
@@ -117,7 +118,7 @@
         <div class="foot-tag"><b>See it. Understand it. Protect it.</b></div>
       </div>
       <div class="fcol"><h5>Products</h5><a href="watchtower/index.html">Watchtower</a><a href="pulsegrid/index.html">PulseGrid</a><a href="sentinel/index.html">Sentinel</a></div>
-      <div class="fcol"><h5>Company</h5><a href="about/index.html">Meet Zoneary</a><a href="support.html">Support</a><a href="mailto:info@zoneary.com">Contact</a></div>
+      <div class="fcol"><h5>Company</h5><a href="about/index.html">Meet Zoneary</a><a href="support.html">Support</a><a href="early-access.html">Contact</a></div>
       <div class="fcol"><h5>Legal</h5><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="security.html">Security</a></div>
     </div>
     <div class="foot-bottom">
@@ -177,7 +178,7 @@
     function busy(on) {
       sending = on;
       button.disabled = on;
-      button.textContent = on ? 'Sending…' : 'Join early access';
+      button.textContent = on ? 'Sending…' : 'Send to Zoneary';
       form.setAttribute('aria-busy', on ? 'true' : 'false');
     }
 

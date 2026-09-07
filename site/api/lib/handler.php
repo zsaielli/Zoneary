@@ -20,7 +20,7 @@ if (!defined('ZONEARY_CONTACT')) {
 final class ContactHandler
 {
     public const GENERIC_FAILURE = 'Something went wrong on our end and the message was not sent. Please try again in a moment, or email info@zoneary.com directly.';
-    public const SUCCESS         = 'Thanks - we have your details.';
+    public const SUCCESS         = 'Thanks - we have your message.';
 
     private ContactConfig $config;
     private ContactTransport $transport;

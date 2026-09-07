@@ -190,7 +190,8 @@ T::contains($body, 'Product interest: Watchtower', 'body carries Product interes
 T::contains($body, 'Approx. sites/devices: 1 site, ~20 cameras', 'body carries sites/devices');
 T::contains($body, 'Current platform: none yet', 'body carries Current platform');
 T::contains($body, 'Notes:', 'body carries Notes');
-T::contains($msg->header('Subject'), 'Zoneary early access - Watchtower', 'subject names the product');
+T::contains($msg->header('Subject'), 'Zoneary enquiry - Watchtower', 'subject names the product');
+T::missing($msg->header('Subject'), 'early access', 'the subject does not presume a waitlist signup');
 
 $optional = ContactValidator::check(validBody(['organization' => '', 'count' => '', 'platform' => '', 'notes' => '']), $NOW_MS);
 T::contains(ContactMessage::body($optional['fields']), 'Organization: -', 'an omitted optional field renders as a dash');
@@ -200,7 +201,7 @@ T::group('2. Required fields are enforced server-side');
 
 foreach (['name' => 'Please add your name.',
           'email' => 'Please add your email address.',
-          'product' => 'Please choose which product you are interested in.'] as $field => $expected) {
+          'product' => 'Please choose what your message is about.'] as $field => $expected) {
     [$h, $t] = newHandler();
     $r = $h->handle(validBody([$field => '']), server(), $NOW_MS);
     T::same(400, $r['status'], "missing $field is rejected with 400");
@@ -734,7 +735,8 @@ T::contains($page, 'name="ts"', 'the timestamp field is in the markup');
 // the pre-existing behaviours this page already had
 T::contains($page, "params.get('product')", 'the ?product= preselect still exists');
 T::contains($page, "id=\"ea-back\"", 'the contextual back link still exists');
-T::contains($page, 'Join early access', 'the submit button keeps its label');
+T::contains($page, 'Send to Zoneary', 'the submit button carries the neutral label');
+T::missing($page, '>Join early access</button>', 'the waitlist-only button label is gone');
 
 // every name= the form posts is a field the server knows about
 preg_match_all('/<(?:input|select|textarea)[^>]*\bname="([^"]+)"/i', $page, $m);
@@ -812,6 +814,71 @@ T::ok(
     'the unqualified static-site claim has been updated'
 );
 T::contains($privacy, 'early-access form, which posts to a Zoneary endpoint', 'the privacy notice describes the endpoint');
+
+// ============================================================================
+T::group('15. One form for contact, early access and product interest');
+
+// A general enquiry must be expressible - the page is reached from the Contact
+// nav, not only from a product CTA.
+T::ok(in_array('Something else', ContactValidator::PRODUCTS, true), "a general enquiry has an allowlisted value");
+[$h, $t] = newHandler();
+$r = $h->handle(validBody(['product' => 'Something else']), server(), $NOW_MS);
+T::same(200, $r['status'], 'a general enquiry is accepted');
+T::contains($t->last()->header('Subject'), 'Zoneary enquiry - Something else', 'its subject reads as an enquiry');
+
+// Every product still routes, and none of them says "early access" in the subject.
+foreach (ContactValidator::PRODUCTS as $product) {
+    [$h, $t] = newHandler();
+    $r = $h->handle(validBody(['product' => $product]), server(), $NOW_MS);
+    T::same(200, $r['status'], "product '$product' is accepted");
+    T::contains($t->last()->header('Subject'), 'Zoneary enquiry - ' . $product, "subject for '$product'");
+    T::contains(ContactMessage::body(ContactValidator::check(validBody(['product' => $product]), $NOW_MS)['fields']),
+        'Product interest: ' . $product, "the body still records product interest for '$product'");
+}
+
+// ---- contact routing across the site --------------------------------------
+// The nav and footer "Contact" links, and the primary CTA buttons, must reach
+// the form rather than the visitor's mail client.
+$siteRoot = $root . '/site';
+$pages = array_merge(glob($siteRoot . '/*.html') ?: [], glob($siteRoot . '/*/index.html') ?: []);
+$footerContact = 0;
+foreach ($pages as $f) {
+    $text = file_get_contents($f);
+    // the glob covers *.html and */index.html, so sentinel/demo.html is out of scope
+    $name = str_replace(DIRECTORY_SEPARATOR, '/', substr($f, strlen($siteRoot) + 1));
+    // no "Contact" link may be a mailto any more
+    T::ok(
+        preg_match('/<a[^>]*href="mailto:[^"]*"[^>]*>\s*Contact\s*<\/a>/i', $text) !== 1,
+        "$name: no mailto: link labelled Contact"
+    );
+    if (preg_match('/<a[^>]*href="([^"]*early-access\.html[^"]*)"[^>]*>\s*Contact\s*<\/a>/i', $text)) {
+        $footerContact++;
+    }
+}
+T::ok($footerContact >= 9, "every page routes Contact to the form (found $footerContact)");
+
+// the homepage nav specifically - the link that started this
+$home = file_get_contents($siteRoot . '/index.html');
+T::ok(
+    preg_match('/<a href="early-access\.html">Contact<\/a>/', $home) === 1,
+    'the homepage nav Contact link points at the form'
+);
+T::missing($home, '<a href="mailto:info@zoneary.com">Contact</a>', 'the homepage nav mailto is gone');
+T::missing($home, 'mailto:info@zoneary.com?subject=Zoneary%20sales%20enquiry', 'the homepage sales CTA no longer opens a mail client');
+
+// informational mailto links are deliberately preserved
+T::contains(file_get_contents($siteRoot . '/security.html'), 'mailto:info@zoneary.com?subject=Security%20report',
+    'responsible-disclosure email is still a direct mailto');
+T::contains(file_get_contents($siteRoot . '/privacy.html'), 'mailto:info@zoneary.com?subject=Privacy',
+    'the privacy contact is still a direct mailto');
+T::contains($page, 'mailto:info@zoneary.com?subject=Early%20access',
+    'the form keeps an email fallback for when it cannot be used');
+
+// the page reads as a contact destination, not only a waitlist
+T::contains($page, 'Get in touch with Zoneary', 'the heading works for any enquiry');
+T::missing($page, 'Be first, as the ecosystem rolls out.', 'the waitlist-only heading is gone');
+T::contains($page, '<title>Contact | Zoneary</title>', 'the title reads as Contact');
+T::contains($page, 'Something else', 'the form offers a general option');
 
 // ============================================================================
 // cleanup

@@ -89,11 +89,18 @@ def php_const_list(text, name):
 
     Used to read the endpoint's own allowlists rather than restating them here,
     so the form and the server cannot drift apart without this check noticing.
+
+    Comments are stripped first. An apostrophe in a comment - "the site's single
+    contact destination" - would otherwise pair with the opening quote of the
+    next real entry and silently swallow it, which is exactly the kind of quiet
+    wrong answer a checker must not give.
     """
     match = re.search(r"const\s+%s\s*=\s*\[(.*?)\];" % re.escape(name), text, re.S)
     if not match:
         return set()
-    return set(re.findall(r"'([^']*)'", match.group(1)))
+    body = re.sub(r"/\*.*?\*/", "", match.group(1), flags=re.S)
+    body = re.sub(r"//[^\n]*", "", body)
+    return set(re.findall(r"'([^'\n]*)'", body))
 
 
 def collect(root):
@@ -372,6 +379,25 @@ def main():
                 for value in re.findall(r'<option value="([^"]+)"', ea_txt):
                     if value not in products:
                         problems.append("early-access.html: product option %r is not in the server allowlist" % value)
+
+    # ---- Contact routes to the form, not to a mail client --------------------
+    # The site has one contact destination. A link labelled "Contact" that opens
+    # the visitor's mail client is the behaviour the form replaced, so it fails
+    # the publish rather than quietly reappearing in a footer someone copied.
+    # Informational "email us at ..." links in body copy are deliberately left
+    # alone - only links whose visible label is Contact are covered here.
+    CONTACT_MAILTO = re.compile(r'<a[^>]*href="mailto:[^"]*"[^>]*>\s*Contact\s*</a>', re.I)
+    CONTACT_FORM = re.compile(r'<a[^>]*href="[^"]*early-access\.html[^"]*"[^>]*>\s*Contact\s*</a>', re.I)
+    routed = 0
+    for f in html:
+        text = open(f, encoding="utf-8", errors="replace").read()
+        name = rel(f, root)
+        if CONTACT_MAILTO.search(text):
+            problems.append("%s: a link labelled Contact still opens a mail client" % name)
+        if CONTACT_FORM.search(text):
+            routed += 1
+    if routed and routed < 9:
+        problems.append("only %d page(s) route Contact to the form; expected every page with a footer" % routed)
 
     # ---- long-cached stylesheets must be cache-busted ------------------------
     # css/ is served with max-age=604800 while the HTML that references it is
