@@ -318,6 +318,34 @@ def main():
         if "nothing is submitted or stored on this site" in ea_txt:
             problems.append("early-access.html: the explanatory copy still describes the old mailto flow")
 
+        # ---- the honeypot must hide itself -------------------------------
+        # It was concealed only by a class in styles.css. A visitor holding a
+        # cached stylesheet saw an ordinary "Company website" field, filled it
+        # in, and had their submission silently discarded as bot traffic. A
+        # control that changes behaviour cannot depend on a separate file
+        # arriving, so the concealment is now inline - and asserted here.
+        trap = re.search(r'<div[^>]*class="ea-trap"[^>]*>(.*?)</div>', ea_txt, re.S)
+        if not trap:
+            problems.append("early-access.html: the honeypot wrapper (.ea-trap) is missing")
+        else:
+            wrapper = trap.group(0)[:trap.group(0).find(">") + 1]
+            inline = re.search(r'style="([^"]*)"', wrapper)
+            if not inline:
+                problems.append("early-access.html: the honeypot has no inline style - "
+                                "it would be visible if styles.css were stale")
+            else:
+                css = inline.group(1).replace(" ", "").lower()
+                if "position:absolute" not in css or "left:-" not in css:
+                    problems.append("early-access.html: the honeypot's inline style does not "
+                                    "move it off-screen (want position:absolute + a negative left)")
+            if 'tabindex="-1"' not in trap.group(1):
+                problems.append("early-access.html: the honeypot input is still keyboard-focusable")
+            if 'aria-hidden="true"' not in wrapper:
+                problems.append("early-access.html: the honeypot wrapper is not aria-hidden")
+            if 'type="hidden"' in trap.group(1):
+                problems.append("early-access.html: the honeypot uses type=\"hidden\", "
+                                "which automated submitters skip - it would stop detecting anything")
+
         # The library directory is denied at the web-server level. Losing this
         # file would not break anything visibly, which is exactly why it is
         # checked rather than trusted.
@@ -344,6 +372,27 @@ def main():
                 for value in re.findall(r'<option value="([^"]+)"', ea_txt):
                     if value not in products:
                         problems.append("early-access.html: product option %r is not in the server allowlist" % value)
+
+    # ---- long-cached stylesheets must be cache-busted ------------------------
+    # css/ is served with max-age=604800 while the HTML that references it is
+    # not cached at all, so a deploy lands new markup against a week-old
+    # stylesheet. Every reference carries a content-derived version; this fails
+    # the publish if any of them has drifted from the file it points at.
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import stamp_assets
+        stale, _ = stamp_assets.stamp(root, check_only=True)
+        for s in stale:
+            problems.append("stale asset version: %s (run python tools/stamp_assets.py)" % s)
+        # and every page that links the stylesheet must carry a version at all
+        for f in html:
+            text = open(f, encoding="utf-8", errors="replace").read()
+            name = rel(f, root)
+            for ref in re.findall(r'href="([^"]*styles\.css[^"]*)"', text):
+                if "?v=" not in ref:
+                    problems.append("%s: %s has no cache-busting version" % (name, ref))
+    except ImportError:
+        problems.append("tools/stamp_assets.py is missing - asset versions cannot be verified")
 
     # ---- no credential material in anything we deploy ------------------------
     # The SMTP password lives in a file above the web root, created by hand on

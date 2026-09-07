@@ -64,6 +64,13 @@ jobs:
             || { echo "::error::site/index.html not found at ${{ inputs.ref }}"; exit 1; }
           echo "site/index.html present"
 
+      # css/ is served with a 7-day cache while the HTML that references it is
+      # not cached at all, so an unstamped reference ships new markup onto a
+      # visitor's old stylesheet. check_site.py also enforces this; the explicit
+      # step is here so the failure names the fix.
+      - name: Guard - stylesheet references are cache-busted
+        run: python tools/stamp_assets.py --site site --check
+
       - name: Run website checks
         run: python tools/check_site.py --site site
 

@@ -81,8 +81,21 @@ it never discloses why to the visitor.
 
 Submit the form on <https://zoneary.com/early-access.html>. A success message
 appears in the page and the mail arrives at `info@zoneary.com` with the visitor
-in `Reply-To`. If it fails, the reason is in hPanel → **Advanced → PHP
-error log**, prefixed `[contact]`.
+in `Reply-To`.
+
+The HTTP status distinguishes the outcomes without needing any log:
+
+| Response | Meaning |
+|---|---|
+| `200 {"ok":true}` | the SMTP server returned its final `250` — it has accepted the message |
+| `502` | SMTP refused us before acceptance (bad credential, rejected sender/recipient) |
+| `400` | validation — the config was found and read fine |
+| `500` | the config file was not found or could not be read |
+
+A `200` that produces no mail therefore means the message was accepted and lost
+*after* Hostinger took it, which is the only case where their Email Logs are
+worth opening. Note that a tripped honeypot also returns `200 {"ok":true}` by
+design — see the cache-busting section below for how that misfired once.
 
 ---
 
@@ -94,6 +107,7 @@ would cost every legitimate visitor something real.
 | Control | Where |
 |---|---|
 | Honeypot field, answered with a fake success so bots learn nothing | `lib/validate.php` |
+| Honeypot concealed **inline**, so a stale stylesheet cannot expose it | `early-access.html` |
 | Minimum fill time (3s), skipped when absent so no-JS still works | `lib/validate.php` |
 | 16 KB request body cap | `contact.php` |
 | Per-field length limits, character-counted | `lib/validate.php` |
@@ -121,22 +135,65 @@ deployment** — there is nowhere else the endpoint can actually run.
 
 ---
 
+## Cache-busting, and why it is load-bearing
+
+`css/` is served with `Cache-Control: public, max-age=604800` while the HTML
+referencing it is not cached at all. A deploy therefore lands new markup against
+a visitor's week-old stylesheet.
+
+On 2026-09-06 that was not cosmetic. The honeypot's concealment lived only in
+`styles.css`; the first real submission came from a browser holding a cached
+copy without it, the trap rendered as an ordinary "Company website" field, a
+person filled it in, and the submission was silently discarded as bot traffic.
+The browser showed success because a tripped honeypot deliberately looks like
+success. No mail was ever sent and SMTP was never contacted.
+
+Two independent defences came out of that:
+
+1. **The honeypot conceals itself inline**, so it is invisible with no external
+   CSS at all. `.ea-trap` remains as a second layer.
+2. **Every `styles.css` reference carries `?v=<content hash>`**, applied by
+   `python tools/stamp_assets.py` and enforced by `check_site.py` and the
+   publish workflow.
+
+The version is a hash of the stylesheet's contents, not the commit SHA - a
+commit SHA would discard every visitor's valid cache on each deploy even when
+the CSS had not moved. After changing `site/css/styles.css`, run:
+
+```
+python tools/stamp_assets.py
+```
+
+`fonts.css` is deliberately not stamped: a stale copy degrades typography rather
+than behaviour. Add it to `STAMPED` in `tools/stamp_assets.py` if that changes.
+
+---
+
 ## Tests
 
 ```
 php tools/test_contact.php
 ```
 
-No test opens a socket or authenticates anywhere: the transport is an interface
-and the tests inject a recording fake. The suite covers acceptance, required
-fields, malformed addresses, length limits, honeypot and timing rejection, rate
-limiting, SMTP failure handling, the fixed From/To, Reply-To, header injection
-across every field, and that no credential can reach the browser.
+No test opens a socket or authenticates anywhere. Most inject a recording fake;
+the acceptance-boundary group drives the real protocol code against a scripted
+server at the wire level, so command sequencing, dot-stuffing and the ordering
+around the final `250` are all exercised without a connection.
+
+The suite covers acceptance, required fields, malformed addresses, length limits,
+honeypot and timing rejection, rate limiting, SMTP failure handling, the fixed
+From/To, Reply-To, header injection across every field, that no credential can
+reach the browser, that a server hanging up after the final `250` is still a
+success while every pre-acceptance refusal is still a failure, that the success
+transition restores the button and hides the form without relying on CSS, and
+that every stylesheet reference is stamped with the current content version.
 
 `python tools/check_site.py` additionally refuses to publish if the form stops
 posting to the endpoint, if a mailto submission reappears, if the form's fields
-drift from what the server accepts, or if anything credential-shaped appears
-under `site/`. Both run in the production publish workflow.
+drift from what the server accepts, if the honeypot loses its inline
+concealment or becomes focusable, if a stylesheet reference is unstamped or
+stale, or if anything credential-shaped appears under `site/`. Both run in the
+production publish workflow.
 
 ---
 

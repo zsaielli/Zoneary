@@ -71,6 +71,25 @@ final class T
     }
 }
 
+/**
+ * Assert one page's styles.css reference carries the current content version.
+ *
+ * @return int 1 if the page links styles.css, 0 if it does not
+ */
+function assertStamped(string $file, string $root, string $wantVersion): int
+{
+    $text = file_get_contents($file);
+    $name = str_replace('\\', '/', substr($file, strlen($root) + 1));
+    preg_match_all('/href="([^"]*styles\.css[^"]*)"/', $text, $m);
+    if (!$m[1]) {
+        return 0;
+    }
+    foreach ($m[1] as $ref) {
+        T::contains($ref, '?v=' . $wantVersion, "$name: styles.css is stamped with the current content version");
+    }
+    return 1;
+}
+
 // ------------------------------------------------------------------ fakes ---
 
 /** Records what it was asked to send. Opens nothing. */
@@ -246,12 +265,23 @@ T::same(400, $r['status'], 'an over-length email is rejected');
 // ============================================================================
 T::group('5. Honeypot and timing submissions are neutralized');
 
-[$h, $t] = newHandler();
-$r = $h->handle(validBody(['company_website' => 'http://spam.test']), server(), $NOW_MS);
-T::same(200, $r['status'], 'a filled honeypot gets the same 200 a person would');
-T::same(true, $r['payload']['ok'], 'a filled honeypot is told it succeeded');
-T::same(0, count($t->sent), 'a filled honeypot sends nothing');
-T::contains($r['log'], 'honeypot', 'the honeypot rejection is recorded server-side');
+// Both trap names are live: the current one, and the previous one so a visitor
+// on a cached copy of the old page is handled the same way rather than getting
+// a confusing rejection.
+foreach (ContactValidator::HONEYPOT_FIELDS as $trap) {
+    [$h, $t] = newHandler();
+    $r = $h->handle(validBody([$trap => 'http://spam.test']), server(), $NOW_MS);
+    T::same(200, $r['status'], "a filled '$trap' gets the same 200 a person would");
+    T::same(true, $r['payload']['ok'], "a filled '$trap' is told it succeeded");
+    T::same(0, count($t->sent), "a filled '$trap' sends nothing");
+    T::contains($r['log'], 'honeypot', "the '$trap' rejection is recorded server-side");
+}
+T::ok(in_array('homepage_url', ContactValidator::HONEYPOT_FIELDS, true), 'the renamed trap is server-detectable');
+T::ok(in_array('company_website', ContactValidator::HONEYPOT_FIELDS, true), 'the previous trap name still detects');
+T::same('homepage_url', ContactValidator::HONEYPOT_FIELD, 'the form posts the renamed trap');
+foreach (ContactValidator::HONEYPOT_FIELDS as $trap) {
+    T::ok(in_array($trap, ContactValidator::KNOWN_FIELDS, true), "'$trap' is an accepted field, not a hard rejection");
+}
 
 [$h, $t] = newHandler();
 $r = $h->handle(validBody(['ts' => (string) ($NOW_MS - 400)]), server(), $NOW_MS);
@@ -279,7 +309,9 @@ T::same(400, $r['status'], 'a non-string field is rejected');
 // the honeypot never reaches the message
 [$h, $t] = newHandler();
 $h->handle(validBody(['ts' => (string) ($NOW_MS - 30000)]), server(), $NOW_MS);
-T::missing($t->last()->toString(), 'company_website', 'the honeypot field name never appears in the message');
+foreach (ContactValidator::HONEYPOT_FIELDS as $trap) {
+    T::missing($t->last()->toString(), $trap, "the trap name '$trap' never appears in the message");
+}
 
 // ============================================================================
 T::group('6. Rate limiting');
@@ -338,6 +370,139 @@ T::missing($clientText, 'hunter2', 'the failing credential is not echoed to the 
 T::missing($clientText, 'smtp.hostinger', 'the SMTP hostname is not echoed to the client');
 T::missing($clientText, '535', 'the raw SMTP reply code is not echoed to the client');
 T::contains($r['log'], 'send failed', 'the real reason is kept server-side');
+
+// ============================================================================
+T::group('7b. The acceptance boundary: nothing after the final 250 can fail a send');
+
+// A scripted SMTP server at the wire level. The real command sequencing,
+// expect() gating, dot-stuffing and acceptance ordering all run; only the
+// socket is replaced, deterministically. Nothing contacts Hostinger and the
+// only credential in play is the fake TEST_PASSWORD.
+final class ScriptedSmtp extends SmtpTransport
+{
+    /** @var string[] replies the server will hand back, in order */
+    private array $script;
+    private int $at = 0;
+    /** @var string[] everything the client put on the wire */
+    public array $written = [];
+    /** Server hangs up the moment it has accepted the message. */
+    public bool $dropAfterAccept = false;
+    private bool $accepted = false;
+
+    public function __construct(ContactConfig $c, array $script, bool $dropAfterAccept = false)
+    {
+        parent::__construct($c);
+        $this->script = $script;
+        $this->dropAfterAccept = $dropAfterAccept;
+    }
+
+    public function send(ContactMessage $message): void
+    {
+        $this->runConversation($message);
+    }
+
+    protected function write(string $data): void
+    {
+        $this->written[] = $data;
+        // A server that has hung up makes the next write fail - which is
+        // exactly the condition that used to sink an accepted message.
+        if ($this->accepted && $this->dropAfterAccept) {
+            throw new ContactTransportException('write to the SMTP server failed');
+        }
+    }
+
+    protected function read(): string
+    {
+        if ($this->at >= count($this->script)) {
+            throw new ContactTransportException('the SMTP connection closed early');
+        }
+        $reply = $this->script[$this->at++];
+        // the last scripted reply is the post-DATA acceptance
+        if ($this->at === count($this->script) && strncmp($reply, '250', 3) === 0) {
+            $this->accepted = true;
+        }
+        return $reply;
+    }
+}
+
+$ACCEPTING_SCRIPT = [
+    "220 smtp.test ESMTP ready\r\n",
+    "250-smtp.test\r\n250 AUTH LOGIN\r\n",
+    "334 VXNlcm5hbWU6\r\n",
+    "334 UGFzc3dvcmQ6\r\n",
+    "235 2.7.0 Authentication succeeded\r\n",
+    "250 2.1.0 Sender OK\r\n",
+    "250 2.1.5 Recipient OK\r\n",
+    "354 Start mail input\r\n",
+    "250 2.0.0 Ok: queued as ABC123\r\n",
+];
+
+$cfg = testConfig();
+$fields = ContactValidator::check(validBody(), $NOW_MS)['fields'];
+$msg = ContactMessage::build($cfg, $fields, [], intdiv($NOW_MS, 1000));
+
+// 1. The happy path still completes.
+$threw = null;
+try {
+    (new ScriptedSmtp($cfg, $ACCEPTING_SCRIPT, false))->send($msg);
+} catch (Throwable $e) {
+    $threw = $e;
+}
+T::same(null, $threw === null ? null : $threw->getMessage(), 'a full accepting conversation succeeds');
+
+// 2. THE REGRESSION: the server accepts, then hangs up before QUIT is written.
+//    Previously the QUIT write threw and the visitor was told the send failed
+//    for a message the server had already taken responsibility for.
+$threw = null;
+try {
+    (new ScriptedSmtp($cfg, $ACCEPTING_SCRIPT, true))->send($msg);
+} catch (Throwable $e) {
+    $threw = $e;
+}
+T::same(null, $threw === null ? null : $threw->getMessage(),
+    'a socket closed straight after the final 250 is still a successful send');
+
+// 3. And through the handler, the client sees success rather than a 502.
+$closingTransport = new ScriptedSmtp(testConfig(), $ACCEPTING_SCRIPT, true);
+$cfg3 = testConfig();
+$h = new ContactHandler($cfg3, $closingTransport, new ContactRateLimit($cfg3->stateDir()));
+$r = $h->handle(validBody(), server('198.51.100.77'), $NOW_MS);
+T::same(200, $r['status'], 'the endpoint returns 200 when the server hangs up after accepting');
+T::same(true, $r['payload']['ok'], 'the visitor is not told to submit again');
+
+// 4. Failures BEFORE acceptance must still fail. The boundary moved, not vanished.
+$refusals = [
+    'AUTH refused'   => [4, "535 5.7.8 Authentication credentials invalid\r\n"],
+    'MAIL FROM'      => [5, "550 5.7.1 Sender rejected\r\n"],
+    'RCPT TO'        => [6, "550 5.1.1 No such recipient\r\n"],
+    'DATA'           => [7, "554 5.5.1 Command rejected\r\n"],
+    'body rejected'  => [8, "552 5.3.4 Message too big\r\n"],
+];
+foreach ($refusals as $label => [$index, $reply]) {
+    $script = $ACCEPTING_SCRIPT;
+    $script[$index] = $reply;
+    $script = array_slice($script, 0, $index + 1);
+    $threw = false;
+    try {
+        (new ScriptedSmtp($cfg, $script, false))->send($msg);
+    } catch (ContactTransportException $e) {
+        $threw = true;
+    }
+    T::same(true, $threw, "a refusal at $label is still a failure");
+}
+
+// 5. And a pre-acceptance refusal reaches the client as a safe 502.
+$script = $ACCEPTING_SCRIPT;
+$script[4] = "535 5.7.8 Authentication credentials invalid\r\n";
+$script = array_slice($script, 0, 5);
+$cfg4 = testConfig();
+$h = new ContactHandler($cfg4, new ScriptedSmtp($cfg4, $script, false),
+                        new ContactRateLimit($cfg4->stateDir()));
+$r = $h->handle(validBody(), server('198.51.100.88'), $NOW_MS);
+T::same(502, $r['status'], 'an authentication refusal is reported as a failure, not a success');
+T::same(ContactHandler::GENERIC_FAILURE, $r['payload']['error'], 'and the visitor gets the generic message');
+T::missing(json_encode($r['payload']), TEST_PASSWORD, 'an auth refusal does not echo the credential');
+T::missing(json_encode($r['payload']), '535', 'an auth refusal does not echo the SMTP code');
 
 // ============================================================================
 T::group('8-10. The envelope is fixed, and the visitor is only ever Reply-To');
@@ -586,8 +751,51 @@ foreach ($m[1] as $value) {
 T::contains($page, 'button.disabled = on', 'the submit button is disabled while sending');
 T::contains($page, "if (sending) return", 'a duplicate submission while in flight is ignored');
 T::contains($page, 'form.reset()', 'the form is only cleared on success');
-$successBlock = substr($page, (int) strpos($page, 'if (r.data && r.data.ok)'), 400);
+$successBlock = substr($page, (int) strpos($page, 'if (r.data && r.data.ok)'), 900);
 T::contains($successBlock, 'form.reset()', 'the reset happens inside the success branch');
+
+// ---- the success transition must not depend on the stylesheet -------------
+// A stale styles.css left the button reading "Sending…" under a form that
+// would not disappear, with the success panel stacked below it.
+T::contains($successBlock, 'busy(false)', 'the success branch restores the button state');
+T::ok(
+    strpos($successBlock, 'busy(false)') < strpos($successBlock, 'form.hidden = true'),
+    'the button is restored before the form is hidden'
+);
+T::contains($successBlock, "form.style.display = 'none'", 'the form is hidden inline, not only by attribute');
+T::contains($successBlock, 'form.hidden = true', 'the hidden attribute is still set for semantics');
+T::contains($successBlock, 'done.hidden = false', 'the success panel is revealed');
+T::contains($successBlock, "done.style.display = 'block'", 'the success panel is shown inline too');
+
+// ---- the honeypot conceals itself without the stylesheet -------------------
+preg_match('/<div[^>]*class="ea-trap"[^>]*>(.*?)<\/div>/s', $page, $trap);
+T::ok(!empty($trap), 'the honeypot wrapper is present');
+$wrapper = $trap ? substr($trap[0], 0, strpos($trap[0], '>') + 1) : '';
+$inner   = $trap[1] ?? '';
+T::contains($wrapper, 'style=', 'the honeypot wrapper carries an inline style');
+$inlineCss = str_replace(' ', '', strtolower($wrapper));
+T::contains($inlineCss, 'position:absolute', 'the inline style positions it absolutely');
+T::ok((bool) preg_match('/left:-\d/', $inlineCss), 'the inline style moves it off-screen');
+T::contains($wrapper, 'aria-hidden="true"', 'the wrapper is hidden from assistive technology');
+T::contains($inner, 'tabindex="-1"', 'the honeypot input is not keyboard-focusable');
+T::contains($inner, 'autocomplete="off"', 'the honeypot opts out of autofill');
+T::missing($inner, 'type="hidden"', 'the honeypot is NOT type=hidden, which bots would skip');
+T::contains($inner, 'name="' . ContactValidator::HONEYPOT_FIELD . '"', 'the markup posts the name the server traps');
+T::ok(strpos($page, 'name="company_website"') === false, 'the autofill-prone old field name is gone from the markup');
+
+// ---- every page's stylesheet reference is cache-busted ---------------------
+// css/ is served with max-age=604800 while the HTML is not cached at all, so an
+// unversioned reference means a deploy lands new markup on an old stylesheet.
+$cssFile = $root . '/site/css/styles.css';
+$wantVersion = substr(hash('sha256', str_replace("\r\n", "\n", file_get_contents($cssFile))), 0, 8);
+$pagesWithCss = 0;
+foreach (glob($root . '/site/*.html') ?: [] as $f) {
+    $pagesWithCss += assertStamped($f, $root, $wantVersion);
+}
+foreach (glob($root . '/site/*/index.html') ?: [] as $f) {
+    $pagesWithCss += assertStamped($f, $root, $wantVersion);
+}
+T::ok($pagesWithCss >= 10, "every page linking styles.css is stamped (found $pagesWithCss)");
 
 $css = file_get_contents($root . '/site/css/styles.css');
 T::contains($css, '.ea-trap', 'the honeypot has a style that hides it');

@@ -70,6 +70,12 @@ python tools/check_site.py
 php tools/test_contact.php
 ```
 
+After changing `site/css/styles.css`, re-stamp the cache-busting versions:
+
+```
+python tools/stamp_assets.py
+```
+
 The second exercises the contact endpoint against a fake mail transport and
 sends nothing. The form itself can only run on Hostinger — see
 [docs/contact-form.md](docs/contact-form.md).

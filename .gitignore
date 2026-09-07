@@ -29,6 +29,8 @@ zoneary-private/
 # Dependencies / logs / temporary files
 node_modules/
 *.log
+__pycache__/
+*.py[cod]
 
 # Internal working notes - kept locally, not published to this repository
 docs/licensing-decisions.md
