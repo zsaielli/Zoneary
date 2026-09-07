@@ -1,6 +1,6 @@
 <?php
 /**
- * Configuration for the Zoneary contact / early-access endpoint.
+ * Configuration for the Zoneary contact endpoint.
  *
  * The SMTP password is the only real secret here, and it never lives in this
  * repository. It is read from a file ABOVE the web root, which is created by

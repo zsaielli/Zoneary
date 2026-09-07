@@ -1,6 +1,6 @@
 <?php
 /**
- * Zoneary contact / early-access endpoint.
+ * Zoneary contact endpoint.
  *
  *   POST /api/contact.php   ->   authenticated SMTP   ->   info@zoneary.com
  *
@@ -70,7 +70,7 @@ function contact_respond(int $status, array $payload, bool $wantsJson): void
         . 'a{color:#00d4ff}</style></head><body><div><h1>'
         . htmlspecialchars($heading, ENT_QUOTES) . '</h1><p>'
         . htmlspecialchars($text, ENT_QUOTES) . '</p>'
-        . '<p><a href="../early-access.html">Back to early access</a></p></div></body></html>';
+        . '<p><a href="../contact/">Back to contact</a></p></div></body></html>';
     exit;
 }
 
