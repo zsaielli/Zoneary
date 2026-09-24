@@ -5,7 +5,7 @@ Two environments, one source of truth.
 | | Branch | Purpose | Updated by |
 |---|---|---|---|
 | **Staging / review** | `main` | GitHub Pages — <https://zsaielli.github.io/Zoneary/> | Automatically, on every push to `main` |
-| **Production** | `production` | Hostinger — <https://www.zoneary.com> → `public_html` | Manually, by running a GitHub Actions workflow |
+| **Production** | `production` | Hostinger — <https://zoneary.com> → `public_html` | Manually, by running a GitHub Actions workflow |
 
 - **`main` is the source branch.** All development happens here. It contains the
   full repository: `site/`, `assets/` source material, `tools/`, docs, workflows.
@@ -95,16 +95,22 @@ Until you do, the form returns a generic failure.
 
 Full instructions: **[docs/contact-form.md](docs/contact-form.md)**.
 
-**After the first deploy, confirm `https://www.zoneary.com/.git/` is not
+**After the first deploy, confirm `https://zoneary.com/.git/` is not
 readable.** Some git-based hosts leave the clone metadata inside the web root.
-If it is reachable, block it in Hostinger (file manager or an `.htaccess` deny
-rule) — the repository ships no site-wide `.htaccess`, so that choice stays with
-you.
+If it is reachable, block it with a deny rule in
+[`site/.htaccess`](site/.htaccess) and republish — not in the file manager,
+because that file is now deployed by git (see below).
 
-The one `.htaccess` this repository does ship is
-[`site/api/lib/.htaccess`](site/api/lib/.htaccess), which denies direct web
-access to the contact endpoint's internal library. It is scoped to that one
-directory and affects nothing else.
+This repository ships two `.htaccess` files:
+
+- [`site/.htaccess`](site/.htaccess), the site root. It permanently redirects
+  `www.zoneary.com` to the same path on `https://zoneary.com`, query string
+  intact, so the site has one canonical host. Change it here and republish,
+  never in hPanel or the file manager: Hostinger deploys by git, and a
+  hand-edited `public_html/.htaccess` makes the next deployment pull conflict.
+- [`site/api/lib/.htaccess`](site/api/lib/.htaccess), which denies direct web
+  access to the contact endpoint's internal library. It is scoped to that one
+  directory and affects nothing else.
 
 ---
 

@@ -1,0 +1,26 @@
+# public_html/ — site-wide server rules. One canonical host: https://zoneary.com
+#
+# www.zoneary.com answers with the same files as the apex, so every page existed
+# twice. Canonical tags already named the apex, but they are only a hint; Google
+# kept spending most of its crawl on www. This makes www a permanent redirect to
+# the same path on the apex, always straight to https, whatever the incoming
+# scheme.
+#
+#   - Only the www host matches: the pattern is anchored at both ends, allowing
+#     just a trailing dot or an explicit port. zoneary.com never matches, and
+#     the target is always zoneary.com, so this cannot loop.
+#   - The path is %{REQUEST_URI}. The query string is carried over by
+#     mod_rewrite's default, because the target contains no "?" and there is no
+#     QSD flag. Fragments never reach the server; the browser re-applies them.
+#   - The target is https:// outright rather than testing %{HTTPS}, which is
+#     unreliable behind Hostinger's CDN.
+#   - ACME HTTP-01 challenges on www are left alone, so a certificate renewal
+#     for www.zoneary.com never depends on this redirect.
+#
+# This file is version-controlled and deployed by git. Change it in site/,
+# never in hPanel or the file manager: a hand-edited copy in public_html makes
+# the next deployment pull conflict.
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^www\.zoneary\.com\.?(:[0-9]+)?$ [NC]
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/
+RewriteRule ^ https://zoneary.com%{REQUEST_URI} [R=301,L]

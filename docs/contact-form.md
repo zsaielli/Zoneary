@@ -201,8 +201,9 @@ production publish workflow.
 
 [`site/api/lib/.htaccess`](../site/api/lib/.htaccess) contains `Require all
 denied`, so `public_html/api/lib/` is refused by the web server before PHP is
-invoked. This is the only `.htaccess` in the repository and it is scoped to that
-one directory.
+invoked. It is scoped to that one directory. The only other `.htaccess` in the
+repository, `site/.htaccess` at the site root, redirects `www` to the apex and
+grants no access, so it cannot loosen this denial.
 
 It cannot interfere with the endpoint. `contact.php` loads its libraries with
 `require __DIR__ . '/lib/...'` — a filesystem read — and `.htaccess` governs

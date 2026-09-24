@@ -2,7 +2,7 @@
 
 Public source for the Zoneary marketing website.
 
-**Production:** https://www.zoneary.com
+**Production:** https://zoneary.com
 **Review mirror:** https://zsaielli.github.io/Zoneary/
 
 ## Products
