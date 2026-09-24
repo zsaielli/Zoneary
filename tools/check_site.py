@@ -17,6 +17,7 @@ Checks
   9. FAQPage structured data matches the visible FAQ, question for question
  10. the contact form posts to its server endpoint and no longer uses mailto
  11. no credential material is present anywhere in the deployable site
+ 12. internal links use canonical directory URLs (watchtower/), never index.html
 
 Usage
   python tools/check_site.py [--site site] [--quiet]
@@ -32,6 +33,7 @@ from html import unescape
 from urllib.parse import urlparse, unquote
 
 ATTR = re.compile(r'(?:href|src)\s*=\s*"([^"]+)"', re.I)
+A_HREF = re.compile(r'<a\b[^>]*?\bhref\s*=\s*["\']([^"\']*)["\']', re.I)
 CSSURL = re.compile(r"""url\(\s*['"]?([^)'"]+?)['"]?\s*\)""")
 IDRE = re.compile(r'\bid\s*=\s*"([^"]+)"')
 LDRE = re.compile(
@@ -477,6 +479,29 @@ def main():
         problems.append("early-access.html still exists; /contact/ is the only contact page")
     if not os.path.isfile(os.path.join(root, "contact", "index.html")):
         problems.append("contact/index.html is missing")
+
+    # ---- internal links use the canonical directory URL ----------------------
+    # Every directory page declares its canonical as the directory (/watchtower/),
+    # but /watchtower/index.html is served too, with a 200 and no redirect. A link
+    # to the index.html form is a link to a duplicate URL: it is credited to the
+    # twin, not the canonical page, so Search Console sees the real page as having
+    # no referring pages at all. Link to watchtower/, ../pulsegrid/ or ./ instead.
+    for f in html:
+        text = open(f, encoding="utf-8", errors="replace").read()
+        name = rel(f, root)
+        for href in A_HREF.findall(text):
+            u = unescape(href.strip())
+            parsed = urlparse(u)
+            if parsed.scheme or u.startswith("//"):
+                if parsed.scheme not in ("http", "https"):
+                    continue  # mailto:, tel:, data: ...
+                if parsed.netloc.lower() not in ("zoneary.com", "www.zoneary.com"):
+                    continue  # external: not ours to canonicalise
+            if parsed.path.split("/")[-1].lower() != "index.html":
+                continue
+            fixed = parsed._replace(path=parsed.path[:-len("index.html")] or "./").geturl()
+            problems.append("%s: links to %s - use the canonical directory URL %s"
+                            % (name, u, fixed))
 
     # ---- long-cached stylesheets must be cache-busted ------------------------
     # css/ is served with max-age=604800 while the HTML that references it is
