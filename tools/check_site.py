@@ -18,6 +18,7 @@ Checks
  10. the contact form posts to its server endpoint and no longer uses mailto
  11. no credential material is present anywhere in the deployable site
  12. internal links use canonical directory URLs (watchtower/), never index.html
+ 13. a root favicon.ico exists and is a structurally valid ICO file
 
 Usage
   python tools/check_site.py [--site site] [--quiet]
@@ -27,6 +28,7 @@ import argparse
 import json
 import os
 import re
+import struct
 import sys
 # not "import html": main() already binds `html` to the list of HTML files
 from html import unescape
@@ -249,6 +251,28 @@ def main():
                 continue
             if n not in listed:
                 problems.append("sitemap.xml: %s is not listed" % n)
+
+    # ---- root favicon.ico ----------------------------------------------------
+    # Crawlers and browsers request /favicon.ico whether or not a page declares
+    # it; without the file every one of those requests is a 404. Each directory
+    # entry must point inside the file at a PNG or a BMP (DIB) image.
+    ico = os.path.join(root, "favicon.ico")
+    if not os.path.isfile(ico):
+        problems.append("favicon.ico is missing from the site root")
+    else:
+        data = open(ico, "rb").read()
+        reserved, kind, count = struct.unpack("<HHH", data[:6]) if len(data) >= 6 else (1, 0, 0)
+        if reserved != 0 or kind != 1 or count == 0 or len(data) < 6 + 16 * count:
+            problems.append("favicon.ico: not a valid ICO header")
+        else:
+            for i in range(count):
+                size, offset = struct.unpack("<II", data[6 + 16 * i + 8:6 + 16 * i + 16])
+                image = data[offset:offset + size]
+                if size == 0 or offset + size > len(data):
+                    problems.append("favicon.ico: entry %d points outside the file" % i)
+                elif not (image.startswith(b"\x89PNG\r\n\x1a\n")
+                          or image[:4] == struct.pack("<I", 40)):
+                    problems.append("favicon.ico: entry %d is neither PNG nor BMP data" % i)
 
     # ---- commercial terms: pages must agree with tools/pricing.json ----
     pj = os.path.join(os.path.dirname(os.path.abspath(__file__)), "pricing.json")
