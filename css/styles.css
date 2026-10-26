@@ -527,7 +527,6 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:600;letter-spacing:-.02em;line-h
 /* ============ PRODUCT TABS (PulseGrid / Sentinel) ============ */
 .tabs-head{display:inline-flex;gap:6px;margin-bottom:28px;border:1px solid var(--line-2);border-radius:13px;padding:6px;background:var(--panel)}
 .tab{font-family:var(--disp);font-size:14.5px;font-weight:600;color:var(--muted);padding:10px 20px;border-radius:9px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:9px;border:none;background:none}
-.tab .fl{font-family:var(--mono);font-size:8px;font-weight:400;letter-spacing:.1em;color:var(--sn);border:1px solid rgba(0,230,118,.4);border-radius:3px;padding:1px 4px}
 .tab:hover{color:var(--ink)}
 .tab.on{background:rgba(255,255,255,.06);color:var(--ink)}
 .tab-panel{display:none}
@@ -577,10 +576,8 @@ h1,h2,h3,h4{font-family:var(--disp);font-weight:600;letter-spacing:-.02em;line-h
 /* Sentinel screenshot frame */
 .sent-shot{position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(0,230,118,.22);
   box-shadow:0 40px 100px -40px rgba(0,0,0,.85), 0 0 70px -34px rgba(0,230,118,.24)}
-.sent-shot img{width:100%;display:block}
+.sent-shot img{width:100%;height:auto;display:block}   /* height:auto so the width/height attrs only set the ratio — without it the 1716 attr pins the height and the shot squashes */
 .sent-shot::after{content:'';position:absolute;inset:0;box-shadow:inset 0 0 80px rgba(0,0,0,.4);pointer-events:none}
-.sent-shot .bd{position:absolute;left:16px;top:16px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;
-  background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.12);border-radius:6px;padding:5px 10px;color:#9dffce}
 
 /* ============ WHY / METRICS ============ */
 .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
